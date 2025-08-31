@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkreferral_network_react=self.webpackChunkreferral_network_react||[]).push([[7618],{7618:(e,r,t)=>{e.exports=t.p+"static/media/gift-card-multiple-filled.f889e7bd6341c3d62569.svg"}}]);

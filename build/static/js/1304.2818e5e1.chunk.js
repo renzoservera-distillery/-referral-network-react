@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkreferral_network_react=self.webpackChunkreferral_network_react||[]).push([[1304],{1304:(e,r,t)=>{e.exports=t.p+"static/media/person-delete.53180457f8ab7dc1bcdd.svg"}}]);

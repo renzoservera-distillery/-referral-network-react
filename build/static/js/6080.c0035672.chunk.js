@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkreferral_network_react=self.webpackChunkreferral_network_react||[]).push([[6080],{6080:(e,r,t)=>{e.exports=t.p+"static/media/building-bank-toolbox.6044357e7fd0cb554b69.svg"}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkreferral_network_react=self.webpackChunkreferral_network_react||[]).push([[7824],{7824:(e,r,t)=>{e.exports=t.p+"static/media/chat-bubbles-question.ea0e42e35519841e6439.svg"}}]);

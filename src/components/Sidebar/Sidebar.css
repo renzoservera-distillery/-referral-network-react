@@ -1,0 +1,79 @@
+/* Sidebar Styles */
+.sidebar {
+    width: 280px;
+    background: white;
+    border-right: 1px solid #e5e7eb;
+    padding: 24px 0;
+    flex-shrink: 0;
+}
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 0 16px;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #374151;
+    font-weight: 500;
+    font-size: 15px;
+    transition: all 0.2s ease;
+    min-height: 48px; /* Ensure minimum touch target */
+    position: relative;
+    /* Add subtle touch feedback */
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(0, 46, 105, 0.1);
+}
+
+.menu-item:hover {
+    background: #f9fafb;
+    color: #111827;
+    transform: translateX(2px);
+}
+
+.menu-item.active {
+    background: #eff6ff;
+    color: #002e69;
+    font-weight: 600;
+    border-left: 3px solid #002e69;
+    padding-left: 17px; /* Adjust for border */
+}
+
+/* Active touch feedback */
+.menu-item:active {
+    background: #e5e7eb;
+    transform: scale(0.98);
+}
+
+/* Visual feedback for touch devices */
+.menu-item::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: currentColor;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+}
+
+.menu-item:active::before {
+    opacity: 0.05;
+}
+
+.menu-icon {
+    color: inherit;
+    flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        display: none;
+    }
+}

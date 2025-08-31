@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkreferral_network_react=self.webpackChunkreferral_network_react||[]).push([[1025],{1025:(e,r,a)=>{e.exports=a.p+"static/media/briefcase-off.aa08d3e7bf0e9223851d.svg"}}]);

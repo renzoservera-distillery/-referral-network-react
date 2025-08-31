@@ -1,0 +1,245 @@
+/* Time Slider Component Styles */
+.time-slider-component {
+  width: 100%;
+  margin: 20px 0;
+}
+
+.time-slider-header {
+  margin-bottom: 16px;
+}
+
+.time-slider-header h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 4px 0;
+}
+
+.time-slider-description {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.time-slider-container {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 16px 20px;
+  background: #f9fafb;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+}
+
+.time-slider-track-wrapper {
+  flex: 1;
+  position: relative;
+  padding-bottom: 30px;
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+  padding-top: 4px;
+}
+
+.time-slider-input {
+  width: 100%;
+  height: 8px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  outline: none;
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+  margin: 0;
+}
+
+.time-slider-track {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 4px;
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
+.time-slider-fill {
+  position: absolute;
+  height: 100%;
+  background: linear-gradient(90deg, #002e69 0%, #0369a1 100%);
+  border-radius: 4px;
+  transition: width 0.15s ease;
+}
+
+/* Slider Thumb Styles */
+.time-slider-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  background: white;
+  border: 3px solid #002e69;
+  border-radius: 50%;
+  cursor: grab;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 46, 105, 0.1);
+  transition: all 0.15s ease;
+  transform: translateY(12px);
+}
+
+.time-slider-input::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  background: white;
+  border: 3px solid #002e69;
+  border-radius: 50%;
+  cursor: grab;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 46, 105, 0.1);
+  transition: all 0.15s ease;
+  transform: translateY(12px);
+  border: none;
+  -moz-appearance: none;
+}
+
+.time-slider-input.dragging::-webkit-slider-thumb {
+  cursor: grabbing;
+  transform: translateY(12px) scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 46, 105, 0.1);
+}
+
+.time-slider-input.dragging::-moz-range-thumb {
+  cursor: grabbing;
+  transform: translateY(12px) scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 46, 105, 0.1);
+}
+
+.time-slider-input::-webkit-slider-thumb:hover {
+  transform: translateY(12px) scale(1.05);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(0, 46, 105, 0.1);
+}
+
+.time-slider-input::-moz-range-thumb:hover {
+  transform: translateY(12px) scale(1.05);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(0, 46, 105, 0.1);
+}
+
+/* Tick Marks */
+.time-slider-ticks {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 20px;
+  margin-top: 16px;
+}
+
+.tick {
+  position: absolute;
+  font-size: 11px;
+  color: #9ca3af;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.tick:first-child {
+  transform: translateX(0);
+}
+
+.tick:last-child {
+  transform: translateX(-100%);
+}
+
+/* Controls Section */
+.time-slider-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.time-input {
+  width: 72px;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: white;
+  font-size: 15px;
+  font-weight: 500;
+  color: #111827;
+  text-align: center;
+  outline: none;
+  transition: all 0.15s ease;
+}
+
+.time-input:hover {
+  border-color: #9ca3af;
+}
+
+.time-input:focus {
+  border-color: #002e69;
+  box-shadow: 0 0 0 3px rgba(0, 46, 105, 0.1);
+}
+
+/* Hide number input spinners */
+.time-input::-webkit-inner-spin-button,
+.time-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.time-input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.time-select {
+  height: 40px;
+  padding: 0 36px 0 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: white;
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%236b7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #111827;
+  cursor: pointer;
+  outline: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  transition: all 0.15s ease;
+}
+
+.time-select:hover {
+  border-color: #9ca3af;
+}
+
+.time-select:focus {
+  border-color: #002e69;
+  box-shadow: 0 0 0 3px rgba(0, 46, 105, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .time-slider-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+  
+  .time-slider-controls {
+    justify-content: center;
+  }
+  
+  .time-slider-track-wrapper {
+    padding-bottom: 40px;
+    min-height: 50px;
+  }
+}

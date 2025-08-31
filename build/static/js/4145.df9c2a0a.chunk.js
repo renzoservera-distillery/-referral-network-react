@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkreferral_network_react=self.webpackChunkreferral_network_react||[]).push([[4145],{4145:(e,r,t)=>{e.exports=t.p+"static/media/document-signature.4b2c98a0b7488d7347d5.svg"}}]);

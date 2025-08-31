@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkreferral_network_react=self.webpackChunkreferral_network_react||[]).push([[6905],{6905:(e,r,t)=>{e.exports=t.p+"static/media/document-text-clock.455864603837c48d6c44.svg"}}]);

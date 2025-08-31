@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkreferral_network_react=self.webpackChunkreferral_network_react||[]).push([[5939],{5939:(e,r,a)=>{e.exports=a.p+"static/media/star-one-quarter.39534ab6322330e1f6fe.svg"}}]);

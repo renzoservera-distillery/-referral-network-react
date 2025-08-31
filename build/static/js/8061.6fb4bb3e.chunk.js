@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkreferral_network_react=self.webpackChunkreferral_network_react||[]).push([[8061],{8061:(e,r,a)=>{e.exports=a.p+"static/media/people-money.3a2db18b143f1ceacbd8.svg"}}]);

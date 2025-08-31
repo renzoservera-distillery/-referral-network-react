@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkreferral_network_react=self.webpackChunkreferral_network_react||[]).push([[1153],{3534:(e,r,t)=>{e.exports=t.p+"static/media/people-team-filled.dcd2f3bd5c9990fd1c09.svg"}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkreferral_network_react=self.webpackChunkreferral_network_react||[]).push([[6626],{6626:(e,r,a)=>{e.exports=a.p+"static/media/star-emphasis.7f5ccd80d9d0e3d788ca.svg"}}]);

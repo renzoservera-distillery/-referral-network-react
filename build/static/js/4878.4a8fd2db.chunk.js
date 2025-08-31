@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkreferral_network_react=self.webpackChunkreferral_network_react||[]).push([[4878],{4878:(e,r,s)=>{e.exports=s.p+"static/media/person-starburst.bd2cf64490d8316d9d38.svg"}}]);

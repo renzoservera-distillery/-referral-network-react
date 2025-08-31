@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkreferral_network_react=self.webpackChunkreferral_network_react||[]).push([[1005],{1005:(e,r,a)=>{e.exports=a.p+"static/media/briefcase.fd9c63a2698be2f5fd72.svg"}}]);

@@ -1,0 +1,368 @@
+/* Attorney Carousel Styles */
+
+.attorney-section {
+    margin-bottom: 48px;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 20px;
+}
+
+.carousel-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    border: 2px solid #e5e7eb;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6b7280;
+    transition: all 0.2s ease;
+    z-index: 10;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    /* Better touch target */
+    min-width: 48px;
+    min-height: 48px;
+    -webkit-tap-highlight-color: rgba(0, 46, 105, 0.1);
+}
+
+.carousel-btn:hover:not(.disabled) {
+    border-color: #002e69;
+    color: #002e69;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-btn.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.carousel-prev {
+    left: 12px;
+}
+
+.carousel-next {
+    right: 12px;
+}
+
+.attorney-carousel {
+    width: 100%;
+    overflow: hidden;
+    border-radius: 12px;
+    cursor: grab;
+    user-select: none;
+    padding: 0 68px;
+}
+
+.attorney-carousel:active {
+    cursor: grabbing;
+}
+
+.attorney-carousel-track {
+    display: flex;
+    transition: transform 0.3s ease;
+    gap: 24px;
+}
+
+.attorney-carousel-track.dragging {
+    transition: none;
+    pointer-events: none;
+}
+
+.attorney-card {
+    flex: 0 0 calc(50% - 12px);
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.attorney-card:hover:not(.dragging) {
+    border-color: #d1d5db;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.attorney-card.dragging {
+    pointer-events: none;
+    user-select: none;
+}
+
+.attorney-card.dragging * {
+    pointer-events: none;
+    user-select: none;
+}
+
+.attorney-avatar {
+    align-self: flex-start;
+}
+
+.attorney-avatar img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+.attorney-info {
+    flex: 1;
+}
+
+.attorney-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #111827;
+    margin: 0 0 4px 0;
+}
+
+.attorney-firm {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 0 0 4px 0;
+    font-weight: 500;
+}
+
+.attorney-location {
+    font-size: 14px;
+    color: #9ca3af;
+    margin: 0 0 12px 0;
+}
+
+.attorney-specialties {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.specialty-tag {
+    display: inline-block;
+    padding: 4px 8px;
+    background: #f3f4f6;
+    color: #374151;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 4px;
+    border: 1px solid #e5e7eb;
+}
+
+.btn-add-corner {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    height: 36px;
+    min-height: 36px;
+    min-width: 64px;
+    padding: 0 14px;
+    background: #002e69;
+    color: white;
+    border: none;
+    border-radius: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    z-index: 2;
+    box-shadow: 0 2px 4px rgba(0, 46, 105, 0.2);
+    white-space: nowrap;
+    /* Better touch feedback */
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0.2);
+    user-select: none;
+}
+
+.btn-add-corner .icon-wrapper {
+    color: inherit;
+}
+
+.btn-add-corner span {
+    color: inherit;
+}
+
+.btn-add-corner:hover {
+    background: #1e3a8a;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 46, 105, 0.3);
+}
+
+.btn-add-corner:active {
+    transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .carousel-btn {
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+        min-height: 44px;
+        border-width: 1px;
+    }
+    
+    .carousel-prev {
+        left: 12px;
+    }
+    
+    .carousel-next {
+        right: 12px;
+    }
+    
+    .attorney-carousel {
+        padding: 0 68px;
+    }
+    
+    .attorney-card {
+        flex: 0 0 100%;
+        padding: 20px;
+        min-height: 200px;
+        /* Better touch targets and spacing */
+        gap: 16px;
+    }
+    
+    .btn-add-corner {
+        top: 16px;
+        right: 16px;
+        height: 32px;
+        min-height: 32px;
+        min-width: 56px;
+        padding: 0 12px;
+        font-size: 11px;
+        gap: 4px;
+        border-radius: 16px;
+    }
+    
+    .section-title {
+        font-size: 17px;
+        margin-bottom: 20px;
+        font-weight: 600;
+    }
+    
+    /* Better touch area for attorney info */
+    .attorney-info {
+        padding: 4px 0;
+    }
+    
+    .attorney-name {
+        font-size: 16px;
+        line-height: 1.3;
+        margin-bottom: 6px;
+    }
+    
+    .attorney-firm,
+    .attorney-location {
+        font-size: 14px;
+        line-height: 1.4;
+        margin-bottom: 6px;
+    }
+    
+    .attorney-specialties {
+        gap: 8px;
+        margin-top: 8px;
+    }
+    
+    .specialty-tag {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .attorney-section {
+        margin-bottom: 32px;
+    }
+    
+    .carousel-btn {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        min-height: 40px;
+        border-width: 1px;
+    }
+    
+    .carousel-prev {
+        left: 8px;
+    }
+    
+    .carousel-next {
+        right: 8px;
+    }
+    
+    .attorney-carousel {
+        padding: 0 56px;
+    }
+    
+    .attorney-card {
+        padding: 16px;
+        gap: 14px;
+        min-height: 180px;
+    }
+    
+    .btn-add-corner {
+        top: 12px;
+        right: 12px;
+        height: 28px;
+        min-height: 28px;
+        min-width: 48px;
+        padding: 0 10px;
+        font-size: 10px;
+        gap: 3px;
+        border-radius: 14px;
+    }
+    
+    .attorney-name {
+        font-size: 15px;
+        line-height: 1.3;
+        margin-bottom: 4px;
+    }
+    
+    .attorney-firm,
+    .attorney-location {
+        font-size: 13px;
+        line-height: 1.4;
+        margin-bottom: 4px;
+    }
+    
+    .attorney-avatar img {
+        width: 44px;
+        height: 44px;
+    }
+    
+    .section-title {
+        font-size: 16px;
+        margin-bottom: 16px;
+    }
+    
+    .attorney-specialties {
+        gap: 6px;
+        margin-top: 6px;
+    }
+    
+    .specialty-tag {
+        font-size: 11px;
+        padding: 5px 8px;
+    }
+}

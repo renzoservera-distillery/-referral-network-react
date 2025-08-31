@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkreferral_network_react=self.webpackChunkreferral_network_react||[]).push([[428],{428:(e,r,a)=>{e.exports=a.p+"static/media/contact-card.8a70b11374be6e848f32.svg"}}]);

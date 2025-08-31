@@ -1,0 +1,246 @@
+/* Law Firm Multiselect */
+.firm-multiselect {
+  position: relative;
+  width: 100%;
+}
+
+.firm-input-container {
+  min-height: 48px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: white;
+  cursor: text;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+}
+
+.firm-input-container:hover {
+  border-color: #9ca3af;
+}
+
+.firm-input-container:focus-within {
+  border-color: #002e69;
+  box-shadow: 0 0 0 3px rgba(0, 46, 105, 0.1);
+}
+
+.selected-firms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  flex: 1;
+  min-height: 32px;
+}
+
+.firm-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  background: #e0f2fe;
+  color: #002e69;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  max-width: 200px;
+}
+
+.firm-tag:hover {
+  background: #bae6fd;
+}
+
+.remove-firm-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border: none;
+  background: transparent;
+  color: #002e69;
+  cursor: pointer;
+  border-radius: 2px;
+  opacity: 0.7;
+  transition: all 0.2s ease;
+}
+
+.remove-firm-btn:hover {
+  opacity: 1;
+  background: rgba(0, 46, 105, 0.1);
+}
+
+.remove-firm-btn svg {
+  width: 12px;
+  height: 12px;
+}
+
+.firm-search-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  color: #111827;
+  flex: 1;
+  min-width: 120px;
+}
+
+.firm-search-input::placeholder {
+  color: #9ca3af;
+}
+
+.dropdown-arrow {
+  color: #6b7280;
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.dropdown-arrow.open {
+  transform: rotate(180deg);
+}
+
+/* Dropdown */
+.firm-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  margin-top: 4px;
+  max-height: 300px;
+  overflow: hidden;
+}
+
+.firm-options {
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 8px 0;
+}
+
+.firm-options::-webkit-scrollbar {
+  width: 6px;
+}
+
+.firm-options::-webkit-scrollbar-track {
+  background: #f3f4f6;
+}
+
+.firm-options::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}
+
+.firm-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.firm-option:hover {
+  background: #f9fafb;
+}
+
+.firm-option.focused {
+  background: #f3f4f6;
+  outline: 2px solid #002e69;
+  outline-offset: -2px;
+}
+
+.firm-option.selected {
+  background: #e0f2fe;
+}
+
+.firm-option.selected:hover,
+.firm-option.selected.focused {
+  background: #bae6fd;
+}
+
+.firm-option.selected.focused {
+  outline: 2px solid #0369a1;
+}
+
+.firm-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.firm-name {
+  font-size: 14px;
+  color: #111827;
+  font-weight: 500;
+}
+
+.firm-type {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.firm-option.selected .firm-name {
+  color: #002e69;
+  font-weight: 600;
+}
+
+.firm-option.selected .firm-type {
+  color: #0369a1;
+}
+
+.check-icon {
+  color: #002e69;
+  width: 16px;
+  height: 16px;
+}
+
+.no-results {
+  padding: 16px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 14px;
+  font-style: italic;
+}
+
+/* Animation */
+.firm-dropdown {
+  animation: dropdownSlide 0.15s ease-out;
+}
+
+@keyframes dropdownSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .firm-tag {
+    max-width: 150px;
+    font-size: 12px;
+  }
+  
+  .firm-search-input {
+    min-width: 100px;
+  }
+  
+  .firm-dropdown {
+    max-height: 250px;
+  }
+  
+  .firm-options {
+    max-height: 250px;
+  }
+}

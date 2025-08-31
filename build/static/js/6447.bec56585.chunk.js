@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkreferral_network_react=self.webpackChunkreferral_network_react||[]).push([[6447],{6447:(e,r,t)=>{e.exports=t.p+"static/media/no-payment.e7716f4cc80de2b2274e.svg"}}]);

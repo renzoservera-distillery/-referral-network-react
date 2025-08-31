@@ -1,0 +1,581 @@
+/* Add to Network Modal Styles */
+.add-to-network-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: fadeIn 0.2s ease;
+  /* Prevent scroll behind modal */
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.add-to-network-modal {
+  background: white;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 680px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  animation: slideUp 0.3s ease;
+  overflow: hidden;
+}
+
+/* Modal Header */
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 28px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.modal-header h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+/* Attorney Details Section */
+.attorney-details-section {
+  padding: 24px 28px;
+  background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.attorney-profile {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.attorney-avatar-large img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.attorney-info-main {
+  flex: 1;
+}
+
+.attorney-info-main h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 4px 0;
+}
+
+.attorney-firm-text {
+  font-size: 15px;
+  color: #374151;
+  margin: 0 0 6px 0;
+}
+
+.attorney-location-text {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0 0 12px 0;
+}
+
+.attorney-location-text svg {
+  width: 14px;
+  height: 14px;
+}
+
+.attorney-specialties-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.specialty-badge {
+  display: inline-block;
+  padding: 5px 10px;
+  background: white;
+  color: #002e69;
+  border: 1px solid #93c5fd;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Configuration Section */
+.configuration-section {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 28px;
+}
+
+.configuration-section::-webkit-scrollbar {
+  width: 8px;
+}
+
+.configuration-section::-webkit-scrollbar-track {
+  background: #f3f4f6;
+  border-radius: 4px;
+}
+
+.configuration-section::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 4px;
+}
+
+/* Config Groups */
+.config-group {
+  margin-bottom: 28px;
+}
+
+.config-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 12px;
+}
+
+.config-label svg {
+  width: 18px;
+  height: 18px;
+  color: #6b7280;
+}
+
+/* Fee Slider */
+.fee-slider-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 16px;
+  background: #f9fafb;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.fee-slider {
+  flex: 1;
+  height: 6px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: #e5e7eb;
+  border-radius: 3px;
+  outline: none;
+}
+
+.fee-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: #002e69;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.fee-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: #002e69;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.fee-display {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+}
+
+.fee-input {
+  width: 50px;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+  text-align: center;
+}
+
+.fee-percent {
+  font-size: 16px;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.fee-hints {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 16px;
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.fee-hints span.active {
+  color: #002e69;
+  font-weight: 600;
+}
+
+/* Referring Rules Section */
+.referring-rules-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.rule-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rule-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+  margin-left: 2px;
+}
+
+.case-types-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.case-type-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rule-input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #111827;
+  outline: none;
+  transition: all 0.2s ease;
+  background: white;
+}
+
+.case-type-input-wrapper .rule-input {
+  padding-right: 40px;
+}
+
+.rule-input::placeholder {
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+.rule-input:focus {
+  border-color: #002e69;
+  box-shadow: 0 0 0 3px rgba(0, 46, 105, 0.1);
+}
+
+.rule-input:hover:not(:focus) {
+  border-color: #9ca3af;
+}
+
+.remove-case-type-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.remove-case-type-btn:hover {
+  background: #f3f4f6;
+  color: #dc2626;
+}
+
+.add-case-type-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: #f9fafb;
+  border: 1px dashed #d1d5db;
+  border-radius: 8px;
+  color: #002e69;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 4px;
+}
+
+.add-case-type-btn:hover {
+  background: #e0f2fe;
+  border-color: #002e69;
+}
+
+.add-case-type-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Modal Footer */
+.modal-footer {
+  padding: 20px 28px;
+  border-top: 1px solid #e5e7eb;
+  background: #f9fafb;
+}
+
+.footer-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  background: #e0f2fe;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+
+.footer-info svg {
+  width: 16px;
+  height: 16px;
+  color: #0369a1;
+  flex-shrink: 0;
+}
+
+.footer-info span {
+  font-size: 13px;
+  color: #0369a1;
+  line-height: 1.4;
+}
+
+.footer-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.btn-cancel {
+  padding: 10px 20px;
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-cancel:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.btn-add-to-network {
+  padding: 10px 24px;
+  background: #002e69;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-add-to-network:hover:not(:disabled) {
+  background: #001e47;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 46, 105, 0.25);
+}
+
+.btn-add-to-network:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .add-to-network-modal-overlay {
+    padding: 0;
+    align-items: stretch;
+  }
+  
+  .add-to-network-modal {
+    max-width: 100%;
+    max-height: 100vh;
+    height: 100vh;
+    border-radius: 0;
+    /* Better mobile experience with full screen */
+    width: 100%;
+    margin: 0;
+  }
+  
+  /* Better mobile header with safe area */
+  .modal-header {
+    padding: max(24px, calc(24px + env(safe-area-inset-top))) 20px 20px;
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 10;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .modal-header h2 {
+    font-size: 20px;
+  }
+  
+  /* Better mobile attorney profile */
+  .attorney-details-section {
+    padding: 20px;
+  }
+
+  .attorney-profile {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+  }
+  
+  .attorney-avatar-large img {
+    width: 72px;
+    height: 72px;
+  }
+  
+  .attorney-info-main h3 {
+    font-size: 18px;
+  }
+
+  /* Better mobile configuration section */
+  .configuration-section {
+    padding: 20px;
+    flex: 1;
+  }
+  
+  .config-group {
+    margin-bottom: 24px;
+  }
+  
+  .config-label {
+    font-size: 15px;
+    margin-bottom: 14px;
+  }
+  
+  /* Better mobile fee slider */
+  .fee-slider-container {
+    padding: 14px;
+    margin-bottom: 12px;
+  }
+  
+  .fee-slider {
+    height: 8px;
+  }
+  
+  .fee-slider::-webkit-slider-thumb {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .fee-slider::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .fee-display {
+    padding: 10px 14px;
+  }
+  
+  .fee-input {
+    width: 56px;
+    font-size: 17px;
+    padding: 2px;
+  }
+  
+  /* Better mobile rules section */
+  .referring-rules-section {
+    gap: 18px;
+  }
+  
+  .rule-input {
+    padding: 14px 16px;
+    font-size: 16px; /* Better for mobile keyboards */
+  }
+  
+  .case-type-input-wrapper .rule-input {
+    padding-right: 44px;
+  }
+  
+  .remove-case-type-btn {
+    width: 32px;
+    height: 32px;
+    right: 6px;
+  }
+  
+  .add-case-type-btn {
+    padding: 12px 18px;
+    font-size: 15px;
+  }
+
+  /* Better mobile footer */
+  .modal-footer {
+    padding: 16px 20px;
+    padding-bottom: max(16px, calc(16px + env(safe-area-inset-bottom)));
+    position: sticky;
+    bottom: 0;
+    background: white;
+    box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .footer-info {
+    margin-bottom: 14px;
+  }
+  
+  .footer-buttons {
+    flex-direction: column-reverse;
+    gap: 12px;
+  }
+
+  .btn-cancel,
+  .btn-add-to-network {
+    width: 100%;
+    padding: 14px 24px;
+    font-size: 16px;
+    min-height: 48px;
+  }
+  
+  .btn-add-to-network {
+    font-weight: 600;
+  }
+}

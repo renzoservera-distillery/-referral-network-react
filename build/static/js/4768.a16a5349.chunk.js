@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkreferral_network_react=self.webpackChunkreferral_network_react||[]).push([[4768],{4768:(e,r,a)=>{e.exports=a.p+"static/media/layer-diagonal-person.6b53959aea0b27d13e9f.svg"}}]);

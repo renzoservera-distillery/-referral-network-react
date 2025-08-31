@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkreferral_network_react=self.webpackChunkreferral_network_react||[]).push([[5756],{5756:(e,r,a)=>{e.exports=a.p+"static/media/chevron-double-left.21c49216eb99dfaa4f47.svg"}}]);

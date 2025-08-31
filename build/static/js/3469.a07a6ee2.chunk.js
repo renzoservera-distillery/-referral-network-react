@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkreferral_network_react=self.webpackChunkreferral_network_react||[]).push([[3469],{3469:(e,r,a)=>{e.exports=a.p+"static/media/building-people.06f61a0fdce16eae5b45.svg"}}]);

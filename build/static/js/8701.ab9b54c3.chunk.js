@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkreferral_network_react=self.webpackChunkreferral_network_react||[]).push([[8701],{8701:(e,r,a)=>{e.exports=a.p+"static/media/chat.33a1f2dc5bedc785f85a.svg"}}]);

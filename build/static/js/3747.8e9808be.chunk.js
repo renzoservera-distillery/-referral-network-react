@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkreferral_network_react=self.webpackChunkreferral_network_react||[]).push([[3747],{3747:(e,r,a)=>{e.exports=a.p+"static/media/sparkle.7bf887f0a216656243a6.svg"}}]);

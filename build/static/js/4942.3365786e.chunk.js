@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkreferral_network_react=self.webpackChunkreferral_network_react||[]).push([[4942],{4942:(e,r,a)=>{e.exports=a.p+"static/media/handshake.5c30e956cf20f6ed833c.svg"}}]);

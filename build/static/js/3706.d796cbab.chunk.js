@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkreferral_network_react=self.webpackChunkreferral_network_react||[]).push([[3706],{3706:(e,r,a)=>{e.exports=a.p+"static/media/person-add.52208a8d9ffc04c494ec.svg"}}]);

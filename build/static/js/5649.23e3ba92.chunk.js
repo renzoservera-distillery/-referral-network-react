@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkreferral_network_react=self.webpackChunkreferral_network_react||[]).push([[5649],{5649:(e,r,a)=>{e.exports=a.p+"static/media/money.236e7e45539a082ce08a.svg"}}]);

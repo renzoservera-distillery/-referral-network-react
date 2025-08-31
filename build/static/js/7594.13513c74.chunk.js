@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkreferral_network_react=self.webpackChunkreferral_network_react||[]).push([[7594],{7594:(e,r,t)=>{e.exports=t.p+"static/media/percent.f0969b95be2f46272bce.svg"}}]);
