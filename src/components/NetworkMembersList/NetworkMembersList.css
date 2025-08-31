@@ -481,14 +481,19 @@
   color: #15803d;
 }
 
-.status-badge.pending {
+.status-badge.matched {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.status-badge.not-matched {
   background: #fef3c7;
   color: #b45309;
 }
 
-.status-badge.referred {
-  background: #e0f2fe;
-  color: #0369a1;
+.status-badge.active {
+  background: #f3e8ff;
+  color: #7c3aed;
 }
 
 

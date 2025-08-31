@@ -6,10 +6,10 @@ import './NetworkMembersList.css';
 // Sample client data for expanded view
 const sampleClients = [
   { id: 1, name: 'Sarah Johnson', caseType: 'Personal Injury', date: '2024-03-15', status: 'Signed' },
-  { id: 2, name: 'Michael Chen', caseType: 'Car Accident', date: '2024-03-10', status: 'Pending' },
+  { id: 2, name: 'Michael Chen', caseType: 'Car Accident', date: '2024-03-10', status: 'Matched' },
   { id: 3, name: 'Emily Davis', caseType: 'Medical Malpractice', date: '2024-02-28', status: 'Signed' },
-  { id: 4, name: 'Robert Wilson', caseType: 'Slip & Fall', date: '2024-02-15', status: 'Referred' },
-  { id: 5, name: 'Lisa Anderson', caseType: 'Workers Comp', date: '2024-01-20', status: 'Signed' },
+  { id: 4, name: 'Robert Wilson', caseType: 'Slip & Fall', date: '2024-02-15', status: 'Not Matched' },
+  { id: 5, name: 'Lisa Anderson', caseType: 'Workers Comp', date: '2024-01-20', status: 'Active' },
 ];
 
 const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember }) => {
@@ -230,7 +230,7 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember }
                             <tr>
                               <th>Client Name</th>
                               <th>Case Type</th>
-                              <th>Date</th>
+                              <th>Referred</th>
                               <th>Status</th>
                             </tr>
                           </thead>
@@ -241,7 +241,7 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember }
                                 <td>{client.caseType}</td>
                                 <td>{client.date}</td>
                                 <td>
-                                  <span className={`status-badge ${client.status.toLowerCase()}`}>
+                                  <span className={`status-badge ${client.status.toLowerCase().replace(/\s+/g, '-')}`}>
                                     {client.status}
                                   </span>
                                 </td>
