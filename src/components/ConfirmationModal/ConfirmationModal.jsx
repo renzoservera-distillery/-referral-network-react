@@ -105,7 +105,7 @@ const ConfirmationModal = ({
             {type === 'info' && <Icon name="info" size={32} />}
           </div>
           <button className="modal-close-btn" onClick={onClose} aria-label="Close">
-            <Icon name="close" />
+            <Icon name="close" size={16} />
           </button>
         </div>
 

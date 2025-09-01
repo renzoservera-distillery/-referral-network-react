@@ -109,7 +109,8 @@
   color: #6b7280;
 }
 
-/* Checkbox Grid */
+/* Checkbox Grid - Commented out as we're using multiselect now */
+/* Keeping these styles in case they're needed later
 .checkbox-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -186,6 +187,7 @@
   color: #002e69;
   font-weight: 500;
 }
+*/
 
 /* Text Input */
 .text-input {

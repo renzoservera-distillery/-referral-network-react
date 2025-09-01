@@ -22,7 +22,7 @@ const AttorneyCard = ({ attorney, onAddClick, isDragging, wasDragged }) => {
         aria-label={`Add ${attorney.name} to network`}
       >
         <Icon name="plus" size={16} />
-        <span>Add</span>
+        <span>Add to Network</span>
       </button>
       
       <div className="attorney-avatar">
@@ -35,13 +35,15 @@ const AttorneyCard = ({ attorney, onAddClick, isDragging, wasDragged }) => {
       <div className="attorney-info">
         <h4 className="attorney-name">{attorney.name}</h4>
         <p className="attorney-firm">{attorney.firm}</p>
-        <p className="attorney-location">{attorney.location}</p>
-        <div className="attorney-specialties">
-          {attorney.specialties.map((specialty, index) => (
-            <span key={index} className="specialty-tag">
-              {specialty}
-            </span>
-          ))}
+        <div className="attorney-practice-areas">
+          <Icon name="briefcase" className="practice-icon" size={14} />
+          <span className="practice-areas-text">
+            {attorney.specialties.join(', ')}
+          </span>
+        </div>
+        <div className="attorney-location-row">
+          <Icon name="location" className="location-icon" size={14} />
+          <span className="location-text">{attorney.location}</span>
         </div>
       </div>
     </div>

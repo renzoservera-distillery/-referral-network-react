@@ -153,30 +153,26 @@ const MyNetwork = () => {
       {/* How it Works Card */}
       <div className="card dismissible">
         <button className="dismiss-btn" onClick={dismissCard}>
-          <Icon name="close" />
+          <Icon name="close" size={16} />
         </button>
         <div className="card-content">
           <h3>How it works</h3>
           <div className="how-it-works">
             <div className="step">
               <div className="step-icon">
-                <Icon name="person-plus" size={24} />
+                <Icon name="person-add" size={24} />
               </div>
               <p>Build your Network by adding attorneys and setting the types of cases you want to refer to them.</p>
             </div>
             <div className="step">
               <div className="step-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <path d="M9 11H7V9H9V11ZM13 11H11V9H13V11ZM17 11H15V9H17V11ZM19 4H18V2H16V4H8V2H6V4H5C3.89 4 3.01 4.9 3.01 6L3 20C3 21.1 3.89 22 5 22H19C20.1 22 21 21.1 21 20V6C21 4.9 20.1 4 19 4ZM19 20H5V9H19V20Z" fill="currentColor"/>
-                </svg>
+                <Icon name="person-arrow-back" size={24} />
               </div>
               <p>When you share a referral with your network, our AI prioritizes the most relevant attorneys in your Network (using your settings) for quick, accurate matches.</p>
             </div>
             <div className="step">
               <div className="step-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <path d="M19 3H14.82C14.4 1.84 13.3 1 12 1C10.7 1 9.6 1.84 9.18 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM12 3C12.55 3 13 3.45 13 4C13 4.55 12.55 5 12 5C11.45 5 11 4.55 11 4C11 3.45 11.45 3 12 3Z" fill="currentColor"/>
-                </svg>
+                <Icon name="people-team-toolbox" size={24} />
               </div>
               <p>If no match is made within your set timeframe, the referral automatically moves to the Marketplace.</p>
             </div>

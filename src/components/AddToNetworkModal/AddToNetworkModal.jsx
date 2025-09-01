@@ -156,7 +156,7 @@ const AddToNetworkModal = ({ isOpen, onClose, attorney, onAdd, isEditMode = fals
         <div className="modal-header">
           <h2 id="modal-title">{isEditMode ? 'Edit Network Member' : 'Add to My Network'}</h2>
           <button className="modal-close-btn" onClick={onClose} aria-label="Close">
-            <Icon name="close" />
+            <Icon name="close" size={16} />
           </button>
         </div>
 
@@ -255,7 +255,7 @@ const AddToNetworkModal = ({ isOpen, onClose, attorney, onAdd, isEditMode = fals
                           onClick={() => removeCaseType(index)}
                           aria-label="Remove case type"
                         >
-                          <Icon name="close" />
+                          <Icon name="close" size={16} />
                         </button>
                       )}
                     </div>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Icon from '../Icon';
 import LocationMultiselect from '../LocationMultiselect';
 import LawFirmMultiselect from '../LawFirmMultiselect';
+import GeneralMultiselect from '../GeneralMultiselect';
 import bodyScrollManager from '../../utils/bodyScrollManager';
 import './FiltersModal.css';
 
@@ -78,23 +79,6 @@ const FiltersModal = ({ isOpen, onClose, onApply, currentFilters = {} }) => {
     }
   };
 
-  const handlePracticeAreaToggle = (area) => {
-    setFilters(prev => ({
-      ...prev,
-      practiceAreas: prev.practiceAreas.includes(area)
-        ? prev.practiceAreas.filter(pa => pa !== area)
-        : [...prev.practiceAreas, area]
-    }));
-  };
-
-  const handleCommunityToggle = (community) => {
-    setFilters(prev => ({
-      ...prev,
-      communities: prev.communities.includes(community)
-        ? prev.communities.filter(c => c !== community)
-        : [...prev.communities, community]
-    }));
-  };
 
   const handleClearAll = () => {
     setFilters({
@@ -125,7 +109,7 @@ const FiltersModal = ({ isOpen, onClose, onApply, currentFilters = {} }) => {
         <div className="modal-header">
           <h2>Filter Attorneys</h2>
           <button className="modal-close-btn" onClick={onClose} aria-label="Close">
-            <Icon name="close" />
+            <Icon name="close" size={16} />
           </button>
         </div>
 
@@ -149,19 +133,15 @@ const FiltersModal = ({ isOpen, onClose, onApply, currentFilters = {} }) => {
               <Icon name="briefcase-search" />
               Practice Areas
             </label>
-            <div className="checkbox-grid">
-              {practiceAreas.map((area) => (
-                <label key={area} className={`checkbox-item ${filters.practiceAreas.includes(area) ? 'selected' : ''}`}>
-                  <input
-                    type="checkbox"
-                    checked={filters.practiceAreas.includes(area)}
-                    onChange={() => handlePracticeAreaToggle(area)}
-                  />
-                  <span className="checkbox-custom"></span>
-                  <span className="checkbox-label">{area}</span>
-                </label>
-              ))}
-            </div>
+            <GeneralMultiselect
+              options={practiceAreas}
+              selectedValues={filters.practiceAreas}
+              onChange={(areas) => setFilters(prev => ({ ...prev, practiceAreas: areas }))}
+              placeholder="Select practice areas..."
+              searchPlaceholder="Search more practice areas..."
+              noResultsText="No practice areas found for"
+              categoryLabel="Practice Area"
+            />
           </div>
 
           {/* Law Firm Name Filter */}
@@ -183,19 +163,15 @@ const FiltersModal = ({ isOpen, onClose, onApply, currentFilters = {} }) => {
               <Icon name="person-plus" />
               Community
             </label>
-            <div className="checkbox-grid">
-              {communities.map((community) => (
-                <label key={community} className={`checkbox-item ${filters.communities.includes(community) ? 'selected' : ''}`}>
-                  <input
-                    type="checkbox"
-                    checked={filters.communities.includes(community)}
-                    onChange={() => handleCommunityToggle(community)}
-                  />
-                  <span className="checkbox-custom"></span>
-                  <span className="checkbox-label">{community}</span>
-                </label>
-              ))}
-            </div>
+            <GeneralMultiselect
+              options={communities}
+              selectedValues={filters.communities}
+              onChange={(communities) => setFilters(prev => ({ ...prev, communities }))}
+              placeholder="Select communities..."
+              searchPlaceholder="Search more communities..."
+              noResultsText="No communities found for"
+              categoryLabel="Community"
+            />
           </div>
         </div>
 

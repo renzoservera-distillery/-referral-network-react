@@ -109,7 +109,7 @@ const AddAttorneysModal = ({ isOpen, onClose, onAdd }) => {
         <div className="add-attorneys-header">
           <h2>Add to My Referral Network</h2>
           <button className="modal-close-btn" onClick={onClose} aria-label="Close">
-            <Icon name="close" />
+            <Icon name="close" size={16} />
           </button>
         </div>
         

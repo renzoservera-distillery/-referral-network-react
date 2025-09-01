@@ -127,13 +127,14 @@
 .referring-options {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
     margin-left: 32px;
 }
 
 .radio-card {
     display: block;
     cursor: pointer;
+    position: relative;
 }
 
 .radio-card input[type="radio"] {
@@ -142,67 +143,98 @@
 
 .radio-card-content {
     border: 2px solid #e5e7eb;
-    border-radius: 8px;
-    padding: 16px;
-    transition: all 0.2s ease;
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: #ffffff;
+    position: relative;
+    overflow: hidden;
+}
+
+.radio-card:hover .radio-card-content {
+    border-color: #d1d5db;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .radio-card.selected .radio-card-content,
 .radio-card input[type="radio"]:checked + .radio-card-content {
-    border-color: #05df9d;
-    background-color: #f0fdf9;
+    border-color: #002e69;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    box-shadow: 0 4px 16px rgba(0, 46, 105, 0.08);
 }
 
 .radio-card-header {
     display: flex;
     align-items: flex-start;
-    gap: 12px;
-    margin-bottom: 8px;
+    gap: 14px;
+    margin-bottom: 10px;
 }
 
 .custom-radio {
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     border: 2px solid #d1d5db;
     border-radius: 50%;
     position: relative;
     flex-shrink: 0;
     margin-top: 2px;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: white;
+}
+
+.radio-card:hover .custom-radio {
+    border-color: #9ca3af;
 }
 
 .radio-card.selected .custom-radio,
 .radio-card input[type="radio"]:checked + .radio-card-content .custom-radio {
     border-color: #002e69;
+    background: #002e69;
+    transform: scale(1.05);
 }
 
 .radio-card.selected .custom-radio::after,
 .radio-card input[type="radio"]:checked + .radio-card-content .custom-radio::after {
     content: '';
-    width: 8px;
-    height: 8px;
-    background: #002e69;
+    width: 6px;
+    height: 6px;
+    background: white;
     border-radius: 50%;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    animation: radioPopIn 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes radioPopIn {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
 }
 
 .radio-card-header h4 {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 600;
     color: #111827;
     margin: 0;
+    line-height: 1.3;
 }
 
 .badge {
     display: inline-block;
-    padding: 2px 8px;
-    border-radius: 4px;
+    padding: 3px 10px;
+    border-radius: 20px;
     font-size: 11px;
-    font-weight: 500;
+    font-weight: 600;
     margin-left: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .badge:first-of-type {
@@ -210,35 +242,55 @@
 }
 
 .badge {
-    background: #e0f2fe;
+    background: linear-gradient(135deg, #e0f2fe, #dbeafe);
     color: #0369a1;
+    border: 1px solid rgba(3, 105, 161, 0.1);
 }
 
 .badge.coming-soon {
-    background: #dcfce7;
-    color: #15803d;
+    background: linear-gradient(135deg, #05df9d, #04c789);
+    color: white;
+    border: none;
+    box-shadow: 0 2px 4px rgba(5, 223, 157, 0.2);
 }
 
 .badge.secondary {
     background: #f3f4f6;
     color: #6b7280;
+    border: 1px solid #e5e7eb;
 }
 
 .radio-card-description {
     color: #6b7280;
     font-size: 13px;
-    line-height: 1.5;
-    margin: 0 0 0 32px;
+    line-height: 1.6;
 }
 
 /* Disabled state */
 .radio-card.disabled {
-    opacity: 0.6;
+    opacity: 0.5;
     cursor: not-allowed;
 }
 
 .radio-card.disabled .radio-card-content {
     pointer-events: none;
+    background: #f9fafb;
+}
+
+.radio-card.disabled .custom-radio {
+    background: #f3f4f6;
+}
+
+/* Selected card accent line */
+.radio-card.selected .radio-card-content::before,
+.radio-card input[type="radio"]:checked + .radio-card-content::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(180deg, #002e69, #0369a1);
 }
 
 /* Custom Slider */

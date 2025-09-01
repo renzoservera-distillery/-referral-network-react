@@ -540,6 +540,7 @@
     
     .search-section {
         margin-bottom: 32px;
+        padding: 0 24px;
     }
     
     .search-bar {
@@ -672,6 +673,11 @@
         padding: 12px 24px;
         font-size: 15px;
         min-height: 46px;
+    }
+    
+    .search-section {
+        padding: 0 20px;
+        margin-bottom: 28px;
     }
     
     .search-bar {

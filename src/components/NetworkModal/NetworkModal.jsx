@@ -50,7 +50,7 @@ const NetworkModal = ({ isOpen, onClose, onSave }) => {
         <div className="network-modal-header">
           <h2>Referral Network Settings</h2>
           <button className="modal-close-btn" onClick={onClose} aria-label="Close">
-            <Icon name="close" />
+            <Icon name="close" size={16} />
           </button>
         </div>
         
@@ -75,14 +75,16 @@ const NetworkModal = ({ isOpen, onClose, onSave }) => {
                 <div className="radio-card-content">
                   <div className="radio-card-header">
                     <div className="custom-radio"></div>
-                    <div>
-                      <h4>Waterfall Referrals™</h4>
-                      <span className="badge">One at a time</span>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                        <h4>Waterfall Referrals™</h4>
+                        <span className="badge">One at a time</span>
+                      </div>
+                      <p className="radio-card-description" style={{ margin: 0 }}>
+                        Send referrals to the best fit attorney, then cascade to the next one if not accepted. Referrals will be distributed evenly to qualifying attorneys in your network.
+                      </p>
                     </div>
                   </div>
-                  <p className="radio-card-description">
-                    Send referrals to the best fit attorney, then cascade to the next one if not accepted. Referrals will be distributed evenly to qualifying attorneys in your network.
-                  </p>
                 </div>
               </label>
               
@@ -91,15 +93,17 @@ const NetworkModal = ({ isOpen, onClose, onSave }) => {
                 <div className="radio-card-content">
                   <div className="radio-card-header">
                     <div className="custom-radio"></div>
-                    <div>
-                      <h4>Broadcast</h4>
-                      <span className="badge coming-soon">Coming Soon</span>
-                      <span className="badge secondary">Multiple at once</span>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                        <h4>Broadcast</h4>
+                        <span className="badge coming-soon">Coming Soon</span>
+                        <span className="badge secondary">Multiple at once</span>
+                      </div>
+                      <p className="radio-card-description" style={{ margin: 0 }}>
+                        Send referrals to 5 attorneys simultaneously, then cascade to the next bunch if not accepted. The first attorney to confirm receives client information.
+                      </p>
                     </div>
                   </div>
-                  <p className="radio-card-description">
-                    Send referrals to 5 attorneys simultaneously, then cascade to the next bunch if not accepted. The first attorney to confirm receives client information.
-                  </p>
                 </div>
               </label>
             </div>
