@@ -202,24 +202,6 @@ const MyNetwork = () => {
         <p>Create a private network for your firm. Our AI-powered system distributes referrals across your network to ensure quick matches.</p>
       </div>
 
-      {/* Network Settings Card */}
-      <div className="card">
-        <div className="card-content">
-          <div className="settings-row">
-            <div className="settings-info">
-              <h3>Network Settings</h3>
-              <p>Set how your Network members will access your referrals</p>
-            </div>
-            <button 
-              className="btn btn-outline"
-              onClick={() => setIsModalOpen(true)}
-            >
-              Network Settings
-            </button>
-          </div>
-        </div>
-      </div>
-
       {/* How it Works Card */}
       {showHowItWorks ? (
         <div className="card dismissible">
@@ -272,6 +254,24 @@ const MyNetwork = () => {
           </div>
         </div>
       )}
+
+      {/* Network Settings Card */}
+      <div className="card">
+        <div className="card-content">
+          <div className="settings-row">
+            <div className="settings-info">
+              <h3>Network Settings</h3>
+              <p>Set how your Network members will access your referrals</p>
+            </div>
+            <button 
+              className="btn btn-outline"
+              onClick={() => setIsModalOpen(true)}
+            >
+              Network Settings
+            </button>
+          </div>
+        </div>
+      </div>
 
       {/* Network Members Card */}
       <div className="card">
