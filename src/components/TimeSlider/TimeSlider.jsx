@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './TimeSlider.css';
 
 const TimeSlider = ({ 
@@ -10,54 +10,67 @@ const TimeSlider = ({
   maxDays = 3,
   minValue = 1,
   label,
-  description 
+  description,
+  useMinutesHours = false // New prop to determine which unit system to use
 }) => {
   const [isDragging, setIsDragging] = useState(false);
 
   // Convert value to hours for internal slider calculations
-  const getHoursValue = () => {
-    return unit === 'days' ? Math.min(value * 24, maxHours) : value;
-  };
+  const getHoursValue = useCallback(() => {
+    if (useMinutesHours) {
+      return unit === 'minutes' ? Math.min(value / 60, maxHours) : value;
+    } else {
+      return unit === 'days' ? Math.min(value * 24, maxHours) : value;
+    }
+  }, [value, unit, maxHours, useMinutesHours]);
 
   const [sliderValue, setSliderValue] = useState(getHoursValue());
 
   useEffect(() => {
-    const hoursValue = unit === 'days' ? Math.min(value * 24, maxHours) : value;
+    const hoursValue = getHoursValue();
     setSliderValue(hoursValue);
-  }, [value, unit, maxHours]);
+  }, [value, unit, maxHours, useMinutesHours, getHoursValue]);
 
   const handleSliderChange = (hours) => {
     // Ensure the slider value respects the minimum constraint
     const constrainedHours = Math.max(hours, minValue);
     setSliderValue(constrainedHours);
     
-    if (unit === 'days') {
-      const days = Math.round(constrainedHours / 24);
-      onValueChange(Math.min(days, maxDays));
+    if (useMinutesHours) {
+      if (unit === 'minutes') {
+        const minutes = Math.round(constrainedHours * 60);
+        onValueChange(minutes);
+      } else {
+        onValueChange(constrainedHours);
+      }
     } else {
-      onValueChange(constrainedHours);
+      if (unit === 'days') {
+        const days = Math.round(constrainedHours / 24);
+        onValueChange(Math.min(days, maxDays));
+      } else {
+        onValueChange(constrainedHours);
+      }
     }
   };
 
   const handleInputChange = (e) => {
     const newValue = parseInt(e.target.value) || 1;
-    const maxValue = unit === 'days' ? maxDays : maxHours;
-    const minValueForUnit = unit === 'days' ? Math.ceil(minValue / 24) : minValue;
+    let maxValue, minValueForUnit;
+    
+    if (useMinutesHours) {
+      maxValue = unit === 'minutes' ? maxHours * 60 : maxHours;
+      minValueForUnit = unit === 'minutes' ? Math.ceil(minValue * 60) : minValue;
+    } else {
+      maxValue = unit === 'days' ? maxDays : maxHours;
+      minValueForUnit = unit === 'days' ? Math.ceil(minValue / 24) : minValue;
+    }
+    
     const clampedValue = Math.min(Math.max(minValueForUnit, newValue), maxValue);
     onValueChange(clampedValue);
   };
 
   const handleUnitChange = (e) => {
     const newUnit = e.target.value;
-    const currentHours = getHoursValue();
-    
-    if (newUnit === 'days') {
-      const days = Math.round(currentHours / 24);
-      onValueChange(Math.min(days, maxDays));
-    } else {
-      onValueChange(Math.min(currentHours, maxHours));
-    }
-    
     onUnitChange(newUnit);
   };
 
@@ -141,8 +154,14 @@ const TimeSlider = ({
             type="number"
             className="time-input"
             value={value}
-            min={unit === 'days' ? Math.ceil(minValue / 24) : minValue}
-            max={unit === 'days' ? maxDays : maxHours}
+            min={useMinutesHours 
+              ? (unit === 'minutes' ? Math.ceil(minValue * 60) : minValue)
+              : (unit === 'days' ? Math.ceil(minValue / 24) : minValue)
+            }
+            max={useMinutesHours 
+              ? (unit === 'minutes' ? maxHours * 60 : maxHours)
+              : (unit === 'days' ? maxDays : maxHours)
+            }
             onChange={handleInputChange}
           />
           <select 
@@ -150,8 +169,17 @@ const TimeSlider = ({
             value={unit} 
             onChange={handleUnitChange}
           >
-            <option value="hours">hours</option>
-            <option value="days">days</option>
+            {useMinutesHours ? (
+              <>
+                <option value="minutes">minutes</option>
+                <option value="hours">hours</option>
+              </>
+            ) : (
+              <>
+                <option value="hours">hours</option>
+                <option value="days">days</option>
+              </>
+            )}
           </select>
         </div>
       </div>
