@@ -11,6 +11,74 @@ const NetworkModal = ({ isOpen, onClose, onSave }) => {
   const [marketplaceValue, setMarketplaceValue] = useState(24);
   const [marketplaceUnit, setMarketplaceUnit] = useState('hours');
 
+  // Helper function to convert time values to hours for comparison
+  const convertToHours = (value, unit) => {
+    return unit === 'days' ? value * 24 : value;
+  };
+
+  // Helper function to convert hours back to appropriate unit/value
+  const convertFromHours = (hours, preferredUnit = 'hours') => {
+    if (preferredUnit === 'days' && hours >= 24) {
+      return { value: Math.round(hours / 24), unit: 'days' };
+    }
+    return { value: hours, unit: 'hours' };
+  };
+
+  // Update marketplace value when time per attorney changes
+  const handleTimeValueChange = (newValue) => {
+    setTimeValue(newValue);
+    
+    const newTimeInHours = convertToHours(newValue, timeUnit);
+    const currentMarketplaceInHours = convertToHours(marketplaceValue, marketplaceUnit);
+    
+    // If marketplace fallback is less than time per attorney, sync it
+    if (currentMarketplaceInHours < newTimeInHours) {
+      const minMarketplaceHours = Math.max(newTimeInHours, 24); // Minimum 24 hours for marketplace
+      const converted = convertFromHours(minMarketplaceHours, marketplaceUnit);
+      setMarketplaceValue(converted.value);
+      setMarketplaceUnit(converted.unit);
+    }
+  };
+
+  const handleTimeUnitChange = (newUnit) => {
+    setTimeUnit(newUnit);
+    
+    const timeInHours = convertToHours(timeValue, newUnit);
+    const currentMarketplaceInHours = convertToHours(marketplaceValue, marketplaceUnit);
+    
+    // If marketplace fallback is less than time per attorney, sync it
+    if (currentMarketplaceInHours < timeInHours) {
+      const minMarketplaceHours = Math.max(timeInHours, 24); // Minimum 24 hours for marketplace
+      const converted = convertFromHours(minMarketplaceHours, marketplaceUnit);
+      setMarketplaceValue(converted.value);
+      setMarketplaceUnit(converted.unit);
+    }
+  };
+
+  const handleMarketplaceValueChange = (newValue) => {
+    const newMarketplaceInHours = convertToHours(newValue, marketplaceUnit);
+    const timeInHours = convertToHours(timeValue, timeUnit);
+    
+    // Ensure marketplace value is never less than time per attorney
+    if (newMarketplaceInHours >= timeInHours) {
+      setMarketplaceValue(newValue);
+    }
+  };
+
+  const handleMarketplaceUnitChange = (newUnit) => {
+    const currentMarketplaceInHours = convertToHours(marketplaceValue, marketplaceUnit);
+    const timeInHours = convertToHours(timeValue, timeUnit);
+    
+    // Convert current marketplace value to new unit
+    const converted = convertFromHours(currentMarketplaceInHours, newUnit);
+    
+    // Ensure the converted value is still >= time per attorney
+    if (convertToHours(converted.value, newUnit) >= timeInHours) {
+      setMarketplaceValue(converted.value);
+      setMarketplaceUnit(newUnit);
+    }
+  };
+
 
   const handleSave = () => {
     const settings = {
@@ -123,8 +191,8 @@ const NetworkModal = ({ isOpen, onClose, onSave }) => {
             <TimeSlider
               value={timeValue}
               unit={timeUnit}
-              onValueChange={setTimeValue}
-              onUnitChange={setTimeUnit}
+              onValueChange={handleTimeValueChange}
+              onUnitChange={handleTimeUnitChange}
               maxHours={72}
               maxDays={3}
             />
@@ -144,10 +212,11 @@ const NetworkModal = ({ isOpen, onClose, onSave }) => {
             <TimeSlider
               value={marketplaceValue}
               unit={marketplaceUnit}
-              onValueChange={setMarketplaceValue}
-              onUnitChange={setMarketplaceUnit}
+              onValueChange={handleMarketplaceValueChange}
+              onUnitChange={handleMarketplaceUnitChange}
               maxHours={168}
               maxDays={7}
+              minValue={Math.max(convertToHours(timeValue, timeUnit), 24)}
             />
           </div>
         </div>

@@ -8,6 +8,7 @@ const TimeSlider = ({
   onUnitChange,
   maxHours = 72,
   maxDays = 3,
+  minValue = 1,
   label,
   description 
 }) => {
@@ -26,20 +27,23 @@ const TimeSlider = ({
   }, [value, unit, maxHours]);
 
   const handleSliderChange = (hours) => {
-    setSliderValue(hours);
+    // Ensure the slider value respects the minimum constraint
+    const constrainedHours = Math.max(hours, minValue);
+    setSliderValue(constrainedHours);
     
     if (unit === 'days') {
-      const days = Math.round(hours / 24);
+      const days = Math.round(constrainedHours / 24);
       onValueChange(Math.min(days, maxDays));
     } else {
-      onValueChange(hours);
+      onValueChange(constrainedHours);
     }
   };
 
   const handleInputChange = (e) => {
     const newValue = parseInt(e.target.value) || 1;
     const maxValue = unit === 'days' ? maxDays : maxHours;
-    const clampedValue = Math.min(Math.max(1, newValue), maxValue);
+    const minValueForUnit = unit === 'days' ? Math.ceil(minValue / 24) : minValue;
+    const clampedValue = Math.min(Math.max(minValueForUnit, newValue), maxValue);
     onValueChange(clampedValue);
   };
 
@@ -58,7 +62,8 @@ const TimeSlider = ({
   };
 
   const getSliderPercentage = () => {
-    return ((sliderValue - 1) / (maxHours - 1)) * 100;
+    const minSliderValue = Math.max(1, minValue);
+    return ((sliderValue - minSliderValue) / (maxHours - minSliderValue)) * 100;
   };
 
   return (
@@ -75,7 +80,7 @@ const TimeSlider = ({
           <input
             type="range"
             className={`time-slider-input ${isDragging ? 'dragging' : ''}`}
-            min="1"
+            min={Math.max(1, minValue)}
             max={maxHours}
             value={sliderValue}
             onChange={(e) => handleSliderChange(parseInt(e.target.value))}
@@ -136,7 +141,7 @@ const TimeSlider = ({
             type="number"
             className="time-input"
             value={value}
-            min="1"
+            min={unit === 'days' ? Math.ceil(minValue / 24) : minValue}
             max={unit === 'days' ? maxDays : maxHours}
             onChange={handleInputChange}
           />
