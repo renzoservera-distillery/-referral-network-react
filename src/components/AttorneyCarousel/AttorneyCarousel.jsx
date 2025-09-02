@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Icon from '../Icon';
 import AddToNetworkModal from '../AddToNetworkModal';
+import { getProfessionalAvatar } from '../../utils/avatarGenerator';
 import './AttorneyCarousel.css';
 
 const AttorneyCard = ({ attorney, onAddClick, isDragging, wasDragged }) => {
@@ -27,7 +28,7 @@ const AttorneyCard = ({ attorney, onAddClick, isDragging, wasDragged }) => {
       
       <div className="attorney-avatar">
         <img
-          src={`https://ui-avatars.com/api/?name=${attorney.initials}&background=random`}
+          src={getProfessionalAvatar(attorney, 100)}
           alt={attorney.name}
           draggable={false}
         />

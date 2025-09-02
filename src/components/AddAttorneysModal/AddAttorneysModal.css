@@ -193,7 +193,6 @@
 /* Attorney Item */
 .attorney-item {
   display: flex;
-  align-items: flex-start;
   padding: 16px;
   margin-bottom: 12px;
   background: #f9fafb;
@@ -234,6 +233,7 @@
   border-radius: 4px;
   background: white;
   transition: all 0.2s ease;
+  margin-top: 14px;
 }
 
 .attorney-item.selected .checkmark {
@@ -245,7 +245,7 @@
   content: '';
   position: absolute;
   left: 50%;
-  top: 50%;
+  top: 24%;
   width: 6px;
   height: 11px;
   border: solid white;

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Icon from '../Icon';
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
+import { getProfessionalAvatar } from '../../utils/avatarGenerator';
 import './NetworkMembersList.css';
 
 // Sample client data for expanded view
@@ -12,7 +13,7 @@ const sampleClients = [
   { id: 5, name: 'Lisa Anderson', caseType: 'Workers Comp', date: '2024-01-20', status: 'Active' },
 ];
 
-const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember, onFiltersOpen, activeFilters = {}, onRemoveFilter, onClearFilters }) => {
+const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember, onFiltersOpen, activeFilters = {}, onRemoveFilter, onClearFilters, hideGrowNetwork = false }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [expandedMember, setExpandedMember] = useState(null);
   const [memberToRemove, setMemberToRemove] = useState(null);
@@ -118,33 +119,35 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember, 
   return (
     <div className="network-members-container">
       {/* Enhanced Compact Add to Network Section */}
-      <div className="compact-add-section">
-        <div className="compact-add-content">
-          <div className="compact-add-left">
-            <div className="compact-avatars">
-              <div className="compact-avatar-item">
-                <img src="https://ui-avatars.com/api/?name=AM&background=059669&color=fff&size=32" alt="Attorney" />
+      {!hideGrowNetwork && (
+        <div className="compact-add-section">
+          <div className="compact-add-content">
+            <div className="compact-add-left">
+              <div className="compact-avatars">
+                <div className="compact-avatar-item">
+                  <img src={getProfessionalAvatar({name: 'Alexandra Mitchell'}, 32)} alt="Attorney" />
+                </div>
+                <div className="compact-avatar-item">
+                  <img src={getProfessionalAvatar({name: 'Brandon Lee'}, 32)} alt="Attorney" />
+                </div>
+                <div className="compact-avatar-item">
+                  <img src={getProfessionalAvatar({name: 'Carlos Nguyen'}, 32)} alt="Attorney" />
+                </div>
+                <div className="compact-avatar-count">
+                  <span>+47</span>
+                </div>
               </div>
-              <div className="compact-avatar-item">
-                <img src="https://ui-avatars.com/api/?name=BL&background=dc2626&color=fff&size=32" alt="Attorney" />
-              </div>
-              <div className="compact-avatar-item">
-                <img src="https://ui-avatars.com/api/?name=CN&background=1e40af&color=fff&size=32" alt="Attorney" />
-              </div>
-              <div className="compact-avatar-count">
-                <span>+47</span>
+              <div className="compact-add-text">
+                <h4>Grow Your Network</h4>
+                <p>Connect with 50+ more qualified attorneys</p>
               </div>
             </div>
-            <div className="compact-add-text">
-              <h4>Grow Your Network</h4>
-              <p>Connect with 50+ more qualified attorneys</p>
-            </div>
+            <button className="btn-add-more enhanced" onClick={onAddMore}>
+              Add Attorneys
+            </button>
           </div>
-          <button className="btn-add-more enhanced" onClick={onAddMore}>
-            Add Attorneys
-          </button>
         </div>
-      </div>
+      )}
 
       {/* Search and Filter Section */}
       <div className="members-search-section">
@@ -248,7 +251,7 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember, 
                 >
                   <div className="member-avatar">
                     <img 
-                      src={`https://ui-avatars.com/api/?name=${member.initials}&background=002e69&color=fff`}
+                      src={getProfessionalAvatar(member, 64)}
                       alt={member.name}
                     />
                   </div>
@@ -301,7 +304,19 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember, 
                           <tbody>
                             {sampleClients.map(client => (
                               <tr key={client.id}>
-                                <td>{client.name}</td>
+                                <td>
+                                  <a 
+                                    href="#" 
+                                    className="client-name-link"
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      // Handle client profile navigation here
+                                      console.log('Navigate to client profile:', client.name);
+                                    }}
+                                  >
+                                    {client.name}
+                                  </a>
+                                </td>
                                 <td>{client.caseType}</td>
                                 <td>{client.date}</td>
                                 <td>

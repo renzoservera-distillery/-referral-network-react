@@ -80,16 +80,20 @@ useEffect(() => {
 ### Component Patterns
 
 **Icon System** (`components/Icon`):
-- Dynamic SVG loading from `assets/icons/` (128+ icons)
-- Async with fallback handling
+- Dynamic SVG loading from `assets/icons/` (130+ icons)
+- Async loading with DOMParser for SVG content extraction
+- Fallback placeholder for missing/invalid icons
 - Forces `currentColor` for proper color inheritance
+- Loading state with skeleton placeholder
 - Usage: `<Icon name="person-add" size={24} />`
 
 **Notification System** (`contexts/NotificationContext`):
 - Context-based state management for app-wide notifications
-- `NotificationDropdown`: Positioned dropdown with unread count
-- `NotificationItem`: Individual notification with icon, timestamp, mark as read
+- Reducer pattern with actions: SET_NOTIFICATIONS, ADD_NOTIFICATION, MARK_AS_READ, etc.
+- `NotificationDropdown`: Positioned dropdown with unread count badge
+- `NotificationItem`: Individual notification with icon, timestamp, mark as read functionality
 - Uses `useNotifications` hook for component integration
+- Mock data system with notification types: success, info, warning, error
 
 **Complex Form Components**:
 - `TimeSlider`: Custom dual-control slider (input + range)
@@ -119,9 +123,21 @@ useEffect(() => {
 ```
 
 **Data Sources**:
-- `src/data/attorneys.js`: Centralized attorney data by category
+- `src/data/attorneys.js`: Centralized attorney data by category (referred, invited, losAngeles, carAccidents, personalInjury, lawTigers)
+- `categoryNames` export maps category keys to display titles
 - Component-level state management with React hooks
 - No external state management library
+
+**Attorney Data Structure**:
+```javascript
+{
+  name: "Michael B. Wilson",
+  firm: "Wilson & Associates", 
+  location: "Los Angeles, CA",
+  specialties: ["Personal Injury", "Car Accidents"],
+  initials: "MW" // Used for avatar generation
+}
+```
 
 ### Advanced Filtering Architecture
 
@@ -142,11 +158,17 @@ useEffect(() => {
 
 **Filter State Management**:
 - `activeFilters`: Object with arrays for each filter type (locations, practiceAreas, lawFirms, communities)
-- Both Expand Network and Network Members sections share filtering logic
+- Separate filter states for Expand Network and Network Members sections
 - Filter chips provide individual removal with `onRemoveFilter(filterType, value)`
+- Clear All functionality when multiple filter categories are active
 
 **Category Visibility Logic**:
 Attorney carousels are conditionally rendered - categories with no matching results are hidden when search/filters are active.
+
+**Attorney Exclusion Logic**:
+- Attorneys already in network are filtered out from Expand Network section
+- Complex multi-field search matching (name, firm, location, specialties)
+- Nested filter logic with AND conditions between filter types
 
 ### Mobile Responsiveness
 
@@ -197,6 +219,8 @@ Repository uses main branch. Changes require:
 - Consistent color palette: primary #002e69
 - Font system: Inter (via Google Fonts) as primary font family
 - Icon-based UI patterns: briefcase icon for practice areas, location icon for locations
+- Skeleton loading states with shimmer animations
+- Touch-optimized button sizes (minimum 44px targets)
 
 ### Consistent UI Patterns
 **Icon + Label Display**:

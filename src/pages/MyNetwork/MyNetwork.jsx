@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import AttorneyCarousel from '../../components/AttorneyCarousel/AttorneyCarousel';
 import NetworkModal from '../../components/NetworkModal/NetworkModal';
 import AddAttorneysModal from '../../components/AddAttorneysModal';
@@ -8,6 +8,7 @@ import FiltersModal from '../../components/FiltersModal';
 import Icon from '../../components/Icon';
 import { AttorneyCardSkeleton, NetworkMemberSkeleton } from '../../components/Skeleton/Skeleton';
 import { attorneyData, categoryNames } from '../../data/attorneys';
+import { getShowcaseAvatars } from '../../utils/avatarGenerator';
 import './MyNetwork.css';
 
 const MyNetwork = () => {
@@ -188,6 +189,29 @@ const MyNetwork = () => {
     setNetworkMembersFilters({});
   };
 
+  // Sample attorneys from AddAttorneysModal (should match the data there)
+  const sampleAttorneys = [
+    { id: 1, name: 'Michael B. Wilson', firm: 'Wilson & Associates', location: 'Los Angeles, CA', specialties: ['Personal Injury', 'Medical Malpractice'], initials: 'MW' },
+    { id: 2, name: 'Charles Rittgers', firm: 'Rittgers Law', location: 'San Francisco, CA', specialties: ['Criminal Defense', 'DUI'], initials: 'CR' },
+    { id: 3, name: 'Madison Hayes', firm: 'Hayes Legal Group', location: 'San Diego, CA', specialties: ['Family Law', 'Divorce'], initials: 'MH' },
+    { id: 4, name: 'Sarah Johnson', firm: 'Johnson Legal', location: 'Sacramento, CA', specialties: ['Employment Law', 'Discrimination'], initials: 'SJ' },
+    { id: 5, name: 'Robert Chen', firm: 'Chen & Partners', location: 'Los Angeles, CA', specialties: ['Business Law', 'Contracts'], initials: 'RC' },
+    { id: 6, name: 'Emily Rodriguez', firm: 'Rodriguez Law Firm', location: 'San Jose, CA', specialties: ['Immigration', 'Visas'], initials: 'ER' },
+    { id: 7, name: 'David Thompson', firm: 'Thompson Legal', location: 'Oakland, CA', specialties: ['Real Estate', 'Property Law'], initials: 'DT' },
+    { id: 8, name: 'Lisa Park', firm: 'Park & Associates', location: 'Fresno, CA', specialties: ['Tax Law', 'Estate Planning'], initials: 'LP' },
+    { id: 9, name: 'James Miller', firm: 'Miller Law Group', location: 'Long Beach, CA', specialties: ['Personal Injury', 'Car Accidents'], initials: 'JM' },
+    { id: 10, name: 'Amanda White', firm: 'White Legal Services', location: 'Anaheim, CA', specialties: ['Workers Compensation', 'Disability'], initials: 'AW' },
+  ];
+
+  // Check if all attorneys are already in the network
+  const allAttorneysInNetwork = useMemo(() => {
+    return sampleAttorneys.every(attorney => 
+      networkMembers.some(member => 
+        member.name === attorney.name && member.firm === attorney.firm
+      )
+    );
+  }, [networkMembers]);
+
   return (
     <main className="content-area">
       {/* Notification */}
@@ -294,51 +318,47 @@ const MyNetwork = () => {
         
         <div className="tab-content">
           {activeTab === 'members' && (
-            isNetworkMembersLoading ? (
-              <div className="network-members-loading">
-                <NetworkMemberSkeleton />
-                <NetworkMemberSkeleton />
-                <NetworkMemberSkeleton />
-              </div>
-            ) : networkMembers.length > 0 ? (
-              <NetworkMembersList 
-                members={networkMembers}
-                onAddMore={() => setIsAddAttorneysModalOpen(true)}
-                onRemoveMember={handleRemoveMember}
-                onEditMember={handleEditMember}
-                onFiltersOpen={() => setIsNetworkMembersFiltersModalOpen(true)}
-                activeFilters={networkMembersFilters}
-                onRemoveFilter={removeNetworkMemberFilter}
-                onClearFilters={clearNetworkMembersFilters}
-              />
-            ) : (
-              <div className="empty-state">
+            <>
+              {isNetworkMembersLoading ? (
+                <div className="network-members-loading">
+                  <NetworkMemberSkeleton />
+                  <NetworkMemberSkeleton />
+                  <NetworkMemberSkeleton />
+                </div>
+              ) : networkMembers.length > 0 ? (
+                <NetworkMembersList 
+                  members={networkMembers}
+                  onAddMore={() => setIsAddAttorneysModalOpen(true)}
+                  onRemoveMember={handleRemoveMember}
+                  onEditMember={handleEditMember}
+                  onFiltersOpen={() => setIsNetworkMembersFiltersModalOpen(true)}
+                  activeFilters={networkMembersFilters}
+                  onRemoveFilter={removeNetworkMemberFilter}
+                  onClearFilters={clearNetworkMembersFilters}
+                  hideGrowNetwork={allAttorneysInNetwork}
+                />
+              ) : !allAttorneysInNetwork ? (
+                <div className="empty-state">
                 <div className="empty-state-content">
                   <div className="avatar-showcase">
                     <div className="avatar-grid">
-                      <div className="avatar-item featured">
-                        <img src="https://ui-avatars.com/api/?name=MW&background=1e40af&color=fff&size=64" alt="Michael Wilson" />
-                      </div>
-                      <div className="avatar-item">
-                        <img src="https://ui-avatars.com/api/?name=CR&background=dc2626&color=fff&size=48" alt="Charles Rittgers" />
-                      </div>
-                      <div className="avatar-item">
-                        <img src="https://ui-avatars.com/api/?name=MH&background=059669&color=fff&size=48" alt="Madison Hayes" />
-                      </div>
-                      <div className="avatar-item">
-                        <img src="https://ui-avatars.com/api/?name=JD&background=7c3aed&color=fff&size=48" alt="John Doe" />
-                      </div>
-                      <div className="avatar-item">
-                        <img src="https://ui-avatars.com/api/?name=LS&background=ea580c&color=fff&size=48" alt="Lisa Smith" />
-                      </div>
-                      <div className="avatar-item">
-                        <img src="https://ui-avatars.com/api/?name=RB&background=0891b2&color=fff&size=48" alt="Robert Brown" />
-                      </div>
+                      {getShowcaseAvatars().map((attorney, index) => (
+                        <div 
+                          key={attorney.name} 
+                          className={`avatar-item ${index === 0 ? 'featured' : ''}`}
+                        >
+                          <img 
+                            src={attorney.avatar} 
+                            alt={attorney.name}
+                            loading="lazy"
+                          />
+                        </div>
+                      ))}
                     </div>
                     <div className="network-stats">
                       <div className="stat-badge">
                         <Icon name="people-team" />
-                        <span>500+ Attorneys Available</span>
+                        <span>50+ Attorneys Available</span>
                       </div>
                     </div>
                   </div>
@@ -369,7 +389,8 @@ const MyNetwork = () => {
                   </div>
                 </div>
               </div>
-            )
+              ) : null}
+            </>
           )}
           
           {activeTab === 'expand' && (
@@ -449,6 +470,12 @@ const MyNetwork = () => {
                   Object.entries(attorneyData).map(([categoryKey, attorneys]) => {
                   // Filter attorneys based on search term and active filters
                   const filteredAttorneys = attorneys.filter(attorney => {
+                    // Exclude attorneys already in the network
+                    const isInNetwork = networkMembers.some(member => 
+                      member.name === attorney.name && member.firm === attorney.firm
+                    );
+                    if (isInNetwork) return false;
+                    
                     // Search term filter
                     if (searchTerm.trim()) {
                       const search = searchTerm.toLowerCase();
@@ -530,6 +557,12 @@ const MyNetwork = () => {
                  )) && 
                  Object.entries(attorneyData).every(([categoryKey, attorneys]) => {
                    return attorneys.filter(attorney => {
+                     // Exclude attorneys already in the network
+                     const isInNetwork = networkMembers.some(member => 
+                       member.name === attorney.name && member.firm === attorney.firm
+                     );
+                     if (isInNetwork) return false;
+                     
                      // Apply same filtering logic as above
                      if (searchTerm.trim()) {
                        const search = searchTerm.toLowerCase();
@@ -624,6 +657,7 @@ const MyNetwork = () => {
         isOpen={isAddAttorneysModalOpen}
         onClose={() => setIsAddAttorneysModalOpen(false)}
         onAdd={handleAddAttorneys}
+        existingMembers={networkMembers}
       />
 
       {/* Filters Modal for Expand Network */}

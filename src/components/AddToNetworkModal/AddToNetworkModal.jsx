@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Icon from '../Icon';
 import LocationMultiselect from '../LocationMultiselect';
+import { getProfessionalAvatar } from '../../utils/avatarGenerator';
 import bodyScrollManager from '../../utils/bodyScrollManager';
 import './AddToNetworkModal.css';
 
@@ -167,8 +168,9 @@ const AddToNetworkModal = ({ isOpen, onClose, attorney, onAdd, isEditMode = fals
             <div className="attorney-profile">
               <div className="attorney-avatar-large">
                 <img 
-                  src={`https://ui-avatars.com/api/?name=${attorney.initials}&background=002e69&color=fff&size=80`}
+                  src={getProfessionalAvatar(attorney, 80)}
                   alt={attorney.name}
+                  loading="lazy"
                 />
               </div>
               <div className="attorney-info-main">

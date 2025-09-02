@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import Icon from '../Icon';
 import bodyScrollManager from '../../utils/bodyScrollManager';
+import { getProfessionalAvatar } from '../../utils/avatarGenerator';
 import './AddAttorneysModal.css';
 
 // Sample attorney data - this would come from your database
@@ -17,30 +18,39 @@ const sampleAttorneys = [
   { id: 10, name: 'Amanda White', firm: 'White Legal Services', location: 'Anaheim, CA', specialties: ['Workers Compensation', 'Disability'], initials: 'AW' },
 ];
 
-const AddAttorneysModal = ({ isOpen, onClose, onAdd }) => {
+const AddAttorneysModal = ({ isOpen, onClose, onAdd, existingMembers = [] }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedAttorneys, setSelectedAttorneys] = useState(new Set());
   const [selectAll, setSelectAll] = useState(true);
 
-  // Initialize with all attorneys selected
+  // Filter out attorneys that are already in the network
+  const availableAttorneys = useMemo(() => {
+    return sampleAttorneys.filter(attorney => 
+      !existingMembers.some(member => 
+        member.name === attorney.name && member.firm === attorney.firm
+      )
+    );
+  }, [existingMembers]);
+
+  // Initialize with all available attorneys selected
   useEffect(() => {
     if (isOpen && selectAll) {
-      setSelectedAttorneys(new Set(sampleAttorneys.map(a => a.id)));
+      setSelectedAttorneys(new Set(availableAttorneys.map(a => a.id)));
     }
-  }, [isOpen, selectAll]);
+  }, [isOpen, selectAll, availableAttorneys]);
 
   // Filter attorneys based on search term
   const filteredAttorneys = useMemo(() => {
-    if (!searchTerm) return sampleAttorneys;
+    if (!searchTerm) return availableAttorneys;
     
     const lowerSearch = searchTerm.toLowerCase();
-    return sampleAttorneys.filter(attorney => 
+    return availableAttorneys.filter(attorney => 
       attorney.name.toLowerCase().includes(lowerSearch) ||
       attorney.firm.toLowerCase().includes(lowerSearch) ||
       attorney.location.toLowerCase().includes(lowerSearch) ||
       attorney.specialties.some(s => s.toLowerCase().includes(lowerSearch))
     );
-  }, [searchTerm]);
+  }, [searchTerm, availableAttorneys]);
 
   const handleSelectAll = () => {
     if (selectAll) {
@@ -69,8 +79,13 @@ const AddAttorneysModal = ({ isOpen, onClose, onAdd }) => {
     setSelectedAttorneys(newSelected);
   };
 
+  // Calculate the actual count of available selected attorneys
+  const availableSelectedCount = useMemo(() => {
+    return availableAttorneys.filter(attorney => selectedAttorneys.has(attorney.id)).length;
+  }, [availableAttorneys, selectedAttorneys]);
+
   const handleAdd = () => {
-    const attorneysToAdd = sampleAttorneys.filter(a => selectedAttorneys.has(a.id));
+    const attorneysToAdd = availableAttorneys.filter(a => selectedAttorneys.has(a.id));
     onAdd(attorneysToAdd);
     onClose();
   };
@@ -142,7 +157,11 @@ const AddAttorneysModal = ({ isOpen, onClose, onAdd }) => {
         </div>
 
         <div className="attorneys-list">
-          {filteredAttorneys.length === 0 ? (
+          {availableAttorneys.length === 0 ? (
+            <div className="no-results">
+              <p>All attorneys are already in your network</p>
+            </div>
+          ) : filteredAttorneys.length === 0 ? (
             <div className="no-results">
               <p>No attorneys found matching "{searchTerm}"</p>
             </div>
@@ -165,7 +184,7 @@ const AddAttorneysModal = ({ isOpen, onClose, onAdd }) => {
                 
                 <div className="attorney-avatar">
                   <img 
-                    src={`https://ui-avatars.com/api/?name=${attorney.initials}&background=002e69&color=fff`} 
+                    src={getProfessionalAvatar(attorney, 48)} 
                     alt={attorney.name} 
                   />
                 </div>
@@ -191,16 +210,16 @@ const AddAttorneysModal = ({ isOpen, onClose, onAdd }) => {
 
         <div className="add-attorneys-footer">
           <div className="selected-count">
-            {selectedAttorneys.size} attorney{selectedAttorneys.size !== 1 ? 's' : ''} selected
+            {availableSelectedCount} attorney{availableSelectedCount !== 1 ? 's' : ''} selected
           </div>
           <div className="footer-buttons">
             <button className="btn-cancel" onClick={onClose}>Cancel</button>
             <button 
               className="btn-add" 
               onClick={handleAdd}
-              disabled={selectedAttorneys.size === 0}
+              disabled={availableSelectedCount === 0}
             >
-              Add {selectedAttorneys.size > 0 && `(${selectedAttorneys.size})`} to Network
+              Add {availableSelectedCount > 0 && `(${availableSelectedCount})`} to Network
             </button>
           </div>
         </div>
