@@ -220,8 +220,8 @@ const NetworkModal = ({ isOpen, onClose, onSave }) => {
               unit={timeUnit}
               onValueChange={handleTimeValueChange}
               onUnitChange={handleTimeUnitChange}
-              maxHours={72}
-              maxDays={3}
+              maxHours={96}
+              maxDays={4}
               minValue={0.5}
               useMinutesHours={true}
             />

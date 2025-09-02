@@ -113,16 +113,18 @@ const TimeSlider = ({
                 unit === 'minutes' ? (
                   <>
                     <span className="tick" style={{ left: '0%' }}>30m</span>
-                    <span className="tick" style={{ left: '33.33%' }}>24h</span>
-                    <span className="tick" style={{ left: '66.66%' }}>48h</span>
-                    <span className="tick" style={{ left: '100%' }}>72h</span>
+                    <span className="tick" style={{ left: '25%' }}>24h</span>
+                    <span className="tick" style={{ left: '50%' }}>48h</span>
+                    <span className="tick" style={{ left: '75%' }}>72h</span>
+                    <span className="tick" style={{ left: '100%' }}>96h</span>
                   </>
                 ) : (
                   <>
                     <span className="tick" style={{ left: '0%' }}>30m</span>
-                    <span className="tick" style={{ left: '33.33%' }}>24h</span>
-                    <span className="tick" style={{ left: '66.66%' }}>48h</span>
-                    <span className="tick" style={{ left: '100%' }}>72h</span>
+                    <span className="tick" style={{ left: '25%' }}>1d</span>
+                    <span className="tick" style={{ left: '50%' }}>2d</span>
+                    <span className="tick" style={{ left: '75%' }}>3d</span>
+                    <span className="tick" style={{ left: '100%' }}>4d</span>
                   </>
                 )
               ) : (
