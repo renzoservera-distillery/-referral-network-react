@@ -41,14 +41,14 @@ const TimeSlider = ({
         const minutes = Math.round(constrainedHours * 60);
         onValueChange(minutes);
       } else {
-        onValueChange(constrainedHours);
+        onValueChange(Math.round(constrainedHours));
       }
     } else {
       if (unit === 'days') {
         const days = Math.round(constrainedHours / 24);
         onValueChange(Math.min(days, maxDays));
       } else {
-        onValueChange(constrainedHours);
+        onValueChange(Math.round(constrainedHours));
       }
     }
   };
@@ -75,8 +75,7 @@ const TimeSlider = ({
   };
 
   const getSliderPercentage = () => {
-    const minSliderValue = Math.max(1, minValue);
-    return ((sliderValue - minSliderValue) / (maxHours - minSliderValue)) * 100;
+    return ((sliderValue - minValue) / (maxHours - minValue)) * 100;
   };
 
   return (
@@ -93,10 +92,11 @@ const TimeSlider = ({
           <input
             type="range"
             className={`time-slider-input ${isDragging ? 'dragging' : ''}`}
-            min={Math.max(1, minValue)}
+            min={minValue}
             max={maxHours}
             value={sliderValue}
-            onChange={(e) => handleSliderChange(parseInt(e.target.value))}
+            onChange={(e) => handleSliderChange(parseFloat(e.target.value))}
+            step={useMinutesHours && unit === 'minutes' ? 0.5 : 1}
             onMouseDown={() => setIsDragging(true)}
             onMouseUp={() => setIsDragging(false)}
             onTouchStart={() => setIsDragging(true)}
@@ -109,43 +109,57 @@ const TimeSlider = ({
             />
             <div className="time-slider-ticks">
               {useMinutesHours ? (
-                // Time per Attorney (minutes/hours system)
-                unit === 'minutes' ? (
-                  <>
-                    <span className="tick" style={{ left: '0%' }}>30m</span>
-                    <span className="tick" style={{ left: '25%' }}>24h</span>
-                    <span className="tick" style={{ left: '50%' }}>48h</span>
-                    <span className="tick" style={{ left: '75%' }}>72h</span>
-                    <span className="tick" style={{ left: '100%' }}>96h</span>
-                  </>
-                ) : (
-                  <>
-                    <span className="tick" style={{ left: '0%' }}>30m</span>
-                    <span className="tick" style={{ left: '25%' }}>1d</span>
-                    <span className="tick" style={{ left: '50%' }}>2d</span>
-                    <span className="tick" style={{ left: '75%' }}>3d</span>
-                    <span className="tick" style={{ left: '100%' }}>4d</span>
-                  </>
-                )
+                // Time per Attorney (minutes/hours system) - 30 minutes to 96 hours
+                (() => {
+                  // Calculate tick positions for 0.5 to 96 hours range
+                  const range = maxHours - minValue;
+                  return (
+                    <>
+                      <span className="tick" style={{ left: '0%' }}>30m</span>
+                      <span className="tick" style={{ left: `${((24 - minValue) / range) * 100}%` }}>24h</span>
+                      <span className="tick" style={{ left: `${((48 - minValue) / range) * 100}%` }}>48h</span>
+                      <span className="tick" style={{ left: `${((72 - minValue) / range) * 100}%` }}>72h</span>
+                      <span className="tick" style={{ left: '100%' }}>96h</span>
+                    </>
+                  );
+                })()
               ) : (
-                // Marketplace Fallback (hours/days system)
-                unit === 'days' ? (
-                  <>
-                    <span className="tick" style={{ left: '0%' }}>2h</span>
-                    <span className="tick" style={{ left: '14.3%' }}>1d</span>
-                    <span className="tick" style={{ left: '42.9%' }}>3d</span>
-                    <span className="tick" style={{ left: '71.4%' }}>5d</span>
-                    <span className="tick" style={{ left: '100%' }}>7d</span>
-                  </>
-                ) : (
-                  <>
-                    <span className="tick" style={{ left: '0%' }}>2h</span>
-                    <span className="tick" style={{ left: '14.3%' }}>24h</span>
-                    <span className="tick" style={{ left: '42.9%' }}>72h</span>
-                    <span className="tick" style={{ left: '71.4%' }}>120h</span>
-                    <span className="tick" style={{ left: '100%' }}>168h</span>
-                  </>
-                )
+                // Marketplace Fallback (hours/days system) - dynamic based on minValue
+                (() => {
+                  const formatTickLabel = (hours) => {
+                    if (hours < 24) return `${hours}h`;
+                    const days = Math.round(hours / 24);
+                    return `${days}d`;
+                  };
+                  
+                  const range = maxHours - minValue;
+                  const tickValues = [];
+                  
+                  // Always show min value
+                  tickValues.push(minValue);
+                  
+                  // Add intermediate values
+                  if (minValue <= 24 && maxHours >= 24) tickValues.push(24);
+                  if (minValue <= 72 && maxHours >= 72) tickValues.push(72);
+                  if (minValue <= 120 && maxHours >= 120) tickValues.push(120);
+                  
+                  // Always show max value
+                  if (!tickValues.includes(maxHours)) tickValues.push(maxHours);
+                  
+                  return (
+                    <>
+                      {tickValues.map((hours, index) => (
+                        <span 
+                          key={index}
+                          className="tick" 
+                          style={{ left: `${((hours - minValue) / range) * 100}%` }}
+                        >
+                          {formatTickLabel(hours)}
+                        </span>
+                      ))}
+                    </>
+                  );
+                })()
               )}
             </div>
           </div>

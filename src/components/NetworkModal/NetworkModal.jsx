@@ -33,10 +33,10 @@ const NetworkModal = ({ isOpen, onClose, onSave }) => {
         if (hours >= 24) {
           return { value: Math.round(hours / 24), unit: 'days' };
         }
-        return { value: hours, unit: 'hours' };
+        return { value: Math.round(hours), unit: 'hours' };
       case 'hours':
       default:
-        return { value: hours, unit: 'hours' };
+        return { value: Math.round(hours), unit: 'hours' };
     }
   };
 
@@ -49,7 +49,7 @@ const NetworkModal = ({ isOpen, onClose, onSave }) => {
     
     // If marketplace fallback is less than time per attorney, sync it
     if (currentMarketplaceInHours < newTimeInHours) {
-      const minMarketplaceHours = Math.max(newTimeInHours, 2); // Minimum 2 hours for marketplace
+      const minMarketplaceHours = Math.max(Math.ceil(newTimeInHours), 2); // Minimum 2 hours for marketplace, round up
       const converted = convertFromHours(minMarketplaceHours, marketplaceUnit);
       setMarketplaceValue(converted.value);
       setMarketplaceUnit(converted.unit);
@@ -69,7 +69,7 @@ const NetworkModal = ({ isOpen, onClose, onSave }) => {
     
     // If marketplace fallback is less than time per attorney, sync it
     if (currentMarketplaceInHours < currentTimeInHours) {
-      const minMarketplaceHours = Math.max(currentTimeInHours, 2); // Minimum 2 hours for marketplace
+      const minMarketplaceHours = Math.max(Math.ceil(currentTimeInHours), 2); // Minimum 2 hours for marketplace, round up
       const marketplaceConverted = convertFromHours(minMarketplaceHours, marketplaceUnit);
       setMarketplaceValue(marketplaceConverted.value);
       setMarketplaceUnit(marketplaceConverted.unit);
@@ -99,7 +99,7 @@ const NetworkModal = ({ isOpen, onClose, onSave }) => {
       setMarketplaceUnit(newUnit);
     } else {
       // If the conversion would make it less than time per attorney, adjust to minimum
-      const minMarketplaceHours = Math.max(timeInHours, 2);
+      const minMarketplaceHours = Math.max(Math.ceil(timeInHours), 2); // Round up to avoid decimals
       const adjustedConverted = convertFromHours(minMarketplaceHours, newUnit);
       setMarketplaceValue(adjustedConverted.value);
       setMarketplaceUnit(newUnit);
@@ -245,7 +245,7 @@ const NetworkModal = ({ isOpen, onClose, onSave }) => {
               onUnitChange={handleMarketplaceUnitChange}
               maxHours={168}
               maxDays={7}
-              minValue={Math.max(convertToHours(timeValue, timeUnit), 2)}
+              minValue={Math.max(Math.ceil(convertToHours(timeValue, timeUnit)), 2)}
             />
           </div>
         </div>
