@@ -123,6 +123,31 @@ useEffect(() => {
 - Component-level state management with React hooks
 - No external state management library
 
+### Advanced Filtering Architecture
+
+**Search Debouncing Pattern**:
+MyNetwork implements search debouncing with 500ms delay:
+```jsx
+const [inputValue, setInputValue] = useState(''); // User input
+const [searchTerm, setSearchTerm] = useState(''); // Debounced value
+
+useEffect(() => {
+  const debounceTimer = setTimeout(() => {
+    setSearchTerm(inputValue);
+    setIsSearchLoading(false);
+  }, 500);
+  return () => clearTimeout(debounceTimer);
+}, [inputValue]);
+```
+
+**Filter State Management**:
+- `activeFilters`: Object with arrays for each filter type (locations, practiceAreas, lawFirms, communities)
+- Both Expand Network and Network Members sections share filtering logic
+- Filter chips provide individual removal with `onRemoveFilter(filterType, value)`
+
+**Category Visibility Logic**:
+Attorney carousels are conditionally rendered - categories with no matching results are hidden when search/filters are active.
+
 ### Mobile Responsiveness
 
 **Breakpoints**:
@@ -179,5 +204,56 @@ Repository uses main branch. Changes require:
 - Locations: `<Icon name="location" size={14} />` + text
 - Used consistently across NetworkMembersList, AddToNetworkModal, AddAttorneysModal
 
+### TimeSlider System Architecture
+
+**Dual Time Unit Systems**:
+- Time per Attorney: Uses minutes/hours system (`useMinutesHours={true}`)
+- Marketplace Fallback: Uses hours/days system (`useMinutesHours={false}`)
+
+**Synchronization Logic**:
+- NetworkModal implements cross-system conversion between different time units
+- Marketplace Fallback minimum is dynamically calculated: `Math.max(convertToHours(timeValue, timeUnit), 2)`
+- Time per Attorney minimum: 30 minutes (0.5 hours)
+- Marketplace Fallback minimum: 2 hours
+
+**TimeSlider Component Pattern**:
+```jsx
+// Time per Attorney (minutes/hours)
+<TimeSlider
+  value={timeValue}
+  unit={timeUnit}
+  onValueChange={handleTimeValueChange}
+  onUnitChange={handleTimeUnitChange}
+  minValue={0.5}
+  useMinutesHours={true}
+/>
+
+// Marketplace Fallback (hours/days)
+<TimeSlider
+  value={marketplaceValue}
+  unit={marketplaceUnit}
+  minValue={Math.max(convertToHours(timeValue, timeUnit), 2)}
+  useMinutesHours={false}
+/>
+```
+
+**Unit Conversion Functions**:
+NetworkModal contains helper functions for time conversion:
+- `convertToHours(value, unit)`: Normalizes all time values to hours for comparison
+- `convertFromHours(hours, preferredUnit)`: Converts hours back to target unit system
+
 ### Browser Support
 Configured for modern browsers via browserslist in package.json. IE11 not supported.
+
+## Important Development Constraints
+
+### Code Style Requirements
+- **No Comments**: Code should be self-documenting without inline comments
+- **No New Files**: Always prefer editing existing files over creating new ones
+- **No Documentation Files**: Never proactively create README, .md files, or documentation unless explicitly requested
+
+### Component Creation Guidelines
+- Check existing components first before creating new ones
+- Use existing libraries and utilities only (check package.json dependencies)
+- Follow established patterns for Icon usage, modal implementation, and time slider configuration
+- Maintain consistent naming: camelCase for variables, PascalCase for components
