@@ -404,21 +404,21 @@
 }
 
 .btn-save {
-    padding: 10px 20px;
+    padding: 10px 24px;
+    background: #002e69;
     border: none;
-    background: #05df9d;
-    color: #002e69;
+    border-radius: 8px;
     font-size: 14px;
     font-weight: bold;
-    border-radius: 6px;
+    color: white;
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
 .btn-save:hover {
-    background: #04c789;
+    background: #001e47;
     transform: translateY(-1px);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 46, 105, 0.25);
 }
 
 /* Responsive Design */
