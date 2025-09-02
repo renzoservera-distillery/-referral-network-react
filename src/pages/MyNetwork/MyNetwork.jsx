@@ -24,6 +24,7 @@ const MyNetwork = () => {
   const [isSearchLoading, setIsSearchLoading] = useState(false);
   const [isCarouselsLoading, setIsCarouselsLoading] = useState(false);
   const [isNetworkMembersLoading, setIsNetworkMembersLoading] = useState(true);
+  const [showHowItWorks, setShowHowItWorks] = useState(true);
 
   // Simulate initial data loading
   React.useEffect(() => {
@@ -88,12 +89,12 @@ const MyNetwork = () => {
     setTimeout(() => setShowNotification(false), 3000);
   };
 
-  const dismissCard = (e) => {
-    e.preventDefault();
-    const card = e.target.closest('.card.dismissible');
-    if (card) {
-      card.style.display = 'none';
-    }
+  const dismissHowItWorks = () => {
+    setShowHowItWorks(false);
+  };
+
+  const showHowItWorksCard = () => {
+    setShowHowItWorks(true);
   };
 
   const handleSearchChange = (e) => {
@@ -151,34 +152,57 @@ const MyNetwork = () => {
       </div>
 
       {/* How it Works Card */}
-      <div className="card dismissible">
-        <button className="dismiss-btn" onClick={dismissCard}>
-          <Icon name="close" size={16} />
-        </button>
-        <div className="card-content">
-          <h3>How it works</h3>
-          <div className="how-it-works">
-            <div className="step">
-              <div className="step-icon">
-                <Icon name="person-add" size={24} />
+      {showHowItWorks ? (
+        <div className="card dismissible">
+          <button className="dismiss-btn" onClick={dismissHowItWorks}>
+            <Icon name="close" size={16} />
+          </button>
+          <div className="card-content">
+            <h3>How it works</h3>
+            <div className="how-it-works">
+              <div className="step">
+                <div className="step-icon">
+                  <Icon name="person-add" size={24} />
+                </div>
+                <p>Build your Network by adding attorneys and setting the types of cases you want to refer to them.</p>
               </div>
-              <p>Build your Network by adding attorneys and setting the types of cases you want to refer to them.</p>
-            </div>
-            <div className="step">
-              <div className="step-icon">
-                <Icon name="person-arrow-back" size={24} />
+              <div className="step">
+                <div className="step-icon">
+                  <Icon name="person-arrow-back" size={24} />
+                </div>
+                <p>When you share a referral with your network, our AI prioritizes the most relevant attorneys in your Network (using your settings) for quick, accurate matches.</p>
               </div>
-              <p>When you share a referral with your network, our AI prioritizes the most relevant attorneys in your Network (using your settings) for quick, accurate matches.</p>
-            </div>
-            <div className="step">
-              <div className="step-icon">
-                <Icon name="people-team-toolbox" size={24} />
+              <div className="step">
+                <div className="step-icon">
+                  <Icon name="people-team-toolbox" size={24} />
+                </div>
+                <p>If no match is made within your set timeframe, the referral automatically moves to the Marketplace.</p>
               </div>
-              <p>If no match is made within your set timeframe, the referral automatically moves to the Marketplace.</p>
             </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <div className="how-it-works-collapsed-minimal">
+          <div className="minimal-process-content">
+            <div className="process-header">
+              <div className="process-title-section">
+                <div className="process-title-text">
+                  <span className="process-label">How it Works</span>
+                  <span className="process-subtitle">3 Steps for a smarter referring process</span>
+                </div>
+              </div>
+              <button 
+                className="expand-process-btn"
+                onClick={showHowItWorksCard}
+                aria-label="Expand process details"
+              >
+                <span className="expand-text">Learn More</span>
+                <Icon name="chevron-down" size={16} />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Network Members Card */}
       <div className="card">
