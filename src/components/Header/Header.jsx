@@ -1,9 +1,42 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Icon from '../Icon';
+import NotificationDropdown from '../NotificationDropdown/NotificationDropdown';
+import { useNotifications } from '../../contexts/NotificationContext';
 import logo from '../../assets/logo.svg';
 import './Header.css';
 
 const Header = ({ isMobile, onMenuToggle, isMobileSidebarOpen }) => {
+  const [showNotifications, setShowNotifications] = useState(false);
+  const { 
+    notifications, 
+    unreadCount, 
+    markAsRead, 
+    markAllAsRead, 
+    getRecentNotifications 
+  } = useNotifications();
+
+  const handleNotificationToggle = () => {
+    setShowNotifications(!showNotifications);
+  };
+
+  const handleMarkAsRead = (notificationId) => {
+    markAsRead(notificationId);
+  };
+
+  const handleMarkAllAsRead = () => {
+    markAllAsRead();
+  };
+
+  const handleViewAllNotifications = () => {
+    console.log('View all notifications clicked');
+    // Navigate to notifications page
+    setShowNotifications(false);
+  };
+
+  const handleCloseNotifications = () => {
+    setShowNotifications(false);
+  };
+
   return (
     <header className="app-bar">
       <div className="app-bar-content">
@@ -14,7 +47,7 @@ const Header = ({ isMobile, onMenuToggle, isMobileSidebarOpen }) => {
             aria-label="Toggle navigation menu"
             aria-expanded={isMobileSidebarOpen}
           >
-            <Icon name={isMobileSidebarOpen ? "close" : "menu"} />
+            <Icon name={isMobileSidebarOpen ? "dismiss" : "menu"} />
           </button>
         )}
         <div className="logo">
@@ -44,15 +77,33 @@ const Header = ({ isMobile, onMenuToggle, isMobileSidebarOpen }) => {
           <button className="icon-btn">
             <Icon name="chat" />
           </button>
-          <button className="icon-btn notification-btn">
+          <button 
+            className="icon-btn notification-btn"
+            onClick={handleNotificationToggle}
+            aria-label={`Notifications ${unreadCount > 0 ? `(${unreadCount} unread)` : ''}`}
+            aria-expanded={showNotifications}
+          >
             <Icon name="alert" />
-            <span className="notification-badge"></span>
+            {unreadCount > 0 && (
+              <span className="notification-badge" aria-hidden="true">
+                {unreadCount > 9 ? '9+' : unreadCount}
+              </span>
+            )}
           </button>
           <div className="avatar">
             <img src="https://ui-avatars.com/api/?name=User&background=002e69&color=fff" alt="Profile" />
           </div>
         </div>
       </div>
+
+      <NotificationDropdown
+        isOpen={showNotifications}
+        onClose={handleCloseNotifications}
+        notifications={getRecentNotifications(5)}
+        onMarkAsRead={handleMarkAsRead}
+        onMarkAllAsRead={handleMarkAllAsRead}
+        onViewAllNotifications={handleViewAllNotifications}
+      />
     </header>
   );
 };

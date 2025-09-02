@@ -160,35 +160,36 @@ const AddToNetworkModal = ({ isOpen, onClose, attorney, onAdd, isEditMode = fals
           </button>
         </div>
 
-        {/* Attorney Details Section */}
-        <div className="attorney-details-section">
-          <div className="attorney-profile">
-            <div className="attorney-avatar-large">
-              <img 
-                src={`https://ui-avatars.com/api/?name=${attorney.initials}&background=002e69&color=fff&size=80`}
-                alt={attorney.name}
-              />
-            </div>
-            <div className="attorney-info-main">
-              <h3>{attorney.name}</h3>
-              <p className="attorney-firm-text">{attorney.firm}</p>
-              <p className="attorney-location-text">
-                <Icon name="location" />
-                {attorney.location}
-              </p>
-              <div className="attorney-specialties-list">
-                {attorney.specialties.map((specialty, index) => (
-                  <span key={index} className="specialty-badge">
-                    {specialty}
-                  </span>
-                ))}
+        {/* Modal Content - Scrollable */}
+        <div className="modal-content-scroll" id="modal-description">
+          {/* Attorney Details Section */}
+          <div className="attorney-details-section">
+            <div className="attorney-profile">
+              <div className="attorney-avatar-large">
+                <img 
+                  src={`https://ui-avatars.com/api/?name=${attorney.initials}&background=002e69&color=fff&size=80`}
+                  alt={attorney.name}
+                />
+              </div>
+              <div className="attorney-info-main">
+                <h3>{attorney.name}</h3>
+                <p className="attorney-firm-text">{attorney.firm}</p>
+                <div className="attorney-details-inline">
+                  <div className="detail-with-icon">
+                    <Icon name="briefcase" size={14} />
+                    <span>{attorney.specialties.join(', ')}</span>
+                  </div>
+                  <div className="detail-with-icon">
+                    <Icon name="location" size={14} />
+                    <span>{attorney.location}</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Configuration Section */}
-        <div className="configuration-section" id="modal-description">
+          {/* Configuration Section */}
+          <div className="configuration-section">
           {/* Fee Percentage */}
           <div className="config-group">
             <label className="config-label" htmlFor="fee-range">
@@ -281,6 +282,7 @@ const AddToNetworkModal = ({ isOpen, onClose, attorney, onAdd, isEditMode = fals
               </div>
             </div>
           </div>
+        </div>
         </div>
 
         {/* Footer */}

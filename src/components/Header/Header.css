@@ -90,13 +90,22 @@
 
 .notification-badge {
     position: absolute;
-    top: 8px;
-    right: 8px;
-    width: 8px;
-    height: 8px;
+    top: 6px;
+    right: 6px;
+    min-width: 16px;
+    height: 16px;
     background: #ef4444;
     border-radius: 50%;
     border: 2px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    color: white;
+    line-height: 1;
+    padding: 0 4px;
 }
 
 .avatar {

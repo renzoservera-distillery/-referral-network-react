@@ -364,51 +364,35 @@
 }
 
 .details-header {
-  display: grid;
-  grid-template-columns: 2fr 1fr 2fr;
-  gap: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
   padding: 20px 0;
   border-bottom: 1px solid #f3f4f6;
 }
 
-.detail-section h5 {
-  font-size: 13px;
-  font-weight: 600;
-  color: #6b7280;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin: 0 0 12px 0;
-}
-
-.practice-areas {
+.detail-section {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  align-items: flex-start;
 }
 
-.practice-tag {
-  display: inline-block;
-  padding: 6px 12px;
-  background: #e0f2fe;
-  color: #0369a1;
-  border-radius: 6px;
-  font-size: 13px;
-  font-weight: 500;
-}
-
-.location-text {
+/* Detail with Icon Styles for Expanded View */
+.member-details .detail-with-icon {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   font-size: 14px;
   color: #374151;
-  margin: 0;
 }
 
-.location-text svg {
-  width: 16px;
-  height: 16px;
-  color: #6b7280;
+.member-details .detail-with-icon svg {
+  color: #9ca3af;
+  flex-shrink: 0;
+}
+
+.member-details .detail-value {
+  color: #374151;
+  line-height: 1.4;
 }
 
 
@@ -626,8 +610,11 @@
   }
 
   .details-header {
-    grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 12px;
+  }
+
+  .member-details .detail-with-icon {
+    font-size: 13px;
   }
 
   .clients-table {

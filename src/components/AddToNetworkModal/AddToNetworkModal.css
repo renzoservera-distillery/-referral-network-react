@@ -41,9 +41,31 @@
 
 .modal-header h2 {
   font-size: 22px;
+  font-family: 'Inter', sans-serif;
   font-weight: 700;
   color: #111827;
   margin: 0;
+}
+
+/* Modal Content Scroll Container */
+.modal-content-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.modal-content-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-content-scroll::-webkit-scrollbar-track {
+  background: #f3f4f6;
+  border-radius: 4px;
+}
+
+.modal-content-scroll::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 4px;
 }
 
 /* Attorney Details Section */
@@ -84,56 +106,35 @@
   margin: 0 0 6px 0;
 }
 
-.attorney-location-text {
+/* Attorney Details Inline */
+.attorney-details-inline {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.attorney-details-inline .detail-with-icon {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   font-size: 14px;
-  color: #6b7280;
-  margin: 0 0 12px 0;
+  color: #374151;
 }
 
-.attorney-location-text svg {
-  width: 14px;
-  height: 14px;
+.attorney-details-inline .detail-with-icon svg {
+  color: #9ca3af;
+  flex-shrink: 0;
 }
 
-.attorney-specialties-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.specialty-badge {
-  display: inline-block;
-  padding: 5px 10px;
-  background: white;
-  color: #002e69;
-  border: 1px solid #93c5fd;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 500;
+.attorney-details-inline .detail-with-icon span {
+  color: #374151;
+  line-height: 1.4;
 }
 
 /* Configuration Section */
 .configuration-section {
-  flex: 1;
-  overflow-y: auto;
   padding: 24px 28px;
-}
-
-.configuration-section::-webkit-scrollbar {
-  width: 8px;
-}
-
-.configuration-section::-webkit-scrollbar-track {
-  background: #f3f4f6;
-  border-radius: 4px;
-}
-
-.configuration-section::-webkit-scrollbar-thumb {
-  background: #d1d5db;
-  border-radius: 4px;
 }
 
 /* Config Groups */
@@ -481,7 +482,6 @@
   /* Better mobile configuration section */
   .configuration-section {
     padding: 20px;
-    flex: 1;
   }
   
   .config-group {

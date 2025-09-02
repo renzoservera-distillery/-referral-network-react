@@ -37,6 +37,7 @@
 
 .page-header h1 {
     font-size: 32px;
+    font-family: 'Inter', sans-serif;
     font-weight: 700;
     color: #111827;
     margin-bottom: 8px;
@@ -275,6 +276,7 @@
 
 .empty-state-text h3 {
     font-size: 28px;
+    font-family: 'Inter', sans-serif;
     font-weight: 700;
     color: #111827;
     margin: 0 0 16px 0;

@@ -201,24 +201,18 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember }
                   <div className="member-details">
                     <div className="details-header">
                       <div className="detail-section">
-                        <h5>Practice Areas</h5>
-                        <div className="practice-areas">
-                          {member.specialties.map((specialty, index) => (
-                            <span key={index} className="practice-tag">
-                              {specialty}
-                            </span>
-                          ))}
+                        <div className="detail-with-icon">
+                          <Icon name="briefcase" size={14} />
+                          <span className="detail-value">{member.specialties.join(', ')}</span>
                         </div>
                       </div>
                       
                       <div className="detail-section">
-                        <h5>Location</h5>
-                        <p className="location-text">
-                          <Icon name="location" />
-                          {member.location}
-                        </p>
+                        <div className="detail-with-icon">
+                          <Icon name="location" size={14} />
+                          <span className="detail-value">{member.location}</span>
+                        </div>
                       </div>
-                      
                     </div>
 
                     {/* Clients Table */}

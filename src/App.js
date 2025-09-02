@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Header from './components/Header/Header';
 import Sidebar from './components/Sidebar/Sidebar';
 import MyNetwork from './pages/MyNetwork/MyNetwork';
+import { NotificationProvider } from './contexts/NotificationContext';
 import bodyScrollManager from './utils/bodyScrollManager';
 import './App.css';
 
@@ -46,37 +47,39 @@ function App() {
   };
 
   return (
-    <div className="app-container">
-      <Header 
-        isMobile={isMobile}
-        onMenuToggle={toggleMobileSidebar}
-        isMobileSidebarOpen={isMobileSidebarOpen}
-      />
-      <div className="main-content">
-        {(showSidebar && !isMobile) && (
-          <Sidebar 
-            activeItem={activeView}
-            onItemClick={handleSidebarItemClick}
-          />
-        )}
-        {/* Mobile Sidebar Overlay */}
-        {isMobile && isMobileSidebarOpen && (
-          <div className="mobile-sidebar-overlay" onClick={() => setIsMobileSidebarOpen(false)}>
-            <div className="mobile-sidebar" onClick={(e) => e.stopPropagation()}>
-              <Sidebar 
-                activeItem={activeView}
-                onItemClick={handleSidebarItemClick}
-              />
+    <NotificationProvider>
+      <div className="app-container">
+        <Header 
+          isMobile={isMobile}
+          onMenuToggle={toggleMobileSidebar}
+          isMobileSidebarOpen={isMobileSidebarOpen}
+        />
+        <div className="main-content">
+          {(showSidebar && !isMobile) && (
+            <Sidebar 
+              activeItem={activeView}
+              onItemClick={handleSidebarItemClick}
+            />
+          )}
+          {/* Mobile Sidebar Overlay */}
+          {isMobile && isMobileSidebarOpen && (
+            <div className="mobile-sidebar-overlay" onClick={() => setIsMobileSidebarOpen(false)}>
+              <div className="mobile-sidebar" onClick={(e) => e.stopPropagation()}>
+                <Sidebar 
+                  activeItem={activeView}
+                  onItemClick={handleSidebarItemClick}
+                />
+              </div>
             </div>
+          )}
+          <div className="page-content">
+            {activeView === 'my-network' && <MyNetwork />}
+            {activeView === 'waterfall-referrals' && <div className="page-placeholder">Waterfall Referrals - Coming Soon</div>}
+            {activeView === 'members-directory' && <div className="page-placeholder">Members Directory - Coming Soon</div>}
           </div>
-        )}
-        <div className="page-content">
-          {activeView === 'my-network' && <MyNetwork />}
-          {activeView === 'waterfall-referrals' && <div className="page-placeholder">Waterfall Referrals - Coming Soon</div>}
-          {activeView === 'members-directory' && <div className="page-placeholder">Members Directory - Coming Soon</div>}
         </div>
       </div>
-    </div>
+    </NotificationProvider>
   );
 }
 
