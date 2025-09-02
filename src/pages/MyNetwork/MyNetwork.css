@@ -339,14 +339,14 @@
 }
 
 .minimal-process-content {
-    padding: 20px 24px 16px 24px;
+    padding: 14px 20px;
 }
 
 .minimal-process-content .process-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 8px;
+    margin-top: 0;
 }
 
 .minimal-process-content .process-title-section {
@@ -356,34 +356,40 @@
 
 .minimal-process-content .process-title-text {
     display: flex;
-    flex-direction: column;
-    gap: 2px;
+    align-items: center;
+    gap: 8px;
 }
 
 .minimal-process-content .process-label {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
     color: #111827;
-    line-height: 1.2;
+    line-height: 1;
+}
+
+.minimal-process-content .process-separator {
+    color: #cbd5e1;
+    font-size: 14px;
+    line-height: 1;
 }
 
 .minimal-process-content .process-subtitle {
     font-size: 14px;
     font-weight: 500;
     color: #6b7280;
-    line-height: 1.2;
+    line-height: 1;
 }
 
 .minimal-process-content .expand-process-btn {
     display: flex;
     align-items: center;
     gap: 6px;
-    padding: 8px 12px;
+    padding: 6px 10px;
     background: #f8fafc;
     border: 1px solid #e2e8f0;
     border-radius: 6px;
     color: #475569;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -396,7 +402,7 @@
 }
 
 .minimal-process-content .expand-text {
-    font-size: 14px;
+    font-size: 13px;
 }
 
 /* Filter Chips */

@@ -239,6 +239,7 @@ const MyNetwork = () => {
               <div className="process-title-section">
                 <div className="process-title-text">
                   <span className="process-label">How it Works</span>
+                  <span className="process-separator">•</span>
                   <span className="process-subtitle">3 Steps for a smarter referring process</span>
                 </div>
               </div>
