@@ -85,6 +85,12 @@ useEffect(() => {
 - Forces `currentColor` for proper color inheritance
 - Usage: `<Icon name="person-add" size={24} />`
 
+**Notification System** (`contexts/NotificationContext`):
+- Context-based state management for app-wide notifications
+- `NotificationDropdown`: Positioned dropdown with unread count
+- `NotificationItem`: Individual notification with icon, timestamp, mark as read
+- Uses `useNotifications` hook for component integration
+
 **Complex Form Components**:
 - `TimeSlider`: Custom dual-control slider (input + range)
 - `LocationMultiselect`: Hierarchical location selection with search
@@ -160,10 +166,18 @@ Repository uses main branch. Changes require:
 3. `git push origin main` (triggers Vercel deployment)
 
 ### CSS Architecture
-- Component-scoped CSS files
+- Component-scoped CSS files (each component has its own .css file)
 - No CSS-in-JS or CSS Modules
 - Heavy use of CSS gradients and transforms
 - Consistent color palette: primary #002e69
+- Font system: Inter (via Google Fonts) as primary font family
+- Icon-based UI patterns: briefcase icon for practice areas, location icon for locations
+
+### Consistent UI Patterns
+**Icon + Label Display**:
+- Practice areas: `<Icon name="briefcase" size={14} />` + text
+- Locations: `<Icon name="location" size={14} />` + text
+- Used consistently across NetworkMembersList, AddToNetworkModal, AddAttorneysModal
 
 ### Browser Support
 Configured for modern browsers via browserslist in package.json. IE11 not supported.

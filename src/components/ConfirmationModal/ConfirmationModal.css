@@ -148,7 +148,7 @@
   border: none;
   border-radius: 12px;
   font-size: 15px;
-  font-weight: 600;
+  font-weight: bold;
   cursor: pointer;
   transition: all 0.2s ease;
   color: white;

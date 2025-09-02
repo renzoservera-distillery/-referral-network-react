@@ -69,7 +69,7 @@
     border-radius: 0;
     cursor: grab;
     user-select: none;
-    padding: 0 68px;
+    padding: 12px 68px;
 }
 
 .attorney-carousel:active {
@@ -266,7 +266,7 @@
     }
     
     .attorney-carousel {
-        padding: 0 68px;
+        padding: 12px 68px;
     }
     
     .attorney-card {
@@ -360,7 +360,7 @@
     }
     
     .attorney-carousel {
-        padding: 0 56px;
+        padding: 12px 56px;
     }
     
     .attorney-card {

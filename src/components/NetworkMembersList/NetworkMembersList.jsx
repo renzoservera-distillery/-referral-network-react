@@ -92,8 +92,7 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember }
             </div>
           </div>
           <button className="btn-add-more enhanced" onClick={onAddMore}>
-            <Icon name="search" />
-            Discover Attorneys
+            Add Attorneys
           </button>
         </div>
       </div>
@@ -199,23 +198,7 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember }
                 {/* Expanded Details */}
                 {isExpanded && (
                   <div className="member-details">
-                    <div className="details-header">
-                      <div className="detail-section">
-                        <div className="detail-with-icon">
-                          <Icon name="briefcase" size={14} />
-                          <span className="detail-value">{member.specialties.join(', ')}</span>
-                        </div>
-                      </div>
-                      
-                      <div className="detail-section">
-                        <div className="detail-with-icon">
-                          <Icon name="location" size={14} />
-                          <span className="detail-value">{member.location}</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Clients Table */}
+                    {/* Clients Table - Now First */}
                     <div className="clients-section">
                       <h5>Recent Clients</h5>
                       <div className="clients-table">
@@ -246,6 +229,23 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember }
                       </div>
                     </div>
 
+                    {/* Practice Areas and Location - Now Below */}
+                    <div className="details-header">
+                      <div className="detail-section">
+                        <div className="detail-with-icon">
+                          <Icon name="briefcase" size={14} />
+                          <span className="detail-value">{member.specialties.join(', ')}</span>
+                        </div>
+                      </div>
+                      
+                      <div className="detail-section">
+                        <div className="detail-with-icon">
+                          <Icon name="location" size={14} />
+                          <span className="detail-value">{member.location}</span>
+                        </div>
+                      </div>
+                    </div>
+
                     <div className="member-actions">
                       <button 
                         className="btn-edit"
@@ -254,11 +254,11 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember }
                           onEditMember && onEditMember(member);
                         }}
                       >
-                        <Icon name="edit" />
+                        <Icon name="edit" size={16} />
                         Edit Settings
                       </button>
                       <button className="btn-message">
-                        <Icon name="chat" />
+                        <Icon name="chat" size={16} />
                         Send Message
                       </button>
                       <button 
@@ -268,7 +268,7 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember }
                           handleRemoveClick(member);
                         }}
                       >
-                        <Icon name="trash" />
+                        <Icon name="trash" size={16} />
                         Remove from Network
                       </button>
                     </div>

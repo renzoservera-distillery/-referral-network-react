@@ -290,7 +290,8 @@ const MyNetwork = () => {
                     className="apply-filters-btn"
                     onClick={() => setIsFiltersModalOpen(true)}
                   >
-                    Apply Filters
+                    <Icon name="filter" />
+                    <span>Filters</span>
                   </button>
                 </div>
               </div>

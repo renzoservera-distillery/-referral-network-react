@@ -368,7 +368,7 @@
   flex-direction: column;
   gap: 16px;
   padding: 20px 0;
-  border-bottom: 1px solid #f3f4f6;
+  border-top: 1px solid #f3f4f6;
 }
 
 .detail-section {
@@ -398,7 +398,7 @@
 
 /* Clients Section */
 .clients-section {
-  margin-top: 20px;
+  padding-top: 20px;
 }
 
 .clients-section h5 {
@@ -485,7 +485,6 @@
 .member-actions {
   display: flex;
   gap: 12px;
-  margin-top: 20px;
   padding-top: 20px;
   border-top: 1px solid #f3f4f6;
 }
@@ -494,7 +493,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 16px;
+  padding: 8px 12px;
   border-radius: 6px;
   font-size: 14px;
   font-weight: 500;
@@ -584,13 +583,25 @@
     justify-content: center;
   }
 
+  .members-search-section {
+    margin-bottom: 20px;
+  }
+
   .members-search-bar {
-    flex-direction: column;
-    align-items: stretch;
+    /* Keep the same flex-direction: row as desktop */
+    gap: 10px;
   }
 
   .members-search-input {
-    width: 100%;
+    /* Keep flex: 1 from desktop styles */
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+
+  .apply-filters-btn {
+    /* Keep the same inline style as desktop */
+    flex-shrink: 0;
+    padding: 10px 12px;
+    font-size: 13px;
   }
 
   .filter-options {
