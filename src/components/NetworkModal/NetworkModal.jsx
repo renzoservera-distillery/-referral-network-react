@@ -8,7 +8,7 @@ const NetworkModal = ({ isOpen, onClose, onSave }) => {
   const [referringMethod, setReferringMethod] = useState('waterfall');
   const [timeValue, setTimeValue] = useState(60);
   const [timeUnit, setTimeUnit] = useState('minutes');
-  const [marketplaceValue, setMarketplaceValue] = useState(24);
+  const [marketplaceValue, setMarketplaceValue] = useState(2);
   const [marketplaceUnit, setMarketplaceUnit] = useState('hours');
 
   // Helper function to convert time values to hours for comparison
@@ -49,7 +49,7 @@ const NetworkModal = ({ isOpen, onClose, onSave }) => {
     
     // If marketplace fallback is less than time per attorney, sync it
     if (currentMarketplaceInHours < newTimeInHours) {
-      const minMarketplaceHours = Math.max(newTimeInHours, 24); // Minimum 24 hours for marketplace
+      const minMarketplaceHours = Math.max(newTimeInHours, 2); // Minimum 2 hours for marketplace
       const converted = convertFromHours(minMarketplaceHours, marketplaceUnit);
       setMarketplaceValue(converted.value);
       setMarketplaceUnit(converted.unit);
@@ -69,7 +69,7 @@ const NetworkModal = ({ isOpen, onClose, onSave }) => {
     
     // If marketplace fallback is less than time per attorney, sync it
     if (currentMarketplaceInHours < currentTimeInHours) {
-      const minMarketplaceHours = Math.max(currentTimeInHours, 24); // Minimum 24 hours for marketplace
+      const minMarketplaceHours = Math.max(currentTimeInHours, 2); // Minimum 2 hours for marketplace
       const marketplaceConverted = convertFromHours(minMarketplaceHours, marketplaceUnit);
       setMarketplaceValue(marketplaceConverted.value);
       setMarketplaceUnit(marketplaceConverted.unit);
@@ -99,7 +99,7 @@ const NetworkModal = ({ isOpen, onClose, onSave }) => {
       setMarketplaceUnit(newUnit);
     } else {
       // If the conversion would make it less than time per attorney, adjust to minimum
-      const minMarketplaceHours = Math.max(timeInHours, 24);
+      const minMarketplaceHours = Math.max(timeInHours, 2);
       const adjustedConverted = convertFromHours(minMarketplaceHours, newUnit);
       setMarketplaceValue(adjustedConverted.value);
       setMarketplaceUnit(newUnit);
@@ -222,6 +222,7 @@ const NetworkModal = ({ isOpen, onClose, onSave }) => {
               onUnitChange={handleTimeUnitChange}
               maxHours={72}
               maxDays={3}
+              minValue={0.5}
               useMinutesHours={true}
             />
           </div>
@@ -244,7 +245,7 @@ const NetworkModal = ({ isOpen, onClose, onSave }) => {
               onUnitChange={handleMarketplaceUnitChange}
               maxHours={168}
               maxDays={7}
-              minValue={Math.max(convertToHours(timeValue, timeUnit), 24)}
+              minValue={Math.max(convertToHours(timeValue, timeUnit), 2)}
             />
           </div>
         </div>
