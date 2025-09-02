@@ -149,6 +149,136 @@
   margin-bottom: 24px;
 }
 
+/* Filter Chips */
+.filter-chips-section {
+    margin-bottom: 20px;
+}
+
+.filter-chips-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.filter-chips-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+    flex-shrink: 0;
+}
+
+.filter-chips {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.filter-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 8px 6px 12px;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 20px;
+    font-size: 13px;
+    color: #1e40af;
+    transition: all 0.2s ease;
+}
+
+.filter-chip:hover {
+    background: #dbeafe;
+    border-color: #93c5fd;
+}
+
+.filter-chip-text {
+    font-weight: 500;
+    line-height: 1;
+}
+
+.filter-chip-remove {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filter-chip-remove:hover {
+    background: #f3f4f6;
+    color: #374151;
+}
+
+.clear-all-filters-btn {
+    padding: 6px 12px;
+    background: #f3f4f6;
+    border: 1px solid #d1d5db;
+    border-radius: 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #374151;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.clear-all-filters-btn:hover {
+    background: #e5e7eb;
+    border-color: #9ca3af;
+    color: #111827;
+}
+
+/* No Search Results State */
+.no-search-results {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+    background: #f9fafb;
+    border-radius: 12px;
+    margin: 40px 0;
+}
+
+.no-results-icon {
+    margin-bottom: 20px;
+    color: #9ca3af;
+}
+
+.no-search-results h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #374151;
+    margin: 0 0 12px 0;
+}
+
+.no-search-results p {
+    font-size: 16px;
+    color: #6b7280;
+    margin: 0 0 24px 0;
+    max-width: 400px;
+    line-height: 1.5;
+}
+
+.no-search-results .btn {
+    margin-top: 8px;
+}
+
+.clear-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
 .members-search-bar {
   display: flex;
   align-items: center;
@@ -604,8 +734,48 @@
     font-size: 13px;
   }
 
-  .filter-options {
-    flex-direction: column;
+  /* Filter Chips Mobile */
+  .filter-chips-section {
+      margin-bottom: 16px;
+  }
+  
+  .filter-chips-container {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+  }
+  
+  .filter-chips-label {
+      font-size: 13px;
+  }
+  
+  .filter-chip {
+      padding: 5px 6px 5px 10px;
+      font-size: 12px;
+  }
+  
+  .clear-all-filters-btn {
+      font-size: 12px;
+      padding: 5px 10px;
+  }
+
+  /* No Search Results Mobile */
+  .no-search-results {
+      padding: 40px 16px;
+      margin: 20px 0;
+  }
+  
+  .no-search-results h3 {
+      font-size: 18px;
+  }
+  
+  .no-search-results p {
+      font-size: 14px;
+  }
+  
+  .clear-actions {
+      flex-direction: column;
+      width: 100%;
   }
 
   .member-stats {

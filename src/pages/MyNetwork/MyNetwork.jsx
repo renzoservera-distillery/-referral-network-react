@@ -15,6 +15,7 @@ const MyNetwork = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddAttorneysModalOpen, setIsAddAttorneysModalOpen] = useState(false);
   const [isFiltersModalOpen, setIsFiltersModalOpen] = useState(false);
+  const [isNetworkMembersFiltersModalOpen, setIsNetworkMembersFiltersModalOpen] = useState(false);
   const [isEditMemberModalOpen, setIsEditMemberModalOpen] = useState(false);
   const [selectedMemberForEdit, setSelectedMemberForEdit] = useState(null);
   const [showNotification, setShowNotification] = useState(false);
@@ -25,6 +26,8 @@ const MyNetwork = () => {
   const [isCarouselsLoading, setIsCarouselsLoading] = useState(false);
   const [isNetworkMembersLoading, setIsNetworkMembersLoading] = useState(true);
   const [showHowItWorks, setShowHowItWorks] = useState(true);
+  const [inputValue, setInputValue] = useState('');
+  const [networkMembersFilters, setNetworkMembersFilters] = useState({});
 
   // Simulate initial data loading
   React.useEffect(() => {
@@ -34,6 +37,18 @@ const MyNetwork = () => {
     
     return () => clearTimeout(timer);
   }, []);
+
+  // Debounce search term updates
+  React.useEffect(() => {
+    const debounceTimer = setTimeout(() => {
+      setSearchTerm(inputValue);
+      setIsSearchLoading(false);
+    }, 500); // 500ms delay after user stops typing
+
+    return () => {
+      clearTimeout(debounceTimer);
+    };
+  }, [inputValue]);
 
   const handleSaveSettings = (settings) => {
     console.log('Settings saved:', settings);
@@ -99,13 +114,14 @@ const MyNetwork = () => {
 
   const handleSearchChange = (e) => {
     const value = e.target.value;
-    setIsSearchLoading(true);
+    setInputValue(value);
     
-    // Simulate search delay for better UX
-    setTimeout(() => {
-      setSearchTerm(value);
+    // Show loading only if there's actual input
+    if (value.trim()) {
+      setIsSearchLoading(true);
+    } else {
       setIsSearchLoading(false);
-    }, 300);
+    }
   };
 
   const handleFiltersApply = (filters) => {
@@ -117,6 +133,59 @@ const MyNetwork = () => {
     setTimeout(() => {
       setIsSearchLoading(false);
     }, 500);
+  };
+
+  const clearSearch = () => {
+    setInputValue('');
+    setSearchTerm('');
+    setIsSearchLoading(false);
+  };
+
+  const clearFilters = () => {
+    setActiveFilters({});
+  };
+
+  const removeFilter = (filterType, filterValue) => {
+    setActiveFilters(prevFilters => {
+      const updatedFilters = { ...prevFilters };
+      if (updatedFilters[filterType]) {
+        updatedFilters[filterType] = updatedFilters[filterType].filter(value => value !== filterValue);
+        // Remove the filter type entirely if no values remain
+        if (updatedFilters[filterType].length === 0) {
+          delete updatedFilters[filterType];
+        }
+      }
+      return updatedFilters;
+    });
+  };
+
+  // Check if there are any active filters
+  const hasActiveFilters = Object.keys(activeFilters).some(key => activeFilters[key]?.length > 0);
+  
+  // Check if there's an active search term
+  const hasSearchTerm = searchTerm.trim().length > 0;
+
+  // Network Members filter handlers
+  const handleNetworkMembersFiltersApply = (filters) => {
+    setNetworkMembersFilters(filters);
+    setIsNetworkMembersFiltersModalOpen(false);
+  };
+
+  const removeNetworkMemberFilter = (filterType, filterValue) => {
+    setNetworkMembersFilters(prevFilters => {
+      const updatedFilters = { ...prevFilters };
+      if (updatedFilters[filterType]) {
+        updatedFilters[filterType] = updatedFilters[filterType].filter(value => value !== filterValue);
+        if (updatedFilters[filterType].length === 0) {
+          delete updatedFilters[filterType];
+        }
+      }
+      return updatedFilters;
+    });
+  };
+
+  const clearNetworkMembersFilters = () => {
+    setNetworkMembersFilters({});
   };
 
   return (
@@ -236,6 +305,10 @@ const MyNetwork = () => {
                 onAddMore={() => setIsAddAttorneysModalOpen(true)}
                 onRemoveMember={handleRemoveMember}
                 onEditMember={handleEditMember}
+                onFiltersOpen={() => setIsNetworkMembersFiltersModalOpen(true)}
+                activeFilters={networkMembersFilters}
+                onRemoveFilter={removeNetworkMemberFilter}
+                onClearFilters={clearNetworkMembersFilters}
               />
             ) : (
               <div className="empty-state">
@@ -307,7 +380,7 @@ const MyNetwork = () => {
                     type="text" 
                     className="search-input" 
                     placeholder="Search for Attorneys..." 
-                    value={searchTerm}
+                    value={inputValue}
                     onChange={handleSearchChange}
                   />
                   <button 
@@ -319,6 +392,45 @@ const MyNetwork = () => {
                   </button>
                 </div>
               </div>
+
+              {/* Filter Chips */}
+              {hasActiveFilters && (
+                <div className="filter-chips-section">
+                  <div className="filter-chips-container">
+                    <span className="filter-chips-label">Active Filters:</span>
+                    <div className="filter-chips">
+                      {Object.entries(activeFilters).map(([filterType, values]) =>
+                        values.map(value => (
+                          <div key={`${filterType}-${value}`} className="filter-chip">
+                            <span className="filter-chip-text">
+                              {filterType === 'practiceAreas' && 'Practice: '}
+                              {filterType === 'locations' && 'Location: '}
+                              {filterType === 'lawFirms' && 'Firm: '}
+                              {filterType === 'communities' && 'Community: '}
+                              {value}
+                            </span>
+                            <button
+                              className="filter-chip-remove"
+                              onClick={() => removeFilter(filterType, value)}
+                              aria-label={`Remove ${value} filter`}
+                            >
+                              <Icon name="close" size={14} />
+                            </button>
+                          </div>
+                        ))
+                      )}
+                      {Object.keys(activeFilters).length > 1 && (
+                        <button
+                          className="clear-all-filters-btn"
+                          onClick={clearFilters}
+                        >
+                          Clear All
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <div className="attorneys-sections">
                 {isSearchLoading ? (
@@ -395,7 +507,7 @@ const MyNetwork = () => {
                   });
                   
                   // Only show carousel if there are filtered attorneys
-                  if (filteredAttorneys.length === 0 && searchTerm.trim()) {
+                  if (filteredAttorneys.length === 0 && (searchTerm.trim() || Object.keys(activeFilters).some(key => activeFilters[key]?.length > 0))) {
                     return null;
                   }
                   
@@ -474,18 +586,22 @@ const MyNetwork = () => {
                     <h3>No attorneys found</h3>
                     <p>We couldn't find any attorneys matching your search and filter criteria. Try adjusting your search terms or filters.</p>
                     <div className="clear-actions">
-                      <button 
-                        className="btn btn-outline"
-                        onClick={() => setSearchTerm('')}
-                      >
-                        Clear Search
-                      </button>
-                      <button 
-                        className="btn btn-outline"
-                        onClick={() => setActiveFilters({})}
-                      >
-                        Clear Filters
-                      </button>
+                      {hasSearchTerm && (
+                        <button 
+                          className="btn btn-outline"
+                          onClick={clearSearch}
+                        >
+                          Clear Search
+                        </button>
+                      )}
+                      {hasActiveFilters && (
+                        <button 
+                          className="btn btn-outline"
+                          onClick={clearFilters}
+                        >
+                          Clear Filters
+                        </button>
+                      )}
                     </div>
                   </div>
                 )}
@@ -509,12 +625,20 @@ const MyNetwork = () => {
         onAdd={handleAddAttorneys}
       />
 
-      {/* Filters Modal */}
+      {/* Filters Modal for Expand Network */}
       <FiltersModal
         isOpen={isFiltersModalOpen}
         onClose={() => setIsFiltersModalOpen(false)}
         onApply={handleFiltersApply}
         currentFilters={activeFilters}
+      />
+
+      {/* Filters Modal for Network Members */}
+      <FiltersModal
+        isOpen={isNetworkMembersFiltersModalOpen}
+        onClose={() => setIsNetworkMembersFiltersModalOpen(false)}
+        onApply={handleNetworkMembersFiltersApply}
+        currentFilters={networkMembersFilters}
       />
 
       {/* Edit Member Modal */}

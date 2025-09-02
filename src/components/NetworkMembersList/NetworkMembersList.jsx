@@ -12,22 +12,71 @@ const sampleClients = [
   { id: 5, name: 'Lisa Anderson', caseType: 'Workers Comp', date: '2024-01-20', status: 'Active' },
 ];
 
-const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember }) => {
+const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember, onFiltersOpen, activeFilters = {}, onRemoveFilter, onClearFilters }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [expandedMember, setExpandedMember] = useState(null);
-  const [showFilters, setShowFilters] = useState(false);
   const [memberToRemove, setMemberToRemove] = useState(null);
   const [showRemoveConfirmation, setShowRemoveConfirmation] = useState(false);
 
-  // Filter members based on search
+  // Filter members based on search and advanced filters
   const filteredMembers = members.filter(member => {
-    const search = searchTerm.toLowerCase();
-    return (
-      member.name.toLowerCase().includes(search) ||
-      member.firm.toLowerCase().includes(search) ||
-      member.location.toLowerCase().includes(search)
-    );
+    // Search term filter
+    if (searchTerm.trim()) {
+      const search = searchTerm.toLowerCase();
+      const matchesSearch = (
+        member.name.toLowerCase().includes(search) ||
+        member.firm.toLowerCase().includes(search) ||
+        member.location.toLowerCase().includes(search) ||
+        (member.specialties && member.specialties.some(specialty => 
+          specialty.toLowerCase().includes(search)
+        ))
+      );
+      if (!matchesSearch) return false;
+    }
+
+    // Location filter
+    if (activeFilters.locations?.length > 0) {
+      const matchesLocation = activeFilters.locations.some(filterLoc => 
+        member.location.toLowerCase().includes(filterLoc.toLowerCase()) ||
+        filterLoc.toLowerCase().includes(member.location.toLowerCase())
+      );
+      if (!matchesLocation) return false;
+    }
+
+    // Practice areas filter
+    if (activeFilters.practiceAreas?.length > 0) {
+      const matchesPractice = activeFilters.practiceAreas.some(filterArea => 
+        member.specialties && member.specialties.some(specialty => 
+          specialty.toLowerCase().includes(filterArea.toLowerCase())
+        )
+      );
+      if (!matchesPractice) return false;
+    }
+
+    // Law firm filter
+    if (activeFilters.lawFirms?.length > 0) {
+      const matchesFirm = activeFilters.lawFirms.some(filterFirm => 
+        member.firm.toLowerCase().includes(filterFirm.toLowerCase()) ||
+        filterFirm.toLowerCase().includes(member.firm.toLowerCase())
+      );
+      if (!matchesFirm) return false;
+    }
+
+    return true;
   });
+
+  // Helper functions for filter chips
+  const hasActiveFilters = Object.keys(activeFilters).some(key => activeFilters[key]?.length > 0);
+  const hasSearchTerm = searchTerm.trim().length > 0;
+
+  // Clear functions
+  const clearSearch = () => {
+    setSearchTerm('');
+  };
+
+  const clearFilters = () => {
+    onClearFilters();
+  };
 
   const toggleMemberExpansion = (memberId) => {
     setExpandedMember(expandedMember === memberId ? null : memberId);
@@ -110,44 +159,82 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember }
           />
           <button 
             className="apply-filters-btn"
-            onClick={() => setShowFilters(!showFilters)}
+            onClick={onFiltersOpen}
           >
             <Icon name="filter" />
-            Filters
+            <span>Filters</span>
           </button>
         </div>
-
-        {showFilters && (
-          <div className="filter-options">
-            <select className="filter-select">
-              <option value="">All Specialties</option>
-              <option value="personal-injury">Personal Injury</option>
-              <option value="criminal">Criminal Defense</option>
-              <option value="family">Family Law</option>
-            </select>
-            <select className="filter-select">
-              <option value="">All Locations</option>
-              <option value="los-angeles">Los Angeles</option>
-              <option value="san-francisco">San Francisco</option>
-              <option value="san-diego">San Diego</option>
-            </select>
-            <select className="filter-select">
-              <option value="">Fee Range</option>
-              <option value="20-25">20-25%</option>
-              <option value="25-30">25-30%</option>
-              <option value="30-35">30-35%</option>
-            </select>
-          </div>
-        )}
       </div>
+
+      {/* Filter Chips */}
+      {hasActiveFilters && (
+        <div className="filter-chips-section">
+          <div className="filter-chips-container">
+            <span className="filter-chips-label">Active Filters:</span>
+            <div className="filter-chips">
+              {Object.entries(activeFilters).map(([filterType, values]) =>
+                values.map(value => (
+                  <div key={`${filterType}-${value}`} className="filter-chip">
+                    <span className="filter-chip-text">
+                      {filterType === 'practiceAreas' && 'Practice: '}
+                      {filterType === 'locations' && 'Location: '}
+                      {filterType === 'lawFirms' && 'Firm: '}
+                      {filterType === 'communities' && 'Community: '}
+                      {value}
+                    </span>
+                    <button
+                      className="filter-chip-remove"
+                      onClick={() => onRemoveFilter(filterType, value)}
+                      aria-label={`Remove ${value} filter`}
+                    >
+                      <Icon name="close" size={14} />
+                    </button>
+                  </div>
+                ))
+              )}
+              {Object.keys(activeFilters).length > 1 && (
+                <button
+                  className="clear-all-filters-btn"
+                  onClick={onClearFilters}
+                >
+                  Clear All
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Members List */}
       <div className="members-list">
-        {filteredMembers.length === 0 ? (
-          <div className="no-members-found">
-            <p>No members found matching your search</p>
+        {filteredMembers.length === 0 && (hasSearchTerm || hasActiveFilters) ? (
+          <div className="no-search-results">
+            <div className="no-results-icon">
+              <Icon name="search" size={48} />
+            </div>
+            <h3>No network members found</h3>
+            <p>We couldn't find any network members matching your search and filter criteria. Try adjusting your search terms or filters.</p>
+            <div className="clear-actions">
+              {hasSearchTerm && (
+                <button 
+                  className="btn btn-outline"
+                  onClick={clearSearch}
+                >
+                  Clear Search
+                </button>
+              )}
+              {hasActiveFilters && (
+                <button 
+                  className="btn btn-outline"
+                  onClick={clearFilters}
+                >
+                  Clear Filters
+                </button>
+              )}
+            </div>
           </div>
-        ) : (
+        ) : filteredMembers.length > 0 ? (
           filteredMembers.map(member => {
             const stats = getMemberStats(member);
             const isExpanded = expandedMember === member.id;
@@ -277,7 +364,7 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember }
               </div>
             );
           })
-        )}
+        ) : null}
       </div>
 
       {/* Remove Confirmation Modal */}
