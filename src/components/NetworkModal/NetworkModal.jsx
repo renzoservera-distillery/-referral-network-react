@@ -6,7 +6,7 @@ import './NetworkModal.css';
 
 const NetworkModal = ({ isOpen, onClose, onSave }) => {
   const [referringMethod, setReferringMethod] = useState('waterfall');
-  const [timeValue, setTimeValue] = useState(60);
+  const [timeValue, setTimeValue] = useState(30);
   const [timeUnit, setTimeUnit] = useState('minutes');
   const [marketplaceValue, setMarketplaceValue] = useState(2);
   const [marketplaceUnit, setMarketplaceUnit] = useState('hours');

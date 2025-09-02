@@ -108,11 +108,28 @@ const TimeSlider = ({
               style={{ width: `${getSliderPercentage()}%` }}
             />
             <div className="time-slider-ticks">
-              {maxDays === 7 ? (
-                // Marketplace Fallback (up to 7 days)
+              {useMinutesHours ? (
+                // Time per Attorney (minutes/hours system)
+                unit === 'minutes' ? (
+                  <>
+                    <span className="tick" style={{ left: '0%' }}>30m</span>
+                    <span className="tick" style={{ left: '33.33%' }}>24h</span>
+                    <span className="tick" style={{ left: '66.66%' }}>48h</span>
+                    <span className="tick" style={{ left: '100%' }}>72h</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="tick" style={{ left: '0%' }}>30m</span>
+                    <span className="tick" style={{ left: '33.33%' }}>24h</span>
+                    <span className="tick" style={{ left: '66.66%' }}>48h</span>
+                    <span className="tick" style={{ left: '100%' }}>72h</span>
+                  </>
+                )
+              ) : (
+                // Marketplace Fallback (hours/days system)
                 unit === 'days' ? (
                   <>
-                    <span className="tick" style={{ left: '0%' }}>1h</span>
+                    <span className="tick" style={{ left: '0%' }}>2h</span>
                     <span className="tick" style={{ left: '14.3%' }}>1d</span>
                     <span className="tick" style={{ left: '42.9%' }}>3d</span>
                     <span className="tick" style={{ left: '71.4%' }}>5d</span>
@@ -120,28 +137,11 @@ const TimeSlider = ({
                   </>
                 ) : (
                   <>
-                    <span className="tick" style={{ left: '0%' }}>1h</span>
+                    <span className="tick" style={{ left: '0%' }}>2h</span>
                     <span className="tick" style={{ left: '14.3%' }}>24h</span>
                     <span className="tick" style={{ left: '42.9%' }}>72h</span>
                     <span className="tick" style={{ left: '71.4%' }}>120h</span>
                     <span className="tick" style={{ left: '100%' }}>168h</span>
-                  </>
-                )
-              ) : (
-                // Time per Attorney (up to 3 days)
-                unit === 'days' ? (
-                  <>
-                    <span className="tick" style={{ left: '0%' }}>1h</span>
-                    <span className="tick" style={{ left: '33.33%' }}>1d</span>
-                    <span className="tick" style={{ left: '66.66%' }}>2d</span>
-                    <span className="tick" style={{ left: '100%' }}>3d</span>
-                  </>
-                ) : (
-                  <>
-                    <span className="tick" style={{ left: '0%' }}>1h</span>
-                    <span className="tick" style={{ left: '33.33%' }}>24h</span>
-                    <span className="tick" style={{ left: '66.66%' }}>48h</span>
-                    <span className="tick" style={{ left: '100%' }}>72h</span>
                   </>
                 )
               )}
