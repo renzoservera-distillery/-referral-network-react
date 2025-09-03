@@ -9,6 +9,7 @@ const AddToNetworkModal = ({ isOpen, onClose, attorney, onAdd, isEditMode = fals
   const [feePercentage, setFeePercentage] = useState(25);
   const [caseTypes, setCaseTypes] = useState(['']);
   const [selectedLocations, setSelectedLocations] = useState([]);
+  const [showAdvancedSettings, setShowAdvancedSettings] = useState(false);
   const modalRef = React.useRef(null);
   const firstInputRef = React.useRef(null);
   const lastFocusableRef = React.useRef(null);
@@ -17,15 +18,17 @@ const AddToNetworkModal = ({ isOpen, onClose, attorney, onAdd, isEditMode = fals
   useEffect(() => {
     if (isOpen && attorney) {
       if (isEditMode && initialData) {
-        // Edit mode: prefill with existing data
+        // Edit mode: prefill with existing data and show advanced settings
         setFeePercentage(initialData.feePercentage || 25);
         setCaseTypes(initialData.caseTypes && initialData.caseTypes.length > 0 ? initialData.caseTypes : ['']);
         setSelectedLocations(initialData.locations || []);
+        setShowAdvancedSettings(true);
       } else {
         // Add mode: reset to defaults
         setFeePercentage(25);
         setCaseTypes(['']);
         setSelectedLocations([]);
+        setShowAdvancedSettings(false);
       }
     }
   }, [isOpen, attorney, isEditMode, initialData]);
@@ -186,16 +189,51 @@ const AddToNetworkModal = ({ isOpen, onClose, attorney, onAdd, isEditMode = fals
                     <span>{attorney.location}</span>
                   </div>
                 </div>
+                
+                {/* Advanced Settings Toggle - Aligned with Info */}
+                <button 
+                  className="advanced-settings-button"
+                  onClick={() => setShowAdvancedSettings(!showAdvancedSettings)}
+                  type="button"
+                  aria-expanded={showAdvancedSettings}
+                  aria-controls="advanced-settings-content"
+                >
+                  <Icon 
+                    name="settings" 
+                    size={16} 
+                  />
+                  <span>{showAdvancedSettings ? 'Hide' : 'View'} Advanced Settings</span>
+                  <Icon 
+                    name="chevron-down" 
+                    size={16} 
+                    className="chevron-icon"
+                  />
+                </button>
               </div>
             </div>
           </div>
 
           {/* Configuration Section */}
-          <div className="configuration-section">
+          <div className={`configuration-section ${showAdvancedSettings ? 'with-settings' : 'no-settings'}`}>
+
+          {/* Collapsible Advanced Settings */}
+          <div 
+            id="advanced-settings-content"
+            className={`advanced-settings-content ${showAdvancedSettings ? 'expanded' : 'collapsed'}`}
+          >
           {/* Fee Percentage */}
           <div className="config-group">
             <label className="config-label" htmlFor="fee-range">
-              <Icon name="percent" />
+              <span style={{ 
+                display: 'inline-flex', 
+                alignItems: 'center', 
+                justifyContent: 'center',
+                width: 18, 
+                height: 18, 
+                fontSize: 16, 
+                fontWeight: 'bold',
+                color: '#6b7280'
+              }}>%</span>
               Referral Fee Percentage
             </label>
             <div className="fee-slider-container">
@@ -234,7 +272,7 @@ const AddToNetworkModal = ({ isOpen, onClose, attorney, onAdd, isEditMode = fals
           {/* Referring Rules */}
           <div className="config-group">
             <label className="config-label">
-              <Icon name="briefcase-search" />
+              <Icon name="target-arrow" />
               Referring Rules
             </label>
             <div className="referring-rules-section">
@@ -284,15 +322,18 @@ const AddToNetworkModal = ({ isOpen, onClose, attorney, onAdd, isEditMode = fals
               </div>
             </div>
           </div>
+          
+          {/* Info Alert - Moved to Settings Section */}
+          <div className="settings-info-alert">
+            <Icon name="info" size={16} />
+            <span>You can modify these settings anytime from your Network Members list</span>
+          </div>
+          </div>
         </div>
         </div>
 
         {/* Footer */}
         <div className="modal-footer">
-          <div className="footer-info">
-            <Icon name="info" />
-            <span>You can modify these settings anytime from your Network Members list</span>
-          </div>
           <div className="footer-buttons">
             <button className="btn-cancel" onClick={onClose}>Cancel</button>
             <button 

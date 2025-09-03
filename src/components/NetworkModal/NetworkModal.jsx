@@ -153,7 +153,7 @@ const NetworkModal = ({ isOpen, onClose, onSave }) => {
           {/* Referring Method Section */}
           <div className="settings-section">
             <div className="section-header">
-              <Icon name="layers" className="section-icon" />
+              <Icon name="layer-diagonal" className="section-icon" />
               <h3>Referring Method</h3>
             </div>
             <p className="section-description">How referrals will be sent to your network</p>
@@ -207,10 +207,7 @@ const NetworkModal = ({ isOpen, onClose, onSave }) => {
           {/* Time per Attorney Section */}
           <div className="settings-section">
             <div className="section-header">
-              <svg className="section-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
-                <path d="M12 6V12L16 14" stroke="currentColor" strokeWidth="2"/>
-              </svg>
+              <Icon name="clock" className="section-icon" />
               <h3>Time per Attorney</h3>
             </div>
             <p className="section-description">How long each attorney has before the case moves to the next in the queue</p>
@@ -230,10 +227,7 @@ const NetworkModal = ({ isOpen, onClose, onSave }) => {
           {/* Marketplace Fallback Section */}
           <div className="settings-section">
             <div className="section-header">
-              <svg className="section-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" strokeWidth="2"/>
-                <path d="M9 22V12H15V22" stroke="currentColor" strokeWidth="2"/>
-              </svg>
+              <Icon name="briefcase" className="section-icon" />
               <h3>Marketplace Fallback</h3>
             </div>
             <p className="section-description">Send referrals to the marketplace if no one accepts within the specified time.</p>

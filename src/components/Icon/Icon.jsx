@@ -1,62 +1,97 @@
 import React from 'react';
+import * as FluentIcons from '@fluentui/react-icons';
 
-const Icon = ({ name, size = 24, className = '', ...props }) => {
-  const [svgContent, setSvgContent] = React.useState(null);
-  const [error, setError] = React.useState(false);
-  const [loading, setLoading] = React.useState(true);
+const iconMap = {
+  'alert': 'Alert24Regular',
+  'bell': 'Alert24Regular',
+  'briefcase': 'Briefcase24Regular',
+  'briefcase-search': 'BriefcaseSearch24Regular',
+  'chart-multiple': 'ChartMultiple24Regular',
+  'chat': 'Chat24Regular',
+  'check': 'Checkmark24Regular',
+  'checkmark': 'Checkmark24Regular',
+  'chevron-down': 'ChevronDown24Regular',
+  'chevron-up': 'ChevronUp24Regular',
+  'chevron-left': 'ChevronLeft24Regular',
+  'chevron-right': 'ChevronRight24Regular',
+  'close': 'Dismiss24Regular',
+  'dismiss': 'Dismiss24Regular',
+  'edit': 'Edit24Regular',
+  'filter': 'Filter24Regular',
+  'info': 'Info24Regular',
+  'layer-diagonal': 'LayerDiagonal24Regular',
+  'layers': 'Layer24Regular',
+  'location': 'Location24Regular',
+  'menu': 'Navigation24Regular',
+  'people-team': 'PeopleTeam24Regular',
+  'people-team-toolbox': 'PeopleTeamToolbox24Regular',
+  'percent': 'TextNumberFormat24Regular',
+  'person-add': 'PersonAdd24Regular',
+  'person-arrow-back': 'PersonArrowBack24Regular',
+  'person-home': 'PersonBoard24Regular',
+  'person-plus': 'PersonAdd24Regular',
+  'plus': 'Add24Regular',
+  'search': 'Search24Regular',
+  'settings': 'Settings24Regular',
+  'trash': 'Delete24Regular',
+  'warning': 'Warning24Regular',
+  'error': 'ErrorCircle24Regular',
+  'success': 'CheckmarkCircle24Regular',
+  'money': 'Money24Regular',
+  'document-text': 'DocumentText24Regular',
+  'notebook': 'Notebook24Regular',
+  'person-feedback': 'PersonFeedback24Regular',
+  'navigation': 'Navigation24Regular',
+  'phone': 'Phone24Regular',
+  'people': 'People24Regular',
+  'chat-multiple': 'ChatMultiple24Regular',
+  'person': 'Person24Regular',
+  'person-ribbon': 'PersonRibbon24Regular',
+  'layer-diagonal-person': 'LayerDiagonalPerson24Regular',
+  'person-search': 'PersonSearch24Regular',
+  'checkmark-circle': 'CheckmarkCircle24Regular',
+  'clock-dismiss': 'ClockDismiss24Regular',
+  'document-dismiss': 'DocumentDismiss24Regular',
+  'clock': 'Clock24Regular',
+  'store': 'BuildingRetail24Regular',
+  'document-percent': 'DocumentPercent24Regular',
+  'target-arrow': 'TargetArrow24Regular',
+  'person-delete': 'PersonDelete24Regular',
+  'building': 'Building24Regular',
+  'building-people': 'BuildingPeople24Regular'
+};
 
-  React.useEffect(() => {
-    const loadSvg = async () => {
-      try {
-        setLoading(true);
-        setError(false);
-        
-        // Import the SVG file as a URL and fetch its content
-        const svgModule = await import(`../../assets/icons/${name}.svg`);
-        const svgUrl = svgModule.default;
-        
-        // Fetch the SVG content
-        const response = await fetch(svgUrl);
-        const svgText = await response.text();
-        
-        // Create a parser to extract the SVG content
-        const parser = new DOMParser();
-        const svgDoc = parser.parseFromString(svgText, 'image/svg+xml');
-        const svgElement = svgDoc.querySelector('svg');
-        
-        if (svgElement) {
-          // Extract viewBox and paths
-          const viewBox = svgElement.getAttribute('viewBox');
-          const paths = svgElement.querySelectorAll('path');
-          const pathData = Array.from(paths).map(path => ({
-            d: path.getAttribute('d'),
-            fill: path.getAttribute('stroke') ? 'none' : 'currentColor',
-            stroke: path.getAttribute('stroke') ? 'currentColor' : 'none',
-            strokeWidth: path.getAttribute('stroke-width') || path.getAttribute('strokeWidth') || '1',
-            strokeLinecap: path.getAttribute('stroke-linecap') || path.getAttribute('strokeLinecap') || 'butt',
-            strokeLinejoin: path.getAttribute('stroke-linejoin') || path.getAttribute('strokeLinejoin') || 'miter',
-            fillOpacity: path.getAttribute('fillOpacity') || path.getAttribute('fill-opacity') || '1'
-          }));
-          
-          setSvgContent({ viewBox, paths: pathData });
-        } else {
-          throw new Error('Invalid SVG');
-        }
-        
-        setLoading(false);
-      } catch (err) {
-        console.warn(`Icon "${name}" not found or invalid in assets/icons/ folder`);
-        setError(true);
-        setLoading(false);
-        setSvgContent(null);
-      }
-    };
+const getFluentIconName = (iconName, size) => {
+  const baseIconName = iconMap[iconName];
+  if (!baseIconName) {
+    return null;
+  }
+  
+  const sizePrefix = size <= 16 ? '16' : 
+                     size <= 20 ? '20' : 
+                     size <= 24 ? '24' :
+                     size <= 28 ? '28' :
+                     size <= 32 ? '32' : '48';
+  
+  const iconNameWithSize = baseIconName.replace(/24/, sizePrefix);
+  
+  if (FluentIcons[iconNameWithSize]) {
+    return iconNameWithSize;
+  }
+  
+  const filledIconName = iconNameWithSize.replace('Regular', 'Filled');
+  if (FluentIcons[filledIconName]) {
+    return filledIconName;
+  }
+  
+  return baseIconName;
+};
 
-    loadSvg();
-  }, [name]);
-
-  if (error) {
-    // Fallback: render a simple placeholder
+const Icon = ({ name, size = 24, className = '', style = {}, ...props }) => {
+  const fluentIconName = getFluentIconName(name, size);
+  
+  if (!fluentIconName || !FluentIcons[fluentIconName]) {
+    console.warn(`Icon "${name}" not found in Fluent UI icons library`);
     return (
       <div 
         className={`icon-wrapper icon-placeholder ${className}`} 
@@ -66,56 +101,35 @@ const Icon = ({ name, size = 24, className = '', ...props }) => {
           backgroundColor: 'currentColor',
           opacity: 0.3,
           borderRadius: '2px',
-          display: 'inline-block'
+          display: 'inline-block',
+          ...style
         }}
         {...props}
       />
     );
   }
-
-  if (loading || !svgContent) {
-    // Loading state
-    return (
-      <div 
-        className={`icon-wrapper icon-loading ${className}`} 
-        style={{
-          width: size,
-          height: size,
-          backgroundColor: 'currentColor',
-          opacity: 0.1,
-          borderRadius: '2px',
-          display: 'inline-block'
-        }}
-        {...props}
-      />
-    );
-  }
-
+  
+  const FluentIcon = FluentIcons[fluentIconName];
+  
   return (
-    <div className={`icon-wrapper ${className}`} {...props}>
-      <svg
-        width={size}
-        height={size}
-        viewBox={svgContent.viewBox}
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
+    <div 
+      className={`icon-wrapper ${className}`} 
+      style={{ 
+        display: 'inline-flex', 
+        alignItems: 'center',
+        justifyContent: 'center',
+        lineHeight: 0,
+        ...style 
+      }}
+      {...props}
+    >
+      <FluentIcon 
         style={{ 
-          display: 'block'
+          fontSize: size,
+          width: size,
+          height: size
         }}
-      >
-        {svgContent.paths.map((pathData, index) => (
-          <path
-            key={index}
-            d={pathData.d}
-            fill={pathData.fill}
-            stroke={pathData.stroke}
-            strokeWidth={pathData.strokeWidth}
-            strokeLinecap={pathData.strokeLinecap}
-            strokeLinejoin={pathData.strokeLinejoin}
-            fillOpacity={pathData.fillOpacity}
-          />
-        ))}
-      </svg>
+      />
     </div>
   );
 };

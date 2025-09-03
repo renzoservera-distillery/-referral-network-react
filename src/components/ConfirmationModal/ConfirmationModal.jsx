@@ -100,9 +100,9 @@ const ConfirmationModal = ({
       >
         <div className="confirmation-modal-header">
           <div className={`confirmation-icon ${type}`} aria-hidden="true">
-            {type === 'warning' && <Icon name="alert" size={32} />}
-            {type === 'danger' && <Icon name="alert" size={32} />}
-            {type === 'info' && <Icon name="info" size={32} />}
+            {type === 'warning' && <Icon name="warning" size={28} />}
+            {type === 'danger' && <Icon name="person-delete" size={28} />}
+            {type === 'info' && <Icon name="info" size={28} />}
           </div>
           <button className="modal-close-btn" onClick={onClose} aria-label="Close">
             <Icon name="close" size={16} />

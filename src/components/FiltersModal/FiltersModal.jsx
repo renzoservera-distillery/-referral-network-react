@@ -130,7 +130,7 @@ const FiltersModal = ({ isOpen, onClose, onApply, currentFilters = {} }) => {
           {/* Practice Areas Filter */}
           <div className="filter-group">
             <label className="filter-label">
-              <Icon name="briefcase-search" />
+              <Icon name="briefcase" />
               Practice Areas
             </label>
             <GeneralMultiselect
@@ -147,7 +147,7 @@ const FiltersModal = ({ isOpen, onClose, onApply, currentFilters = {} }) => {
           {/* Law Firm Name Filter */}
           <div className="filter-group">
             <label className="filter-label">
-              <Icon name="briefcase" />
+              <Icon name="building-people" />
               Law Firm Name
             </label>
             <LawFirmMultiselect
@@ -160,7 +160,7 @@ const FiltersModal = ({ isOpen, onClose, onApply, currentFilters = {} }) => {
           {/* Community Filter */}
           <div className="filter-group">
             <label className="filter-label">
-              <Icon name="person-plus" />
+              <Icon name="people" />
               Community
             </label>
             <GeneralMultiselect
