@@ -183,6 +183,7 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember, 
             <option value="grid">Card Grid</option>
             <option value="visual">Visual Cards</option>
             <option value="preview">List with Preview</option>
+            <option value="table">Compact Table</option>
           </select>
         </div>
       </div>
@@ -290,15 +291,13 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember, 
                         <Icon name="location" className="location-icon" size={14} />
                         <span className="location-text">{member.location}</span>
                       </div>
+                      <div className="member-fee-badge">
+                        <span>Fee: {stats.feePercentage}%</span>
+                      </div>
                     </div>
                     
-                    {/* Split metrics bar */}
+                    {/* Performance metrics bar */}
                     <div className="member-metrics-bar">
-                      <div className="fee-section">
-                        <span className="fee-text">Fee:</span>
-                        <span className="fee-amount">{stats.feePercentage}%</span>
-                      </div>
-                      
                       <div className="performance-section">
                         <div className="perf-metric-item">
                           <span className="perf-metric-value">{stats.casesReferred}</span>
@@ -401,12 +400,6 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember, 
                           alt={member.name}
                           className="visual-avatar"
                         />
-                        <div className="visual-fee-badge">
-                          <div className="fee-info">
-                            <span className="fee-label-text">Fee</span>
-                            <span className="fee-amount-text">{stats.feePercentage}%</span>
-                          </div>
-                        </div>
                       </div>
                       
                       <div className="visual-card-center">
@@ -424,19 +417,23 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember, 
                           </div>
                         </div>
                         
-                        <div className="visual-performance-section">
-                          <div className="visual-performance-grid">
-                            <div className="visual-perf-item">
-                              <span className="visual-perf-number">{stats.casesReferred}</span>
-                              <span className="visual-perf-label">Referred</span>
+                        <div className="member-fee-badge">
+                          <span>Fee: {stats.feePercentage}%</span>
+                        </div>
+                        
+                        <div className="preview-performance-section">
+                          <div className="preview-performance-grid">
+                            <div className="preview-perf-card">
+                              <span className="preview-perf-value">{stats.casesReferred}</span>
+                              <span className="preview-perf-label">Referred</span>
                             </div>
-                            <div className="visual-perf-item">
-                              <span className="visual-perf-number">{stats.casesSigned}</span>
-                              <span className="visual-perf-label">Signed</span>
+                            <div className="preview-perf-card">
+                              <span className="preview-perf-value">{stats.casesSigned}</span>
+                              <span className="preview-perf-label">Signed</span>
                             </div>
-                            <div className="visual-perf-item highlight" data-performance={stats.conversionRate >= 70 ? 'high' : stats.conversionRate >= 50 ? 'medium' : 'low'}>
-                              <span className="visual-perf-number success">{stats.conversionRate}%</span>
-                              <span className="visual-perf-label">Rate</span>
+                            <div className="preview-perf-card conversion" data-performance={stats.conversionRate >= 70 ? 'high' : stats.conversionRate >= 50 ? 'medium' : 'low'}>
+                              <span className="preview-perf-value conversion">{stats.conversionRate}%</span>
+                              <span className="preview-perf-label">Rate</span>
                             </div>
                           </div>
                         </div>
@@ -531,15 +528,13 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember, 
                             {member.specialties.join(', ')}
                           </span>
                         </div>
+                        <div className="member-fee-badge">
+                          <span>Fee: {stats.feePercentage}%</span>
+                        </div>
                       </div>
                     </div>
                     
                     <div className="preview-right">
-                      <div className="preview-fee-config">
-                        <span className="fee-label">Fee:</span>
-                        <span className="fee-value">{stats.feePercentage}%</span>
-                      </div>
-                      
                       <div className="preview-performance-section">
                         <div className="preview-performance-grid">
                           <div className="preview-perf-card">
@@ -637,6 +632,160 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember, 
                 </div>
               );
             })
+          ) : layoutMode === 'table' ? (
+            // Layout 4: Compact Table
+            <div className="members-table-container">
+              <table className="members-table">
+                <thead>
+                  <tr>
+                    <th>Attorney</th>
+                    <th>Law Firm</th>
+                    <th>Fee</th>
+                    <th>Referred</th>
+                    <th>Signed</th>
+                    <th>Rate</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredMembers.map(member => {
+                    const stats = getMemberStats(member);
+                    const isExpanded = expandedMember === member.id;
+                    
+                    return (
+                      <React.Fragment key={member.id}>
+                        <tr 
+                          className={`table-row ${isExpanded ? 'expanded' : ''}`}
+                          onClick={() => toggleMemberExpansion(member.id)}
+                        >
+                          <td className="attorney-cell">
+                            <div className="attorney-info">
+                              <img 
+                                src={getProfessionalAvatar(member, 40)}
+                                alt={member.name}
+                                className="table-avatar"
+                              />
+                              <span className="attorney-name">{member.name}</span>
+                            </div>
+                          </td>
+                          <td className="firm-cell">{member.firm}</td>
+                          <td className="fee-cell">
+                            <span className="fee-badge">{stats.feePercentage}%</span>
+                          </td>
+                          <td className="stat-cell">{stats.casesReferred}</td>
+                          <td className="stat-cell">{stats.casesSigned}</td>
+                          <td className="rate-cell">
+                            <span className="rate-value success">{stats.conversionRate}%</span>
+                          </td>
+                          <td className="expand-cell">
+                            <Icon name={isExpanded ? 'chevron-up' : 'chevron-down'} size={16} />
+                          </td>
+                        </tr>
+                        {isExpanded && (
+                          <tr className="table-expanded-row">
+                            <td colSpan="7" className="expanded-content">
+                              <div className="member-details">
+                                {/* Clients Table - Now First */}
+                                <div className="clients-section">
+                                  <h5>Recent Clients</h5>
+                                  <div className="clients-table">
+                                    <table>
+                                      <thead>
+                                        <tr>
+                                          <th>Client Name</th>
+                                          <th>Case Type</th>
+                                          <th>Referred</th>
+                                          <th>Status</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        {sampleClients.map(client => (
+                                          <tr key={client.id}>
+                                            <td>
+                                              <a 
+                                                href="#" 
+                                                className="client-name-link"
+                                                onClick={(e) => {
+                                                  e.preventDefault();
+                                                  e.stopPropagation();
+                                                  console.log('Navigate to client profile:', client.name);
+                                                }}
+                                              >
+                                                {client.name}
+                                              </a>
+                                            </td>
+                                            <td>{client.caseType}</td>
+                                            <td>{client.date}</td>
+                                            <td>
+                                              <span className={`status-badge ${client.status.toLowerCase().replace(/\s+/g, '-')}`}>
+                                                {client.status}
+                                              </span>
+                                            </td>
+                                          </tr>
+                                        ))}
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+
+                                {/* Referring Rules Section */}
+                                <div className="referring-rules-section">
+                                  <h5>Referring Rules</h5>
+                                  <div className="details-header">
+                                    <div className="detail-section">
+                                      <div className="detail-with-icon">
+                                        <Icon name="briefcase" size={14} />
+                                        <span className="detail-label">Case Types:</span>
+                                        <span className="detail-value">{member.specialties.join(', ')}</span>
+                                      </div>
+                                    </div>
+                                    
+                                    <div className="detail-section">
+                                      <div className="detail-with-icon">
+                                        <Icon name="location" size={14} />
+                                        <span className="detail-label">Locations:</span>
+                                        <span className="detail-value">{member.location}</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div className="member-actions">
+                                  <button 
+                                    className="btn-edit"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      onEditMember && onEditMember(member);
+                                    }}
+                                  >
+                                    <Icon name="edit" size={16} />
+                                    Edit Settings
+                                  </button>
+                                  <button className="btn-message">
+                                    <Icon name="chat" size={16} />
+                                    Send Message
+                                  </button>
+                                  <button 
+                                    className="btn-remove"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleRemoveClick(member);
+                                    }}
+                                  >
+                                    <Icon name="trash" size={16} />
+                                    Remove from Network
+                                  </button>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                        )}
+                      </React.Fragment>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
           ) : (
           filteredMembers.map(member => {
             const stats = getMemberStats(member);

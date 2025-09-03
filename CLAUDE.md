@@ -102,7 +102,10 @@ useEffect(() => {
 
 **Data Display Components**:
 - `AttorneyCarousel`: Touch/drag-enabled horizontal scroll with overlay buttons
-- `NetworkMembersList`: Expandable cards with inline client tables
+- `NetworkMembersList`: Multi-layout expandable cards with statistics separation
+  - **4 Layout Options**: Default List, Card Grid, Visual Cards, List with Preview
+  - **Layout Switcher**: Dropdown selector allowing users to switch between layout modes
+  - **Statistics Architecture**: Clear separation between user configuration (fee %) and attorney performance metrics
   - Recent Clients table columns: Client Name, Case Type, Referred, Status
   - Status values: "Signed", "Matched", "Not Matched", "Active"
 
@@ -266,6 +269,42 @@ NetworkModal contains helper functions for time conversion:
 - `convertToHours(value, unit)`: Normalizes all time values to hours for comparison
 - `convertFromHours(hours, preferredUnit)`: Converts hours back to target unit system
 
+### NetworkMembersList Layout System
+
+**Layout Architecture**:
+The NetworkMembersList component implements a sophisticated multi-layout system with 4 distinct viewing options:
+
+1. **Default List Layout**: Expandable rows with fee badge and performance metrics separation
+2. **Card Grid Layout**: Split metrics bar (fee section left, performance section right)  
+3. **Visual Cards Layout**: Fee badge in left section, performance grid in center
+4. **List with Preview Layout**: Enhanced statistics grid with separated fee configuration
+
+**Statistics Separation Pattern**:
+Critical UX architecture separating user configuration from attorney performance data:
+
+```jsx
+// User Configuration (editable by user)
+- Fee Percentage: User-set referral fee, styled in brand blue (#002e69)
+- Visual Treatment: Badges, smaller sizing, hover states indicating editability
+
+// Attorney Performance (read-only metrics)  
+- Cases Referred: Number of cases sent to attorney
+- Cases Signed: Number of cases attorney accepted
+- Conversion Rate: Success rate percentage with performance indicators
+- Visual Treatment: Prominent display with success colors (#10b981)
+```
+
+**Layout State Management**:
+```jsx
+const [layoutMode, setLayoutMode] = useState('default');
+// Options: 'default', 'grid', 'visual', 'preview'
+```
+
+**Performance Indicators**: Color-coded bottom bars showing performance levels:
+- High (≥70%): Green (#10b981)  
+- Medium (50-69%): Orange (#f59e0b)
+- Low (<50%): Red (#ef4444)
+
 ### Browser Support
 Configured for modern browsers via browserslist in package.json. IE11 not supported.
 
@@ -281,3 +320,10 @@ Configured for modern browsers via browserslist in package.json. IE11 not suppor
 - Use existing libraries and utilities only (check package.json dependencies)
 - Follow established patterns for Icon usage, modal implementation, and time slider configuration
 - Maintain consistent naming: camelCase for variables, PascalCase for components
+
+### Critical UX Architecture Patterns
+- **Statistics Separation**: Always distinguish user configuration (fee %) from attorney performance metrics
+- **Visual Hierarchy**: Use brand blue (#002e69) for user settings, success green (#10b981) for performance
+- **Data Ownership Clarity**: Make it visually clear which data users control vs. attorney-driven metrics
+- **Performance Indicators**: Implement color-coded indicators (high/medium/low) for conversion rates
+- **Layout Consistency**: When adding new layouts, maintain the fee/performance separation pattern

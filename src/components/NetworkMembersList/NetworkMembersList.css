@@ -803,32 +803,6 @@
   border-top: 1px solid #e5e7eb;
 }
 
-.fee-section {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 12px 16px;
-  background: #f8fafc;
-  border-right: 1px solid #e5e7eb;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.fee-section:hover {
-  background: #f1f5f9;
-}
-
-.fee-text {
-  font-size: 11px;
-  color: #6b7280;
-  font-weight: 500;
-}
-
-.fee-amount {
-  font-size: 14px;
-  font-weight: 700;
-  color: #002e69;
-}
 
 .performance-section {
   flex: 1;
@@ -1211,7 +1185,7 @@
 
 .visual-card-main {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   padding: 24px;
   gap: 24px;
 }
@@ -1231,42 +1205,6 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
-.visual-fee-badge {
-  padding: 8px 12px;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  margin-top: 12px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  width: fit-content;
-}
-
-.visual-fee-badge:hover {
-  background: #f1f5f9;
-  border-color: #002e69;
-}
-
-.fee-info {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.fee-label-text {
-  font-size: 10px;
-  color: #6b7280;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.fee-amount-text {
-  font-size: 16px;
-  font-weight: 700;
-  color: #002e69;
-  line-height: 1;
-}
 
 .visual-card-center {
   flex: 1;
@@ -1305,49 +1243,141 @@
   flex-shrink: 0;
 }
 
+/* Visual Performance Section - Redesigned */
 .visual-performance-section {
-  margin-top: 16px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #f1f5f9;
 }
 
-.visual-performance-header {
-  margin-bottom: 12px;
-  font-size: 12px;
-  font-weight: 500;
+.performance-header {
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.performance-title {
+  font-size: 14px;
+  font-weight: 600;
   color: #374151;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.visual-performance-grid {
+.performance-title::before {
+  content: '';
+  width: 3px;
+  height: 16px;
+  background: #002e69;
+  border-radius: 2px;
+}
+
+.visual-performance-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  margin-top: 4px;
+  gap: 12px;
 }
 
-.visual-perf-item {
+.visual-perf-card {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 12px;
+  background: #fafbfc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.visual-perf-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: transparent;
+  transition: all 0.3s ease;
+}
+
+.visual-perf-card.referred::before {
+  background: linear-gradient(90deg, #3b82f6 0%, #1d4ed8 100%);
+}
+
+.visual-perf-card.signed::before {
+  background: linear-gradient(90deg, #059669 0%, #047857 100%);
+}
+
+.visual-perf-card.conversion::before {
+  background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+}
+
+.visual-perf-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  background: white;
+  border-color: #cbd5e1;
+}
+
+.visual-perf-card:hover::before {
+  height: 4px;
+}
+
+.perf-card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  transition: all 0.3s ease;
+}
+
+.visual-perf-card.referred .perf-card-icon {
+  color: #3b82f6;
+  border-color: #bfdbfe;
+  background: #eff6ff;
+}
+
+.visual-perf-card.signed .perf-card-icon {
+  color: #059669;
+  border-color: #a7f3d0;
+  background: #ecfdf5;
+}
+
+.visual-perf-card.conversion .perf-card-icon {
+  color: #10b981;
+  border-color: #6ee7b7;
+  background: #ecfdf5;
+}
+
+.visual-perf-card:hover .perf-card-icon {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.perf-card-content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 12px 8px;
-  background: white;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  transition: all 0.2s ease;
-  position: relative;
-}
-
-.visual-perf-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
 }
 
 .visual-perf-number {
-  font-size: 22px;
-  font-weight: 600;
+  font-size: 24px;
+  font-weight: 700;
   color: #111827;
   line-height: 1;
   margin-bottom: 4px;
+  letter-spacing: -0.5px;
 }
 
 .visual-perf-number.success {
@@ -1355,44 +1385,58 @@
 }
 
 .visual-perf-label {
-  font-size: 11px;
+  font-size: 12px;
   color: #6b7280;
   font-weight: 500;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.performance-trend {
+  margin-top: 8px;
+  width: 100%;
+  text-align: center;
+}
+
+.trend-indicator {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  transition: all 0.2s ease;
 }
 
-.visual-perf-item.highlight[data-performance="high"]::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: #10b981;
-  border-radius: 0 0 8px 8px;
+.trend-indicator[data-trend="positive"] {
+  background: #dcfce7;
+  color: #15803d;
 }
 
-.visual-perf-item.highlight[data-performance="medium"]::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: #f59e0b;
-  border-radius: 0 0 8px 8px;
+.trend-indicator[data-trend="neutral"] {
+  background: #fef3c7;
+  color: #b45309;
 }
 
-.visual-perf-item.highlight[data-performance="low"]::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: #ef4444;
-  border-radius: 0 0 8px 8px;
+.trend-indicator[data-trend="negative"] {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.visual-perf-card.highlight[data-performance="high"] {
+  border-color: #10b981;
+  background: linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%);
+}
+
+.visual-perf-card.highlight[data-performance="medium"] {
+  border-color: #f59e0b;
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+}
+
+.visual-perf-card.highlight[data-performance="low"] {
+  border-color: #ef4444;
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
 }
 
 .visual-card-right {
@@ -1568,23 +1612,6 @@
   gap: 32px;
 }
 
-.preview-fee-config {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 12px;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  min-width: 120px;
-}
-
-.preview-fee-config:hover {
-  background: #f1f5f9;
-  border-color: #002e69;
-}
 
 .fee-label {
   font-size: 12px;
@@ -1677,6 +1704,166 @@
 
 .preview-perf-card[data-performance="low"]::after {
   background: #ef4444;
+}
+
+/* Layout 4: Compact Table */
+.members-table-container {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.members-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.members-table thead {
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.members-table th {
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.members-table th:first-child {
+  padding-left: 20px;
+}
+
+.members-table th:last-child {
+  width: 40px;
+  padding-right: 20px;
+}
+
+.table-row {
+  border-bottom: 1px solid #f3f4f6;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.table-row:hover {
+  background: #f9fafb;
+}
+
+.table-row.expanded {
+  background: #f9fafb;
+}
+
+.members-table td {
+  padding: 16px 16px;
+  vertical-align: middle;
+}
+
+.members-table td:first-child {
+  padding-left: 20px;
+}
+
+.members-table td:last-child {
+  padding-right: 20px;
+}
+
+.attorney-cell {
+  min-width: 200px;
+}
+
+.attorney-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+
+.table-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #f3f4f6;
+}
+
+.attorney-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.firm-cell {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.fee-cell .fee-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #002e69;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.fee-cell .fee-badge:hover {
+  background: #f1f5f9;
+  border-color: #002e69;
+}
+
+.stat-cell {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.rate-cell {
+  text-align: center;
+}
+
+.rate-value {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.rate-value.success {
+  color: #10b981;
+}
+
+.expand-cell {
+  text-align: center;
+  color: #6b7280;
+}
+
+.expand-cell svg {
+  transition: transform 0.2s ease;
+}
+
+.table-row.expanded .expand-cell svg {
+  transform: rotate(180deg);
+}
+
+.table-expanded-row {
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.expanded-content {
+  padding: 0;
+}
+
+.expanded-content .member-details {
+  padding: 0 20px 20px;
+  border-top: none;
 }
 
 /* Responsive Design */
@@ -1867,18 +2054,6 @@
     margin-bottom: 0;
   }
   
-  .fee-section {
-    padding: 10px 12px;
-    gap: 4px;
-  }
-  
-  .fee-text {
-    font-size: 10px;
-  }
-  
-  .fee-amount {
-    font-size: 13px;
-  }
   
   .performance-section {
     padding: 10px 16px;
@@ -1983,19 +2158,6 @@
     height: 72px;
   }
 
-  .visual-fee-badge {
-    margin-top: 8px;
-    padding: 6px 10px;
-    align-self: center;
-  }
-  
-  .fee-label-text {
-    font-size: 9px;
-  }
-  
-  .fee-amount-text {
-    font-size: 14px;
-  }
 
   .visual-card-center {
     width: 100%;
@@ -2005,13 +2167,95 @@
     font-size: 18px;
   }
 
-  .visual-performance-grid {
+  /* Visual Performance Section Mobile */
+  .visual-performance-section {
+    margin-top: 20px;
+    padding-top: 16px;
+  }
+
+  .performance-header {
+    margin-bottom: 12px;
+  }
+
+  .performance-title {
+    font-size: 13px;
+  }
+
+  .performance-title::before {
+    width: 2px;
+    height: 14px;
+  }
+
+  .visual-performance-container {
     grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
+    gap: 8px;
+  }
+
+  .visual-perf-card {
+    padding: 12px 8px;
+  }
+
+  .perf-card-icon {
+    width: 28px;
+    height: 28px;
+    margin-bottom: 8px;
   }
 
   .visual-perf-number {
-    font-size: 18px;
+    font-size: 20px;
+  }
+
+  .visual-perf-label {
+    font-size: 11px;
+    line-height: 1.1;
+  }
+
+  .performance-trend {
+    margin-top: 6px;
+  }
+
+  .trend-indicator {
+    padding: 3px 6px;
+    font-size: 9px;
+  }
+
+  /* Additional small mobile optimizations for Visual Performance */
+  .visual-performance-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+
+  .visual-perf-card.conversion {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+  }
+
+  .visual-perf-card.conversion .perf-card-icon {
+    margin-bottom: 0;
+    width: 32px;
+    height: 32px;
+  }
+
+  .visual-perf-card.conversion .perf-card-content {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .visual-perf-card.conversion .performance-trend {
+    margin-top: 4px;
+    text-align: left;
+  }
+
+  .visual-perf-number {
+    font-size: 16px;
+  }
+
+  .visual-perf-card.conversion .visual-perf-number {
+    font-size: 20px;
   }
 
   .visual-card-right {
@@ -2066,10 +2310,6 @@
     align-items: stretch;
   }
   
-  .preview-fee-config {
-    align-self: flex-start;
-    min-width: auto;
-  }
   
   .preview-performance-grid {
     grid-template-columns: repeat(3, 1fr);
@@ -2107,6 +2347,75 @@
     margin-bottom: 8px;
   }
   
+  /* Compact Table - Mobile */
+  .members-table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .members-table {
+    min-width: 600px;
+  }
+  
+  .members-table th,
+  .members-table td {
+    padding: 12px 8px;
+  }
+  
+  .attorney-cell {
+    min-width: 150px;
+  }
+  
+  .table-avatar {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .attorney-name {
+    font-size: 13px;
+  }
+  
+  .firm-cell {
+    font-size: 13px;
+    min-width: 120px;
+  }
+  
+  .fee-cell .fee-badge {
+    font-size: 11px;
+    padding: 3px 6px;
+  }
+  
+  .stat-cell {
+    font-size: 13px;
+  }
+  
+  .rate-value {
+    font-size: 13px;
+  }
+  
+  .table-expanded-details {
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+  }
+  
+  .expanded-right {
+    min-width: auto;
+  }
+  
+  .table-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  
+  .table-actions button {
+    flex: 1;
+    min-width: 100px;
+    font-size: 12px;
+    padding: 6px 8px;
+  }
+  
   /* Metrics Bar - Mobile */
   .member-grid-card.minimal {
     padding: 12px 12px 0 12px;
@@ -2119,10 +2428,6 @@
     margin-bottom: 0;
   }
   
-  .fee-section {
-    padding: 8px 10px;
-    gap: 3px;
-  }
   
   .performance-section {
     padding: 8px 12px;
