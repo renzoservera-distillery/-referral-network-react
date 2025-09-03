@@ -468,11 +468,7 @@
 
 .expand-icon {
   color: #6b7280;
-  transition: transform 0.2s ease;
-}
-
-.member-card.expanded .expand-icon {
-  transform: rotate(180deg);
+  transition: all 0.2s ease;
 }
 
 /* Member Details */
@@ -623,6 +619,32 @@
   color: #7c3aed;
 }
 
+
+/* Referring Rules Section */
+.referring-rules-section {
+  margin-top: 24px;
+  padding-top: 20px;
+  padding-bottom: 24px;
+  border-top: 1px solid #f3f4f6;
+}
+
+.referring-rules-section h5 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.referring-rules-section .details-header {
+  border-top: none;
+  padding: 0;
+}
+
+.referring-rules-section .detail-label {
+  font-weight: 500;
+  color: #6b7280;
+  margin-right: 6px;
+}
 
 /* Member Actions */
 .member-actions {
@@ -805,6 +827,15 @@
 
   .details-header {
     gap: 12px;
+  }
+  
+  .referring-rules-section {
+    margin-top: 20px;
+    padding-top: 16px;
+  }
+  
+  .referring-rules-section h5 {
+    font-size: 13px;
   }
 
   .member-details .detail-with-icon {

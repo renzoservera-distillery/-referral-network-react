@@ -331,19 +331,24 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember, 
                       </div>
                     </div>
 
-                    {/* Practice Areas and Location - Now Below */}
-                    <div className="details-header">
-                      <div className="detail-section">
-                        <div className="detail-with-icon">
-                          <Icon name="briefcase" size={14} />
-                          <span className="detail-value">{member.specialties.join(', ')}</span>
+                    {/* Referring Rules Section */}
+                    <div className="referring-rules-section">
+                      <h5>Referring Rules</h5>
+                      <div className="details-header">
+                        <div className="detail-section">
+                          <div className="detail-with-icon">
+                            <Icon name="briefcase" size={14} />
+                            <span className="detail-label">Case Types:</span>
+                            <span className="detail-value">{member.specialties.join(', ')}</span>
+                          </div>
                         </div>
-                      </div>
-                      
-                      <div className="detail-section">
-                        <div className="detail-with-icon">
-                          <Icon name="location" size={14} />
-                          <span className="detail-value">{member.location}</span>
+                        
+                        <div className="detail-section">
+                          <div className="detail-with-icon">
+                            <Icon name="location" size={14} />
+                            <span className="detail-label">Locations:</span>
+                            <span className="detail-value">{member.location}</span>
+                          </div>
                         </div>
                       </div>
                     </div>
