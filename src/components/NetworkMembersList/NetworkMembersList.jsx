@@ -173,9 +173,7 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember, 
           >
             <option value="default">Default List</option>
             <option value="grid">Card Grid</option>
-            <option value="visual">Visual Cards</option>
             <option value="preview">List with Preview</option>
-            <option value="table">Compact Table</option>
           </select>
         </div>
       </div>
@@ -348,100 +346,8 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember, 
                 );
               })}
             </div>
-          ) : layoutMode === 'visual' ? (
-            // Layout 2: Visual Cards
-            <div className="members-visual-cards">
-              {filteredMembers.map(member => {
-                const stats = getMemberStats(member);
-                const isExpanded = expandedMember === member.id;
-                
-                return (
-                  <div key={member.id} className={`visual-card ${isExpanded ? 'expanded' : ''}`}>
-                    <div className="visual-card-main">
-                      <div className="visual-card-left">
-                        <img 
-                          src={getProfessionalAvatar(member, 96)}
-                          alt={member.name}
-                          className="visual-avatar"
-                        />
-                      </div>
-                      
-                      <div className="visual-card-center">
-                        <h3 className="visual-name">{member.name}</h3>
-                        <p className="visual-firm">{member.firm}</p>
-                        
-                        <div className="visual-info">
-                          <div className="visual-info-row">
-                            <Icon name="location" size={16} />
-                            <span>{member.location}</span>
-                          </div>
-                          <div className="visual-info-row">
-                            <Icon name="briefcase" size={16} />
-                            <span>{member.specialties.join(', ')}</span>
-                          </div>
-                        </div>
-                        
-                        <div className="member-fee-badge">
-                          <span>Fee: {stats.feePercentage}%</span>
-                        </div>
-                        
-                        <div className="preview-performance-section">
-                          <div className="preview-performance-grid">
-                            <div className="preview-perf-card">
-                              <span className="preview-perf-value">{stats.casesReferred}</span>
-                              <span className="preview-perf-label">Referred</span>
-                            </div>
-                            <div className="preview-perf-card">
-                              <span className="preview-perf-value">{stats.casesSigned}</span>
-                              <span className="preview-perf-label">Signed</span>
-                            </div>
-                            <div className="preview-perf-card conversion" data-performance={stats.conversionRate >= 70 ? 'high' : stats.conversionRate >= 50 ? 'medium' : 'low'}>
-                              <span className="preview-perf-value conversion">{stats.conversionRate}%</span>
-                              <span className="preview-perf-label">Rate</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <div className="visual-card-right">
-                        <button 
-                          className="visual-action-btn primary"
-                          onClick={() => toggleMemberExpansion(member.id)}
-                        >
-                          <Icon name={isExpanded ? 'chevron-up' : 'chevron-down'} size={16} />
-                          View Details
-                        </button>
-                        <button 
-                          className="visual-action-btn"
-                          onClick={() => onEditMember && onEditMember(member)}
-                        >
-                          <Icon name="edit" size={16} />
-                          Edit
-                        </button>
-                        <button className="visual-action-btn">
-                          <Icon name="chat" size={16} />
-                          Message
-                        </button>
-                        <button 
-                          className="visual-action-btn danger"
-                          onClick={() => handleRemoveClick(member)}
-                        >
-                          <Icon name="trash" size={16} />
-                          Remove
-                        </button>
-                      </div>
-                    </div>
-                    
-                    {isExpanded && (
-                      <div className="visual-card-details">
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
           ) : layoutMode === 'preview' ? (
-            // Layout 3: List with Preview
+            // Layout 2: List with Preview
             filteredMembers.map(member => {
               const stats = getMemberStats(member);
               const isExpanded = expandedMember === member.id;
@@ -537,117 +443,6 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember, 
                 </div>
               );
             })
-          ) : layoutMode === 'table' ? (
-            // Layout 4: Compact Table
-            <div className="members-table-container">
-              <table className="members-table">
-                <thead>
-                  <tr>
-                    <th>Attorney</th>
-                    <th>Law Firm</th>
-                    <th>Fee</th>
-                    <th>Referred</th>
-                    <th>Signed</th>
-                    <th>Rate</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredMembers.map(member => {
-                    const stats = getMemberStats(member);
-                    const isExpanded = expandedMember === member.id;
-                    
-                    return (
-                      <React.Fragment key={member.id}>
-                        <tr 
-                          className={`table-row ${isExpanded ? 'expanded' : ''}`}
-                          onClick={() => toggleMemberExpansion(member.id)}
-                        >
-                          <td className="attorney-cell">
-                            <div className="attorney-info">
-                              <img 
-                                src={getProfessionalAvatar(member, 40)}
-                                alt={member.name}
-                                className="table-avatar"
-                              />
-                              <span className="attorney-name">{member.name}</span>
-                            </div>
-                          </td>
-                          <td className="firm-cell">{member.firm}</td>
-                          <td className="fee-cell">
-                            <span className="fee-badge">{stats.feePercentage}%</span>
-                          </td>
-                          <td className="stat-cell">{stats.casesReferred}</td>
-                          <td className="stat-cell">{stats.casesSigned}</td>
-                          <td className="rate-cell">
-                            <span className="rate-value success">{stats.conversionRate}%</span>
-                          </td>
-                          <td className="expand-cell">
-                            <Icon name={isExpanded ? 'chevron-up' : 'chevron-down'} size={16} />
-                          </td>
-                        </tr>
-                        {isExpanded && (
-                          <tr className="table-expanded-row">
-                            <td colSpan="7" className="expanded-content">
-                              <div className="member-details">
-{/* Referring Rules Section */}
-                                <div className="referring-rules-section">
-                                  <h5>Referring Rules</h5>
-                                  <div className="details-header">
-                                    <div className="detail-section">
-                                      <div className="detail-with-icon">
-                                        <Icon name="briefcase" size={14} />
-                                        <span className="detail-label">Case Types:</span>
-                                        <span className="detail-value">{member.specialties.join(', ')}</span>
-                                      </div>
-                                    </div>
-                                    
-                                    <div className="detail-section">
-                                      <div className="detail-with-icon">
-                                        <Icon name="location" size={14} />
-                                        <span className="detail-label">Locations:</span>
-                                        <span className="detail-value">{member.location}</span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-
-                                <div className="member-actions">
-                                  <button 
-                                    className="btn-edit"
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      onEditMember && onEditMember(member);
-                                    }}
-                                  >
-                                    <Icon name="edit" size={16} />
-                                    Edit Settings
-                                  </button>
-                                  <button className="btn-message">
-                                    <Icon name="chat" size={16} />
-                                    Send Message
-                                  </button>
-                                  <button 
-                                    className="btn-remove"
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      handleRemoveClick(member);
-                                    }}
-                                  >
-                                    <Icon name="trash" size={16} />
-                                    Remove from Network
-                                  </button>
-                                </div>
-                              </div>
-                            </td>
-                          </tr>
-                        )}
-                      </React.Fragment>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
           ) : (
           filteredMembers.map(member => {
             const stats = getMemberStats(member);

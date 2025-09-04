@@ -932,7 +932,6 @@
 
 .member-grid-card .member-info {
   flex: 1;
-  padding-right: 120px; /* Space for button */
   margin-bottom: 16px;
 }
 
