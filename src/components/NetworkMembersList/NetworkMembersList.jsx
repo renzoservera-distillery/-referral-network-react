@@ -4,14 +4,6 @@ import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
 import { getProfessionalAvatar } from '../../utils/avatarGenerator';
 import './NetworkMembersList.css';
 
-// Sample client data for expanded view
-const sampleClients = [
-  { id: 1, name: 'Sarah Johnson', caseType: 'Personal Injury', date: '2024-03-15', status: 'Signed' },
-  { id: 2, name: 'Michael Chen', caseType: 'Car Accident', date: '2024-03-10', status: 'Matched' },
-  { id: 3, name: 'Emily Davis', caseType: 'Medical Malpractice', date: '2024-02-28', status: 'Signed' },
-  { id: 4, name: 'Robert Wilson', caseType: 'Slip & Fall', date: '2024-02-15', status: 'Not Matched' },
-  { id: 5, name: 'Lisa Anderson', caseType: 'Workers Comp', date: '2024-01-20', status: 'Active' },
-];
 
 const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember, onFiltersOpen, activeFilters = {}, onRemoveFilter, onClearFilters, hideGrowNetwork = false }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -323,34 +315,6 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember, 
                     {expandedMember === member.id && (
                       <div className="grid-card-expanded">
                         <div className="expanded-content">
-                          {/* Recent Clients section */}
-                          <div className="recent-clients-section">
-                            <h5 className="details-heading">Recent Clients</h5>
-                            <div className="recent-clients-list">
-                              {sampleClients.slice(0, 4).map(client => (
-                                <div key={client.id} className="client-item">
-                                  <div className="client-info">
-                                    <a 
-                                      href="#" 
-                                      className="client-name-link"
-                                      onClick={(e) => {
-                                        e.preventDefault();
-                                        e.stopPropagation();
-                                        console.log('Navigate to client profile:', client.name);
-                                      }}
-                                    >
-                                      {client.name}
-                                    </a>
-                                    <span className="client-case">{client.caseType}</span>
-                                  </div>
-                                  <span className={`client-status ${client.status.toLowerCase().replace(/\s+/g, '-')}`}>
-                                    {client.status}
-                                  </span>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                          
                           <div className="actions-row">
                             <button 
                               className="btn-action"
@@ -470,25 +434,6 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember, 
                     
                     {isExpanded && (
                       <div className="visual-card-details">
-                        <div className="visual-clients-section">
-                          <h4>Recent Clients</h4>
-                          <div className="visual-clients-grid">
-                            {sampleClients.map(client => (
-                              <div key={client.id} className="visual-client-card">
-                                <div className="visual-client-header">
-                                  <span className="visual-client-name">{client.name}</span>
-                                  <span className={`status-badge ${client.status.toLowerCase().replace(/\s+/g, '-')}`}>
-                                    {client.status}
-                                  </span>
-                                </div>
-                                <div className="visual-client-details">
-                                  <span>{client.caseType}</span>
-                                  <span>{client.date}</span>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
                       </div>
                     )}
                   </div>
@@ -560,46 +505,6 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember, 
                   
                   {isExpanded && (
                     <div className="member-details">
-                      <div className="clients-section">
-                        <h5>Recent Clients</h5>
-                        <div className="clients-table">
-                          <table>
-                            <thead>
-                              <tr>
-                                <th>Client Name</th>
-                                <th>Case Type</th>
-                                <th>Referred</th>
-                                <th>Status</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {sampleClients.map(client => (
-                                <tr key={client.id}>
-                                  <td>
-                                    <a 
-                                      href="#" 
-                                      className="client-name-link"
-                                      onClick={(e) => {
-                                        e.preventDefault();
-                                        console.log('Navigate to client profile:', client.name);
-                                      }}
-                                    >
-                                      {client.name}
-                                    </a>
-                                  </td>
-                                  <td>{client.caseType}</td>
-                                  <td>{client.date}</td>
-                                  <td>
-                                    <span className={`status-badge ${client.status.toLowerCase().replace(/\s+/g, '-')}`}>
-                                      {client.status}
-                                    </span>
-                                  </td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
 
                       <div className="member-actions">
                         <button 
@@ -685,50 +590,7 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember, 
                           <tr className="table-expanded-row">
                             <td colSpan="7" className="expanded-content">
                               <div className="member-details">
-                                {/* Clients Table - Now First */}
-                                <div className="clients-section">
-                                  <h5>Recent Clients</h5>
-                                  <div className="clients-table">
-                                    <table>
-                                      <thead>
-                                        <tr>
-                                          <th>Client Name</th>
-                                          <th>Case Type</th>
-                                          <th>Referred</th>
-                                          <th>Status</th>
-                                        </tr>
-                                      </thead>
-                                      <tbody>
-                                        {sampleClients.map(client => (
-                                          <tr key={client.id}>
-                                            <td>
-                                              <a 
-                                                href="#" 
-                                                className="client-name-link"
-                                                onClick={(e) => {
-                                                  e.preventDefault();
-                                                  e.stopPropagation();
-                                                  console.log('Navigate to client profile:', client.name);
-                                                }}
-                                              >
-                                                {client.name}
-                                              </a>
-                                            </td>
-                                            <td>{client.caseType}</td>
-                                            <td>{client.date}</td>
-                                            <td>
-                                              <span className={`status-badge ${client.status.toLowerCase().replace(/\s+/g, '-')}`}>
-                                                {client.status}
-                                              </span>
-                                            </td>
-                                          </tr>
-                                        ))}
-                                      </tbody>
-                                    </table>
-                                  </div>
-                                </div>
-
-                                {/* Referring Rules Section */}
+{/* Referring Rules Section */}
                                 <div className="referring-rules-section">
                                   <h5>Referring Rules</h5>
                                   <div className="details-header">
@@ -838,50 +700,7 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember, 
                 {/* Expanded Details */}
                 {isExpanded && (
                   <div className="member-details">
-                    {/* Clients Table - Now First */}
-                    <div className="clients-section">
-                      <h5>Recent Clients</h5>
-                      <div className="clients-table">
-                        <table>
-                          <thead>
-                            <tr>
-                              <th>Client Name</th>
-                              <th>Case Type</th>
-                              <th>Referred</th>
-                              <th>Status</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {sampleClients.map(client => (
-                              <tr key={client.id}>
-                                <td>
-                                  <a 
-                                    href="#" 
-                                    className="client-name-link"
-                                    onClick={(e) => {
-                                      e.preventDefault();
-                                      // Handle client profile navigation here
-                                      console.log('Navigate to client profile:', client.name);
-                                    }}
-                                  >
-                                    {client.name}
-                                  </a>
-                                </td>
-                                <td>{client.caseType}</td>
-                                <td>{client.date}</td>
-                                <td>
-                                  <span className={`status-badge ${client.status.toLowerCase().replace(/\s+/g, '-')}`}>
-                                    {client.status}
-                                  </span>
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-
-                    {/* Referring Rules Section */}
+{/* Referring Rules Section */}
                     <div className="referring-rules-section">
                       <h5>Referring Rules</h5>
                       <div className="details-header">
