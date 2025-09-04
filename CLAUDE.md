@@ -215,6 +215,26 @@ Repository uses main branch. Changes require:
 2. `git commit -m "Description"`
 3. `git push origin main` (triggers Vercel deployment)
 
+### Version Management
+For major releases, follow semantic versioning with git tags:
+```bash
+# Create version tag
+git tag v1.2
+
+# Push tag to repository  
+git push origin v1.2
+```
+
+**Commit Message Format** for releases:
+- Include comprehensive feature summary
+- List major improvements and technical updates
+- Always end with Claude Code attribution:
+```
+🤖 Generated with [Claude Code](https://claude.ai/code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+```
+
 ### CSS Architecture
 - Component-scoped CSS files (each component has its own .css file)
 - No CSS-in-JS or CSS Modules
@@ -272,12 +292,13 @@ NetworkModal contains helper functions for time conversion:
 ### NetworkMembersList Layout System
 
 **Layout Architecture**:
-The NetworkMembersList component implements a sophisticated multi-layout system with 4 distinct viewing options:
+The NetworkMembersList component implements a sophisticated multi-layout system with 5 distinct viewing options:
 
 1. **Default List Layout**: Expandable rows with fee badge and performance metrics separation
 2. **Card Grid Layout**: Split metrics bar (fee section left, performance section right)  
 3. **Visual Cards Layout**: Fee badge in left section, performance grid in center
-4. **List with Preview Layout**: Enhanced statistics grid with separated fee configuration
+4. **List with Preview Layout**: Enhanced statistics grid with preview-performance-section format
+5. **Compact Table Layout**: Horizontal table with avatar and name in same line, expandable details
 
 **Statistics Separation Pattern**:
 Critical UX architecture separating user configuration from attorney performance data:
@@ -297,8 +318,14 @@ Critical UX architecture separating user configuration from attorney performance
 **Layout State Management**:
 ```jsx
 const [layoutMode, setLayoutMode] = useState('default');
-// Options: 'default', 'grid', 'visual', 'preview'
+// Options: 'default', 'grid', 'visual', 'preview', 'table'
 ```
+
+**Compact Table Layout Architecture**:
+- **Table Structure**: Uses HTML table with `attorney-info` div for avatar + name horizontal alignment
+- **Critical CSS**: `.attorney-info { display: flex; flex-direction: row; align-items: center; gap: 12px; }`
+- **Expandable Details**: React.Fragment pattern for clean table row expansion without breaking HTML structure
+- **Mobile Responsive**: Horizontal scrolling container with min-width constraints
 
 **Performance Indicators**: Color-coded bottom bars showing performance levels:
 - High (≥70%): Green (#10b981)  
@@ -327,3 +354,11 @@ Configured for modern browsers via browserslist in package.json. IE11 not suppor
 - **Data Ownership Clarity**: Make it visually clear which data users control vs. attorney-driven metrics
 - **Performance Indicators**: Implement color-coded indicators (high/medium/low) for conversion rates
 - **Layout Consistency**: When adding new layouts, maintain the fee/performance separation pattern
+- **Performance Display Consistency**: All layouts should use consistent performance metrics format (preview-perf-card structure preferred)
+- **Fee Badge Standardization**: Use `member-fee-badge` component consistently across all layouts, positioned below location information
+
+### Recent Architecture Updates (v1.2)
+- **Visual Cards Performance**: Updated to use preview-performance-section format for consistency
+- **Compact Table Enhancement**: Fixed horizontal layout with explicit flex-direction: row for attorney cells  
+- **Fee Display Standardization**: Moved all layouts to use member-fee-badge component below location
+- **Removed Legacy Components**: Eliminated preview-fee-config and visual-fee-badge for cleaner architecture

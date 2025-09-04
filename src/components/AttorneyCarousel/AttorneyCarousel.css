@@ -131,29 +131,38 @@
     -webkit-user-drag: none;
 }
 
-.attorney-info {
+/* Attorney Info - Specific to AttorneyCarousel */
+.attorney-section .attorney-info {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0; /* Explicitly set to 0 */
+    width: 100%;
 }
 
-.attorney-name {
+/* Attorney Info children - Specific to AttorneyCarousel */
+.attorney-section .attorney-name {
     font-size: 16px;
     font-weight: 600;
     color: #111827;
     margin: 0 0 4px 0;
+    width: 100%;
 }
 
-.attorney-firm {
+.attorney-section .attorney-firm {
     font-size: 14px;
     color: #6b7280;
     margin: 0 0 4px 0;
     font-weight: 500;
+    width: 100%;
 }
 
-.attorney-practice-areas {
+.attorney-section .attorney-practice-areas {
     display: flex;
     align-items: flex-start;
     gap: 8px;
-    margin: 8px 0;
+    margin: 8px 0 0 0;
+    width: 100%;
 }
 
 .practice-icon {
@@ -169,11 +178,12 @@
     flex: 1;
 }
 
-.attorney-location-row {
+.attorney-section .attorney-location-row {
     display: flex;
     align-items: flex-start;
     gap: 8px;
     margin-top: 8px;
+    width: 100%;
 }
 
 .location-icon {
@@ -296,24 +306,24 @@
     }
     
     /* Better touch area for attorney info */
-    .attorney-info {
+    .attorney-section .attorney-info {
         padding: 4px 0;
     }
     
-    .attorney-name {
+    .attorney-section .attorney-name {
         font-size: 16px;
         line-height: 1.3;
         margin-bottom: 6px;
     }
     
-    .attorney-firm {
+    .attorney-section .attorney-firm {
         font-size: 14px;
         line-height: 1.4;
         margin-bottom: 6px;
     }
     
-    .attorney-practice-areas {
-        margin: 6px 0;
+    .attorney-section .attorney-practice-areas {
+        margin: 6px 0 0 0;
     }
     
     .practice-areas-text {
@@ -321,7 +331,7 @@
         line-height: 1.4;
     }
     
-    .attorney-location-row {
+    .attorney-section .attorney-location-row {
         margin-top: 6px;
     }
     
@@ -403,8 +413,8 @@
         margin-bottom: 16px;
     }
     
-    .attorney-practice-areas {
-        margin: 4px 0;
+    .attorney-section .attorney-practice-areas {
+        margin: 4px 0 0 0;
     }
     
     .practice-areas-text {
@@ -412,7 +422,7 @@
         line-height: 1.3;
     }
     
-    .attorney-location-row {
+    .attorney-section .attorney-location-row {
         margin-top: 4px;
     }
     

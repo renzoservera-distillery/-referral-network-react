@@ -192,15 +192,13 @@ const AddAttorneysModal = ({ isOpen, onClose, onAdd, existingMembers = [] }) => 
                 <div className="attorney-info">
                   <h4>{attorney.name}</h4>
                   <p className="attorney-firm">{attorney.firm}</p>
-                  <div className="attorney-details-inline">
-                    <div className="detail-with-icon">
-                      <Icon name="briefcase" size={14} />
-                      <span>{attorney.specialties.join(', ')}</span>
-                    </div>
-                    <div className="detail-with-icon">
-                      <Icon name="location" size={14} />
-                      <span>{attorney.location}</span>
-                    </div>
+                  <div className="detail-with-icon">
+                    <Icon name="briefcase" size={14} />
+                    <span>{attorney.specialties.join(', ')}</span>
+                  </div>
+                  <div className="detail-with-icon">
+                    <Icon name="location" size={14} />
+                    <span>{attorney.location}</span>
                   </div>
                 </div>
               </div>
