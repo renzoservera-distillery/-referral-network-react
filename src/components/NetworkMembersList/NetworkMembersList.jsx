@@ -10,7 +10,7 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember, 
   const [expandedMember, setExpandedMember] = useState(null);
   const [memberToRemove, setMemberToRemove] = useState(null);
   const [showRemoveConfirmation, setShowRemoveConfirmation] = useState(false);
-  const [layoutMode, setLayoutMode] = useState('default'); // Layout state
+  const [layoutMode, setLayoutMode] = useState('grid'); // Layout state - only Card Grid now
 
   // Filter members based on search and advanced filters
   const filteredMembers = members.filter(member => {
@@ -142,6 +142,61 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember, 
         </div>
       )}
 
+      {/* Network Global Stats */}
+      <div className="network-stats-section">
+        <div className="stat-card">
+          <div className="stat-icon-container">
+            <Icon name="document-text" size={24} />
+          </div>
+          <div className="stat-info">
+            <div className="stat-title">Referred Cases</div>
+            <div className="stat-details">
+              <span className="stat-number">163</span>
+              <span className="stat-subtitle">20% from total</span>
+            </div>
+          </div>
+        </div>
+        
+        <div className="stat-card">
+          <div className="stat-icon-container">
+            <Icon name="people" size={24} />
+          </div>
+          <div className="stat-info">
+            <div className="stat-title">Matched Cases</div>
+            <div className="stat-details">
+              <span className="stat-number">145</span>
+              <span className="stat-subtitle">89% match rate</span>
+            </div>
+          </div>
+        </div>
+        
+        <div className="stat-card">
+          <div className="stat-icon-container">
+            <Icon name="clock" size={24} />
+          </div>
+          <div className="stat-info">
+            <div className="stat-title">Avg Match Time</div>
+            <div className="stat-details">
+              <span className="stat-number">1:30h</span>
+              <span className="stat-subtitle">135% faster</span>
+            </div>
+          </div>
+        </div>
+        
+        <div className="stat-card">
+          <div className="stat-icon-container">
+            <Icon name="checkmark-circle" size={24} />
+          </div>
+          <div className="stat-info">
+            <div className="stat-title">Signed Cases</div>
+            <div className="stat-details">
+              <span className="stat-number">58</span>
+              <span className="stat-subtitle">35% sign rate</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Search and Filter Section */}
       <div className="members-search-section">
         <div className="members-search-bar">
@@ -162,20 +217,6 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember, 
           </button>
         </div>
         
-        {/* Layout Switcher */}
-        <div className="layout-switcher">
-          <label htmlFor="layout-select">View:</label>
-          <select 
-            id="layout-select"
-            className="layout-select" 
-            value={layoutMode} 
-            onChange={(e) => setLayoutMode(e.target.value)}
-          >
-            <option value="default">Default List</option>
-            <option value="grid">Card Grid</option>
-            <option value="preview">List with Preview</option>
-          </select>
-        </div>
       </div>
 
       {/* Filter Chips */}
@@ -246,7 +287,6 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember, 
             </div>
           </div>
         ) : filteredMembers.length > 0 ? (
-          layoutMode === 'grid' ? (
             // Layout 1: Card Grid
             <div className="members-grid">
               {filteredMembers.map(member => {
@@ -271,6 +311,12 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember, 
                     <div className="member-info">
                       <h4 className="member-name">{member.name}</h4>
                       <p className="member-firm">{member.firm}</p>
+                      <div className="member-referring-rules">
+                        <Icon name="target-arrow" className="referring-icon" size={14} />
+                        <span className="referring-rules-text">
+                          {member.specialties.join(', ')} under 100K
+                        </span>
+                      </div>
                       <div className="member-practice-areas">
                         <Icon name="briefcase" className="practice-icon" size={14} />
                         <span className="practice-areas-text">
@@ -281,63 +327,64 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember, 
                         <Icon name="location" className="location-icon" size={14} />
                         <span className="location-text">{member.location}</span>
                       </div>
-                      <div className="member-fee-badge">
-                        <span>Fee: {stats.feePercentage}%</span>
-                      </div>
-                    </div>
-                    
-                    {/* Performance metrics bar */}
-                    <div className="member-metrics-bar">
-                      <div className="performance-section">
-                        <div className="perf-metric-item">
-                          <span className="perf-metric-value">{stats.casesReferred}</span>
-                          <span className="perf-metric-label">Referred</span>
-                        </div>
-                        <div className="perf-divider"></div>
-                        <div className="perf-metric-item">
-                          <span className="perf-metric-value">{stats.casesSigned}</span>
-                          <span className="perf-metric-label">Signed</span>
-                        </div>
-                        <div className="perf-divider"></div>
-                        <div className="perf-metric-item highlight">
-                          <span className="perf-metric-value">{stats.conversionRate}%</span>
-                          <span className="perf-metric-label">Rate</span>
-                          <div 
-                            className="perf-metric-indicator" 
-                            data-performance={stats.conversionRate >= 75 ? 'high' : stats.conversionRate >= 50 ? 'medium' : 'low'}
-                          ></div>
-                        </div>
-                      </div>
                     </div>
                     
                     {expandedMember === member.id && (
                       <div className="grid-card-expanded">
                         <div className="expanded-content">
-                          <div className="actions-row">
+                          {/* Statistics section */}
+                          <div className="statistics-section">
+                            <div className="stat-item">
+                              <div className="stat-value">{stats.feePercentage}%</div>
+                              <div className="stat-label">Fee</div>
+                            </div>
+                            <div className="stat-divider"></div>
+                            <div className="stat-item">
+                              <div className="stat-value">{stats.casesReferred}</div>
+                              <div className="stat-label">Referred</div>
+                            </div>
+                            <div className="stat-item">
+                              <div className="stat-value">{stats.casesSigned}</div>
+                              <div className="stat-label">Signed</div>
+                            </div>
+                            <div className="stat-item">
+                              <div className="stat-value">{stats.conversionRate}%</div>
+                              <div className="stat-label">Sign Rate</div>
+                            </div>
+                          </div>
+                          
+                          <div className="action-container">
                             <button 
-                              className="btn-action"
+                              className="btn-message-primary"
                               onClick={(e) => {
                                 e.stopPropagation();
-                                onEditMember && onEditMember(member);
                               }}
                             >
-                              <Icon name="edit" size={16} />
-                              Edit Settings
-                            </button>
-                            <button className="btn-action">
                               <Icon name="chat" size={16} />
-                              Send Message
+                              <span>Message</span>
                             </button>
-                            <button 
-                              className="btn-action danger"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleRemoveClick(member);
-                              }}
-                            >
-                              <Icon name="trash" size={16} />
-                              Remove
-                            </button>
+                            <div className="action-buttons">
+                              <button 
+                                className="btn-icon-text"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  onEditMember && onEditMember(member);
+                                }}
+                              >
+                                <Icon name="edit" size={12} />
+                                <span>Edit</span>
+                              </button>
+                              <button 
+                                className="btn-icon-text danger"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleRemoveClick(member);
+                                }}
+                              >
+                                <Icon name="trash" size={12} />
+                                <span>Remove</span>
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -346,209 +393,7 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember, 
                 );
               })}
             </div>
-          ) : layoutMode === 'preview' ? (
-            // Layout 2: List with Preview
-            filteredMembers.map(member => {
-              const stats = getMemberStats(member);
-              const isExpanded = expandedMember === member.id;
-              
-              return (
-                <div key={member.id} className={`preview-member-card ${isExpanded ? 'expanded' : ''}`}>
-                  <div 
-                    className="preview-row"
-                    onClick={() => toggleMemberExpansion(member.id)}
-                  >
-                    <div className="preview-left">
-                      <div className="preview-avatar">
-                        <img 
-                          src={getProfessionalAvatar(member, 56)}
-                          alt={member.name}
-                        />
-                      </div>
-                      
-                      <div className="preview-info">
-                        <h4>{member.name}</h4>
-                        <p className="preview-firm">{member.firm}</p>
-                        <div className="preview-meta">
-                          <span className="preview-location">
-                            <Icon name="location" size={12} />
-                            {member.location}
-                          </span>
-                          <span className="preview-specialties">
-                            <Icon name="briefcase" size={12} />
-                            {member.specialties.join(', ')}
-                          </span>
-                        </div>
-                        <div className="member-fee-badge">
-                          <span>Fee: {stats.feePercentage}%</span>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div className="preview-right">
-                      <div className="preview-performance-section">
-                        <div className="preview-performance-grid">
-                          <div className="preview-perf-card">
-                            <span className="preview-perf-value">{stats.casesReferred}</span>
-                            <span className="preview-perf-label">Referred</span>
-                          </div>
-                          <div className="preview-perf-card">
-                            <span className="preview-perf-value">{stats.casesSigned}</span>
-                            <span className="preview-perf-label">Signed</span>
-                          </div>
-                          <div className="preview-perf-card conversion" data-performance={stats.conversionRate >= 70 ? 'high' : stats.conversionRate >= 50 ? 'medium' : 'low'}>
-                            <span className="preview-perf-value conversion">{stats.conversionRate}%</span>
-                            <span className="preview-perf-label">Rate</span>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <div className="expand-icon">
-                        <Icon name={isExpanded ? 'chevron-up' : 'chevron-down'} />
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {isExpanded && (
-                    <div className="member-details">
-
-                      <div className="member-actions">
-                        <button 
-                          className="btn-edit"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onEditMember && onEditMember(member);
-                          }}
-                        >
-                          <Icon name="edit" size={16} />
-                          Edit Settings
-                        </button>
-                        <button className="btn-message">
-                          <Icon name="chat" size={16} />
-                          Send Message
-                        </button>
-                        <button 
-                          className="btn-remove"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleRemoveClick(member);
-                          }}
-                        >
-                          <Icon name="trash" size={16} />
-                          Remove from Network
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              );
-            })
-          ) : (
-          filteredMembers.map(member => {
-            const stats = getMemberStats(member);
-            const isExpanded = expandedMember === member.id;
-            
-            return (
-              <div key={member.id} className={`member-card ${isExpanded ? 'expanded' : ''}`}>
-                {/* Member Row */}
-                <div 
-                  className="member-row"
-                  onClick={() => toggleMemberExpansion(member.id)}
-                >
-                  <div className="member-avatar">
-                    <img 
-                      src={getProfessionalAvatar(member, 64)}
-                      alt={member.name}
-                    />
-                  </div>
-                  
-                  <div className="member-info">
-                    <h4>{member.name}</h4>
-                    <p className="member-firm">{member.firm}</p>
-                    <div className="member-fee-badge">
-                      <span>Fee: {stats.feePercentage}%</span>
-                    </div>
-                  </div>
-                  
-                  <div className="member-performance">
-                    <div className="performance-stats">
-                      <div className="perf-stat-item">
-                        <span className="perf-stat-value">{stats.casesReferred}</span>
-                        <span className="perf-stat-label">Referred</span>
-                      </div>
-                      <div className="perf-stat-item">
-                        <span className="perf-stat-value">{stats.casesSigned}</span>
-                        <span className="perf-stat-label">Signed</span>
-                      </div>
-                      <div className="perf-stat-item">
-                        <span className="perf-stat-value success">{stats.conversionRate}%</span>
-                        <span className="perf-stat-label">Rate</span>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="expand-icon">
-                    <Icon name={isExpanded ? 'chevron-up' : 'chevron-down'} />
-                  </div>
-                </div>
-
-                {/* Expanded Details */}
-                {isExpanded && (
-                  <div className="member-details">
-{/* Referring Rules Section */}
-                    <div className="referring-rules-section">
-                      <h5>Referring Rules</h5>
-                      <div className="details-header">
-                        <div className="detail-section">
-                          <div className="detail-with-icon">
-                            <Icon name="briefcase" size={14} />
-                            <span className="detail-label">Case Types:</span>
-                            <span className="detail-value">{member.specialties.join(', ')}</span>
-                          </div>
-                        </div>
-                        
-                        <div className="detail-section">
-                          <div className="detail-with-icon">
-                            <Icon name="location" size={14} />
-                            <span className="detail-label">Locations:</span>
-                            <span className="detail-value">{member.location}</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="member-actions">
-                      <button 
-                        className="btn-edit"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onEditMember && onEditMember(member);
-                        }}
-                      >
-                        <Icon name="edit" size={16} />
-                        Edit Settings
-                      </button>
-                      <button className="btn-message">
-                        <Icon name="chat" size={16} />
-                        Send Message
-                      </button>
-                      <button 
-                        className="btn-remove"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleRemoveClick(member);
-                        }}
-                      >
-                        <Icon name="trash" size={16} />
-                        Remove from Network
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            );
-          })
-        )) : null}
+        ) : null}
       </div>
 
       {/* Remove Confirmation Modal */}
