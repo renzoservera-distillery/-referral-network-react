@@ -69,8 +69,7 @@ const MyNetwork = () => {
       id: Date.now() + Math.random(), // Generate unique ID
       feePercentage: networkSettings.feePercentage,
       caseTypes: networkSettings.caseTypes,
-      locations: networkSettings.locations || [],
-      displayName: networkSettings.attorney.displayName || networkSettings.attorney.name
+      locations: networkSettings.locations || []
     };
     setNetworkMembers([...networkMembers, newMember]);
     setShowNotification(true);
@@ -228,16 +227,16 @@ const MyNetwork = () => {
   ];
 
   const sampleAttorneys = [
-    { id: 1, name: 'Michael B. Wilson', displayName: userNames[0], firm: lawFirms[0], location: 'Los Angeles, CA', specialties: ['Personal Injury', 'Medical Malpractice'], initials: 'MW' },
-    { id: 2, name: 'Charles Rittgers', displayName: userNames[1], firm: lawFirms[1], location: 'San Francisco, CA', specialties: ['Criminal Defense', 'DUI'], initials: 'CR' },
-    { id: 3, name: 'Madison Hayes', displayName: userNames[2], firm: lawFirms[2], location: 'San Diego, CA', specialties: ['Family Law', 'Divorce'], initials: 'MH' },
-    { id: 4, name: 'Sarah Johnson', displayName: userNames[3], firm: lawFirms[3], location: 'Sacramento, CA', specialties: ['Employment Law', 'Discrimination'], initials: 'SJ' },
-    { id: 5, name: 'Robert Chen', displayName: userNames[4], firm: lawFirms[4], location: 'Los Angeles, CA', specialties: ['Business Law', 'Contracts'], initials: 'RC' },
-    { id: 6, name: 'Emily Rodriguez', displayName: userNames[5], firm: lawFirms[5], location: 'San Jose, CA', specialties: ['Immigration', 'Visas'], initials: 'ER' },
-    { id: 7, name: 'David Thompson', displayName: userNames[6], firm: lawFirms[6], location: 'Oakland, CA', specialties: ['Real Estate', 'Property Law'], initials: 'DT' },
-    { id: 8, name: 'Lisa Park', displayName: userNames[7], firm: lawFirms[7], location: 'Fresno, CA', specialties: ['Tax Law', 'Estate Planning'], initials: 'LP' },
-    { id: 9, name: 'James Miller', displayName: userNames[8], firm: lawFirms[8], location: 'Long Beach, CA', specialties: ['Personal Injury', 'Car Accidents'], initials: 'JM' },
-    { id: 10, name: 'Amanda White', displayName: userNames[9], firm: lawFirms[9], location: 'Anaheim, CA', specialties: ['Workers Compensation', 'Disability'], initials: 'AW' },
+    { id: 1, name: userNames[0], firm: lawFirms[0], location: 'Los Angeles, CA', specialties: ['Personal Injury', 'Medical Malpractice'], initials: 'IO' },
+    { id: 2, name: userNames[1], firm: lawFirms[1], location: 'San Francisco, CA', specialties: ['Criminal Defense', 'DUI'], initials: 'AB' },
+    { id: 3, name: userNames[2], firm: lawFirms[2], location: 'San Diego, CA', specialties: ['Family Law', 'Divorce'], initials: 'AD' },
+    { id: 4, name: userNames[3], firm: lawFirms[3], location: 'Sacramento, CA', specialties: ['Employment Law', 'Discrimination'], initials: 'SM' },
+    { id: 5, name: userNames[4], firm: lawFirms[4], location: 'Los Angeles, CA', specialties: ['Business Law', 'Contracts'], initials: 'CP' },
+    { id: 6, name: userNames[5], firm: lawFirms[5], location: 'San Jose, CA', specialties: ['Immigration', 'Visas'], initials: 'MF' },
+    { id: 7, name: userNames[6], firm: lawFirms[6], location: 'Oakland, CA', specialties: ['Real Estate', 'Property Law'], initials: 'AM' },
+    { id: 8, name: userNames[7], firm: lawFirms[7], location: 'Fresno, CA', specialties: ['Tax Law', 'Estate Planning'], initials: 'LH' },
+    { id: 9, name: userNames[8], firm: lawFirms[8], location: 'Long Beach, CA', specialties: ['Personal Injury', 'Car Accidents'], initials: 'NO' },
+    { id: 10, name: userNames[9], firm: lawFirms[9], location: 'Anaheim, CA', specialties: ['Workers Compensation', 'Disability'], initials: 'JG' },
   ];
 
   // Check if all attorneys are already in the network

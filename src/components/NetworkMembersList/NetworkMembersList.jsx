@@ -296,7 +296,7 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember, 
                     <button 
                       className="btn-view-details secondary" 
                       onClick={() => toggleMemberExpansion(member.id)}
-                      aria-label={`View details for ${member.displayName || member.name}`}
+                      aria-label={`View details for ${member.name}`}
                     >
                       <Icon name={expandedMember === member.id ? 'chevron-up' : 'chevron-down'} size={16} />
                       <span>{expandedMember === member.id ? 'Hide Details' : 'View Details'}</span>
@@ -304,12 +304,12 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember, 
                     
                     <div className="member-avatar">
                       <img
-                        src={getProfessionalAvatar({...member, name: member.displayName || member.name}, 100)}
-                        alt={member.displayName || member.name}
+                        src={getProfessionalAvatar(member, 100)}
+                        alt={member.name}
                       />
                     </div>
                     <div className="member-info">
-                      <h4 className="member-name">{member.displayName || member.name}</h4>
+                      <h4 className="member-name">{member.name}</h4>
                       <p className="member-firm">{member.firm}</p>
                       <div className="member-referring-rules">
                         <Icon name="target-arrow" className="referring-icon" size={14} />

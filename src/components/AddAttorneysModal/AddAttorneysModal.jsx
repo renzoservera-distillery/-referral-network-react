@@ -4,18 +4,45 @@ import bodyScrollManager from '../../utils/bodyScrollManager';
 import { getProfessionalAvatar } from '../../utils/avatarGenerator';
 import './AddAttorneysModal.css';
 
+// Custom user names and law firms
+const userNames = [
+  "Isabela Orlacchio-Garcia",
+  "April Bonifatto-Martinick",
+  "Ashley Dominguez Garcia",
+  "Shahab Mossavar-Rahmani",
+  "Carson Phillips-Spotts",
+  "Michelle Fonseca-Kamana",
+  "Annie Martin-McDonough",
+  "LaShaunté Henry-Steele",
+  "Neyleen Ortiz-Beljajev",
+  "Jennifer Gore-Cuthbert"
+];
+
+const lawFirms = [
+  "Sutton Street Group",
+  "McMullin Injury Law",
+  "The Tuke Firm, PLLC",
+  "Singleton Schreiber",
+  "The Byrne Law Group",
+  "Hymanson & Hymanson",
+  "Woolsey Morcom PLLC",
+  "The Mattox Law Firm",
+  "Clark Frost Zucchi",
+  "Schaar & Silva LLP"
+];
+
 // Sample attorney data - this would come from your database
 const sampleAttorneys = [
-  { id: 1, name: 'Michael B. Wilson', firm: 'Wilson & Associates', location: 'Los Angeles, CA', specialties: ['Personal Injury', 'Medical Malpractice'], initials: 'MW' },
-  { id: 2, name: 'Charles Rittgers', firm: 'Rittgers Law', location: 'San Francisco, CA', specialties: ['Criminal Defense', 'DUI'], initials: 'CR' },
-  { id: 3, name: 'Madison Hayes', firm: 'Hayes Legal Group', location: 'San Diego, CA', specialties: ['Family Law', 'Divorce'], initials: 'MH' },
-  { id: 4, name: 'Sarah Johnson', firm: 'Johnson Legal', location: 'Sacramento, CA', specialties: ['Employment Law', 'Discrimination'], initials: 'SJ' },
-  { id: 5, name: 'Robert Chen', firm: 'Chen & Partners', location: 'Los Angeles, CA', specialties: ['Business Law', 'Contracts'], initials: 'RC' },
-  { id: 6, name: 'Emily Rodriguez', firm: 'Rodriguez Law Firm', location: 'San Jose, CA', specialties: ['Immigration', 'Visas'], initials: 'ER' },
-  { id: 7, name: 'David Thompson', firm: 'Thompson Legal', location: 'Oakland, CA', specialties: ['Real Estate', 'Property Law'], initials: 'DT' },
-  { id: 8, name: 'Lisa Park', firm: 'Park & Associates', location: 'Fresno, CA', specialties: ['Tax Law', 'Estate Planning'], initials: 'LP' },
-  { id: 9, name: 'James Miller', firm: 'Miller Law Group', location: 'Long Beach, CA', specialties: ['Personal Injury', 'Car Accidents'], initials: 'JM' },
-  { id: 10, name: 'Amanda White', firm: 'White Legal Services', location: 'Anaheim, CA', specialties: ['Workers Compensation', 'Disability'], initials: 'AW' },
+  { id: 1, name: userNames[0], firm: lawFirms[0], location: 'Los Angeles, CA', specialties: ['Personal Injury', 'Medical Malpractice'], initials: 'IO' },
+  { id: 2, name: userNames[1], firm: lawFirms[1], location: 'San Francisco, CA', specialties: ['Criminal Defense', 'DUI'], initials: 'AB' },
+  { id: 3, name: userNames[2], firm: lawFirms[2], location: 'San Diego, CA', specialties: ['Family Law', 'Divorce'], initials: 'AD' },
+  { id: 4, name: userNames[3], firm: lawFirms[3], location: 'Sacramento, CA', specialties: ['Employment Law', 'Discrimination'], initials: 'SM' },
+  { id: 5, name: userNames[4], firm: lawFirms[4], location: 'Los Angeles, CA', specialties: ['Business Law', 'Contracts'], initials: 'CP' },
+  { id: 6, name: userNames[5], firm: lawFirms[5], location: 'San Jose, CA', specialties: ['Immigration', 'Visas'], initials: 'MF' },
+  { id: 7, name: userNames[6], firm: lawFirms[6], location: 'Oakland, CA', specialties: ['Real Estate', 'Property Law'], initials: 'AM' },
+  { id: 8, name: userNames[7], firm: lawFirms[7], location: 'Fresno, CA', specialties: ['Tax Law', 'Estate Planning'], initials: 'LH' },
+  { id: 9, name: userNames[8], firm: lawFirms[8], location: 'Long Beach, CA', specialties: ['Personal Injury', 'Car Accidents'], initials: 'NO' },
+  { id: 10, name: userNames[9], firm: lawFirms[9], location: 'Anaheim, CA', specialties: ['Workers Compensation', 'Disability'], initials: 'JG' },
 ];
 
 const AddAttorneysModal = ({ isOpen, onClose, onAdd, existingMembers = [] }) => {
