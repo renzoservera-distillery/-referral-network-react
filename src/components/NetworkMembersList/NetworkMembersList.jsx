@@ -120,6 +120,9 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember, 
       }
       return Math.abs(hash) % max;
     };
+
+    // Determine if this member should have specific rules (about 60% will have rules)
+    const shouldHaveRules = getConsistentIndex(memberName + 'rules', 100) < 60;
     
     specialties.forEach((specialty, index) => {
       const cases = caseTypeMap[specialty];
@@ -129,6 +132,11 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember, 
         relevantCaseTypes.push(cases[consistentIndex]);
       }
     });
+
+    // If member shouldn't have rules, return null
+    if (!shouldHaveRules) {
+      return null;
+    }
 
     // If we found case types, return up to 2 of them
     if (relevantCaseTypes.length > 0) {
@@ -487,6 +495,7 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember, 
             <div className="members-grid">
               {filteredMembers.map(member => {
                 const stats = getMemberStats(member);
+                const caseTypeDescription = getCaseTypeDescription(member.specialties, member.name);
                 return (
                   <div key={member.id} className="member-grid-card minimal">
                     <button 
@@ -509,8 +518,8 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember, 
                       <p className="member-firm">{member.firm}</p>
                       <div className="member-referring-rules">
                         <Icon name="target-arrow" className="referring-icon" size={14} />
-                        <span className="referring-rules-text">
-                          {getCaseTypeDescription(member.specialties, member.name)}
+                        <span className={`referring-rules-text ${caseTypeDescription === null ? 'no-rules' : ''}`}>
+                          {caseTypeDescription || 'No specific Referring Rules'}
                         </span>
                       </div>
                       <div className="member-practice-areas">

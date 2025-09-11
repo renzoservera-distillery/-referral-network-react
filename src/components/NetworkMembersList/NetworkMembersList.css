@@ -690,6 +690,11 @@
   flex: 1;
 }
 
+.member-grid-card .referring-rules-text.no-rules {
+  color: #9ca3af;
+  font-style: italic;
+}
+
 .member-grid-card .member-practice-areas {
   display: flex;
   align-items: flex-start;
