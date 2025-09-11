@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Icon from '../Icon';
-import LocationMultiselect from '../LocationMultiselect';
 import { getProfessionalAvatar } from '../../utils/avatarGenerator';
 import bodyScrollManager from '../../utils/bodyScrollManager';
 import './AddToNetworkModal.css';
@@ -8,7 +7,6 @@ import './AddToNetworkModal.css';
 const AddToNetworkModal = ({ isOpen, onClose, attorney, onAdd, isEditMode = false, initialData = null }) => {
   const [feePercentage, setFeePercentage] = useState(25);
   const [caseTypes, setCaseTypes] = useState(['']);
-  const [selectedLocations, setSelectedLocations] = useState([]);
   const [showAdvancedSettings, setShowAdvancedSettings] = useState(false);
   const modalRef = React.useRef(null);
   const firstInputRef = React.useRef(null);
@@ -21,13 +19,11 @@ const AddToNetworkModal = ({ isOpen, onClose, attorney, onAdd, isEditMode = fals
         // Edit mode: prefill with existing data and show advanced settings
         setFeePercentage(initialData.feePercentage || 25);
         setCaseTypes(initialData.caseTypes && initialData.caseTypes.length > 0 ? initialData.caseTypes : ['']);
-        setSelectedLocations(initialData.locations || []);
         setShowAdvancedSettings(true);
       } else {
         // Add mode: reset to defaults
         setFeePercentage(25);
         setCaseTypes(['']);
-        setSelectedLocations([]);
         setShowAdvancedSettings(false);
       }
     }
@@ -105,7 +101,6 @@ const AddToNetworkModal = ({ isOpen, onClose, attorney, onAdd, isEditMode = fals
       attorney: attorney,
       feePercentage,
       caseTypes: caseTypes.filter(ct => ct.trim() !== ''),
-      locations: selectedLocations,
       addedDate: new Date().toISOString()
     };
     
@@ -277,7 +272,6 @@ const AddToNetworkModal = ({ isOpen, onClose, attorney, onAdd, isEditMode = fals
             </label>
             <div className="referring-rules-section">
               <div className="rule-input-group">
-                <label className="rule-label">Case Types</label>
                 <div className="case-types-list">
                   {caseTypes.map((caseType, index) => (
                     <div key={index} className="case-type-input-wrapper">
@@ -312,22 +306,9 @@ const AddToNetworkModal = ({ isOpen, onClose, attorney, onAdd, isEditMode = fals
                   )}
                 </div>
               </div>
-              <div className="rule-input-group">
-                <label className="rule-label">Locations</label>
-                <LocationMultiselect
-                  selectedLocations={selectedLocations}
-                  onChange={setSelectedLocations}
-                  placeholder='Select states, cities, or counties...'
-                />
-              </div>
             </div>
           </div>
           
-          {/* Info Alert - Moved to Settings Section */}
-          <div className="settings-info-alert">
-            <Icon name="info" size={16} />
-            <span>You can modify these settings anytime from your Network Members list</span>
-          </div>
           </div>
         </div>
         </div>

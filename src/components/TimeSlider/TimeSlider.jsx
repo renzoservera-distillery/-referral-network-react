@@ -109,7 +109,7 @@ const TimeSlider = ({
             />
             <div className="time-slider-ticks">
               {useMinutesHours ? (
-                // Time per Attorney (minutes/hours system) - 30 minutes to 96 hours
+                // Minutes/hours system - 30 minutes to 96 hours
                 (() => {
                   // Calculate tick positions for 0.5 to 96 hours range
                   const range = maxHours - minValue;
@@ -124,7 +124,7 @@ const TimeSlider = ({
                   );
                 })()
               ) : (
-                // Marketplace Fallback (hours/days system) - dynamic based on minValue
+                // Hours/days system - dynamic based on minValue
                 (() => {
                   const formatTickLabel = (hours) => {
                     if (hours < 24) return `${hours}h`;
@@ -140,8 +140,8 @@ const TimeSlider = ({
                   
                   // Add intermediate values
                   if (minValue <= 24 && maxHours >= 24) tickValues.push(24);
+                  if (minValue <= 48 && maxHours >= 48) tickValues.push(48);
                   if (minValue <= 72 && maxHours >= 72) tickValues.push(72);
-                  if (minValue <= 120 && maxHours >= 120) tickValues.push(120);
                   
                   // Always show max value
                   if (!tickValues.includes(maxHours)) tickValues.push(maxHours);

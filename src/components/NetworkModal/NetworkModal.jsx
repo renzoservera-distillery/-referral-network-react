@@ -6,8 +6,8 @@ import './NetworkModal.css';
 
 const NetworkModal = ({ isOpen, onClose, onSave }) => {
   const [referringMethod, setReferringMethod] = useState('waterfall');
-  const [timeValue, setTimeValue] = useState(30);
-  const [timeUnit, setTimeUnit] = useState('minutes');
+  const [timeValue, setTimeValue] = useState(1);
+  const [timeUnit, setTimeUnit] = useState('hours');
   const [marketplaceValue, setMarketplaceValue] = useState(2);
   const [marketplaceUnit, setMarketplaceUnit] = useState('hours');
 
@@ -219,8 +219,8 @@ const NetworkModal = ({ isOpen, onClose, onSave }) => {
               onUnitChange={handleTimeUnitChange}
               maxHours={96}
               maxDays={4}
-              minValue={0.5}
-              useMinutesHours={true}
+              minValue={1}
+              useMinutesHours={false}
             />
           </div>
           

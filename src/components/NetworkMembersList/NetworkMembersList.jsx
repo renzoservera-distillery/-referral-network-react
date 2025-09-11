@@ -12,6 +12,202 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember, 
   const [showRemoveConfirmation, setShowRemoveConfirmation] = useState(false);
   const [layoutMode, setLayoutMode] = useState('grid'); // Layout state - only Card Grid now
 
+  // Helper function to generate case type descriptions based on specialties
+  const getCaseTypeDescription = (specialties, memberName) => {
+    // Map of specialties to realistic case type descriptions
+    const caseTypeMap = {
+      'Personal Injury': [
+        'Severe injuries from car accidents',
+        'Catastrophic workplace injuries',
+        'Slip and fall with permanent damage',
+        'Dog bite attacks requiring surgery'
+      ],
+      'Car Accidents': [
+        'Multi-vehicle collisions with injuries',
+        'Hit and run accidents',
+        'Uber/Lyft passenger injuries',
+        'DUI victim compensation cases'
+      ],
+      'Medical Malpractice': [
+        'Surgical errors and complications',
+        'Misdiagnosis leading to harm',
+        'Birth injuries from negligence',
+        'Medication errors causing damage'
+      ],
+      'Workers Compensation': [
+        'Construction site accidents',
+        'Repetitive stress injuries',
+        'Occupational disease claims',
+        'Workplace safety violations'
+      ],
+      'Product Liability': [
+        'Defective medical devices',
+        'Dangerous consumer products',
+        'Automotive defect injuries',
+        'Toxic exposure cases'
+      ],
+      'Wrongful Death': [
+        'Fatal car accident claims',
+        'Medical negligence deaths',
+        'Workplace fatality cases',
+        'Wrongful death settlements'
+      ],
+      'Premises Liability': [
+        'Store slip and fall injuries',
+        'Negligent security assaults',
+        'Pool drowning accidents',
+        'Building code violations'
+      ],
+      'Insurance Disputes': [
+        'Bad faith insurance denials',
+        'Undervalued property claims',
+        'Disability benefit disputes',
+        'Coverage denial appeals'
+      ],
+      'Employment Law': [
+        'Wrongful termination cases',
+        'Workplace discrimination',
+        'Sexual harassment claims',
+        'Wage and hour violations'
+      ],
+      'Civil Rights': [
+        'Police brutality cases',
+        'False arrest claims',
+        'Discrimination lawsuits',
+        'Constitutional violations'
+      ],
+      'Immigration': [
+        'Deportation defense cases',
+        'Asylum applications',
+        'Family-based petitions',
+        'Employment visa matters'
+      ],
+      'Criminal Defense': [
+        'DUI/DWI defense',
+        'Drug offense cases',
+        'Assault and battery defense',
+        'White collar crime defense'
+      ],
+      'Family Law': [
+        'High-asset divorce cases',
+        'Complex custody disputes',
+        'Domestic violence protection',
+        'Prenuptial agreements'
+      ],
+      'Real Estate': [
+        'Property damage disputes',
+        'Home damage from wildfires',
+        'Construction defect claims',
+        'Landlord-tenant disputes'
+      ],
+      'Sexual Assault': [
+        'Uber sexual assault cases',
+        'Campus assault claims',
+        'Workplace sexual abuse',
+        'Institutional abuse cases'
+      ]
+    };
+
+    // Get relevant case types based on the attorney's specialties
+    const relevantCaseTypes = [];
+    
+    // Use member name to generate a consistent index for case type selection
+    const getConsistentIndex = (str, max) => {
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) {
+        hash = ((hash << 5) - hash) + str.charCodeAt(i);
+        hash = hash & hash; // Convert to 32-bit integer
+      }
+      return Math.abs(hash) % max;
+    };
+    
+    specialties.forEach((specialty, index) => {
+      const cases = caseTypeMap[specialty];
+      if (cases && cases.length > 0) {
+        // Use member name + specialty index for consistent selection
+        const consistentIndex = getConsistentIndex(memberName + index, cases.length);
+        relevantCaseTypes.push(cases[consistentIndex]);
+      }
+    });
+
+    // If we found case types, return up to 2 of them
+    if (relevantCaseTypes.length > 0) {
+      return relevantCaseTypes.slice(0, 2).join(', ');
+    }
+
+    // Fallback for specialties not in our map
+    return specialties.slice(0, 2).map(s => `${s} cases`).join(', ');
+  };
+
+  // Helper function to extract state name from location string
+  const getStateName = (location) => {
+    // Map of state abbreviations to full names
+    const stateMap = {
+      'CA': 'California',
+      'NY': 'New York',
+      'TX': 'Texas',
+      'FL': 'Florida',
+      'IL': 'Illinois',
+      'PA': 'Pennsylvania',
+      'OH': 'Ohio',
+      'GA': 'Georgia',
+      'NC': 'North Carolina',
+      'MI': 'Michigan',
+      'NJ': 'New Jersey',
+      'VA': 'Virginia',
+      'WA': 'Washington',
+      'AZ': 'Arizona',
+      'MA': 'Massachusetts',
+      'TN': 'Tennessee',
+      'IN': 'Indiana',
+      'MO': 'Missouri',
+      'MD': 'Maryland',
+      'WI': 'Wisconsin',
+      'CO': 'Colorado',
+      'MN': 'Minnesota',
+      'SC': 'South Carolina',
+      'AL': 'Alabama',
+      'LA': 'Louisiana',
+      'KY': 'Kentucky',
+      'OR': 'Oregon',
+      'OK': 'Oklahoma',
+      'CT': 'Connecticut',
+      'UT': 'Utah',
+      'IA': 'Iowa',
+      'NV': 'Nevada',
+      'AR': 'Arkansas',
+      'MS': 'Mississippi',
+      'KS': 'Kansas',
+      'NM': 'New Mexico',
+      'NE': 'Nebraska',
+      'ID': 'Idaho',
+      'WV': 'West Virginia',
+      'HI': 'Hawaii',
+      'NH': 'New Hampshire',
+      'ME': 'Maine',
+      'MT': 'Montana',
+      'RI': 'Rhode Island',
+      'DE': 'Delaware',
+      'SD': 'South Dakota',
+      'ND': 'North Dakota',
+      'AK': 'Alaska',
+      'DC': 'District of Columbia',
+      'VT': 'Vermont',
+      'WY': 'Wyoming'
+    };
+    
+    // Extract state abbreviation from location string (e.g., "Los Angeles, CA" -> "CA")
+    const parts = location.split(',');
+    if (parts.length > 1) {
+      const stateAbbr = parts[parts.length - 1].trim();
+      return stateMap[stateAbbr] || stateAbbr;
+    }
+    
+    // If no comma, check if it's already a state name or abbreviation
+    const trimmed = location.trim();
+    return stateMap[trimmed] || trimmed;
+  };
+
   // Filter members based on search and advanced filters
   const filteredMembers = members.filter(member => {
     // Search term filter
@@ -314,7 +510,7 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember, 
                       <div className="member-referring-rules">
                         <Icon name="target-arrow" className="referring-icon" size={14} />
                         <span className="referring-rules-text">
-                          {member.specialties.join(', ')} under 100K
+                          {getCaseTypeDescription(member.specialties, member.name)}
                         </span>
                       </div>
                       <div className="member-practice-areas">
@@ -325,7 +521,7 @@ const NetworkMembersList = ({ members, onAddMore, onRemoveMember, onEditMember, 
                       </div>
                       <div className="member-location-row">
                         <Icon name="location" className="location-icon" size={14} />
-                        <span className="location-text">{member.location}</span>
+                        <span className="location-text">{getStateName(member.location)}</span>
                       </div>
                     </div>
                     

@@ -80,11 +80,11 @@ useEffect(() => {
 ### Component Patterns
 
 **Icon System** (`components/Icon`):
-- Dynamic SVG loading from `assets/icons/` (130+ icons)
-- Async loading with DOMParser for SVG content extraction
-- Fallback placeholder for missing/invalid icons
-- Forces `currentColor` for proper color inheritance
-- Loading state with skeleton placeholder
+- Uses **@fluentui/react-icons** with 60+ custom icon mappings
+- **Dynamic size scaling**: Automatically selects appropriate size variants (16, 20, 24, 28, 32, 48px)
+- **Fallback system**: Falls back to filled variants if regular doesn't exist, then shows placeholder
+- **Color inheritance**: Uses currentColor for proper theming
+- **Size-responsive**: Maps icon names like 'person-add' to 'PersonAdd24Regular'
 - Usage: `<Icon name="person-add" size={24} />`
 
 **Notification System** (`contexts/NotificationContext`):
@@ -101,13 +101,12 @@ useEffect(() => {
 - `LawFirmMultiselect`: Multi-select with categorization
 
 **Data Display Components**:
-- `AttorneyCarousel`: Touch/drag-enabled horizontal scroll with overlay buttons
-- `NetworkMembersList`: Multi-layout expandable cards with statistics separation
-  - **4 Layout Options**: Default List, Card Grid, Visual Cards, List with Preview
-  - **Layout Switcher**: Dropdown selector allowing users to switch between layout modes
+- `AttorneyCarousel`: Touch/drag-enabled horizontal scroll with **drag distance detection** and **click prevention**
+- `NetworkMembersList`: **Card Grid layout only** (simplified from 5 layouts)
   - **Statistics Architecture**: Clear separation between user configuration (fee %) and attorney performance metrics
-  - Recent Clients table columns: Client Name, Case Type, Referred, Status
-  - Status values: "Signed", "Matched", "Not Matched", "Active"
+  - **Hidden Performance Section**: Performance metrics only visible in expanded Details section
+  - **Global Network Stats**: Statistics section between "Grow Network" alert and search input
+  - Performance metrics: Referred Cases, Matched Cases, Avg Match Time, Signed Cases
 
 ### State Management
 
@@ -134,13 +133,18 @@ useEffect(() => {
 **Attorney Data Structure**:
 ```javascript
 {
-  name: "Michael B. Wilson",
-  firm: "Wilson & Associates", 
+  name: "Isabela Orlacchio-Garcia",      // Custom user names
+  firm: "Sutton Street Group",          // Custom law firm names  
   location: "Los Angeles, CA",
   specialties: ["Personal Injury", "Car Accidents"],
-  initials: "MW" // Used for avatar generation
+  initials: "IO" // Used for avatar generation
 }
 ```
+
+**Custom Data Integration**:
+- **User Names**: 20 custom attorney names (Isabela Orlacchio-Garcia, April Bonifatto-Martinick, etc.)
+- **Law Firms**: 30+ custom firm names (Sutton Street Group, McMullin Injury Law, etc.)
+- **Consistent Usage**: Same names used across MyNetwork, AddAttorneysModal, and attorneys.js data
 
 ### Advanced Filtering Architecture
 
@@ -207,7 +211,50 @@ Attorney carousels are conditionally rendered - categories with no matching resu
 ## Technical Considerations
 
 ### Body Scroll Management
-Always use `bodyScrollManager` utility for modals to prevent scroll lock conflicts between multiple modals.
+Always use `bodyScrollManager` singleton to prevent scroll conflicts between multiple modals:
+
+```jsx
+// Reference counting prevents conflicts when multiple modals are open
+class BodyScrollManager {
+  constructor() {
+    this.lockCount = 0;  // Tracks number of active locks
+  }
+  
+  lock() {
+    if (this.lockCount === 0) {
+      document.body.style.overflow = 'hidden';
+    }
+    this.lockCount++;
+  }
+  
+  unlock() {
+    this.lockCount = Math.max(0, this.lockCount - 1);
+    if (this.lockCount === 0) {
+      document.body.style.overflow = '';
+    }
+  }
+}
+```
+
+### AttorneyCarousel Drag System
+Complex touch/drag interaction with click prevention:
+
+```jsx
+// Drag distance tracking prevents accidental clicks during scroll
+const handleMouseMove = (e) => {
+  const deltaX = e.clientX - dragStart.x;
+  // Mark as dragged if moved significantly (>5px)
+  if (Math.abs(deltaX) > 5) setWasDragged(true);
+};
+
+// Click handler respects drag state
+const handleClick = (e) => {
+  if (wasDragged) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+};
+```
 
 ### Git Workflow
 Repository uses main branch. Changes require:
@@ -291,46 +338,41 @@ NetworkModal contains helper functions for time conversion:
 
 ### NetworkMembersList Layout System
 
-**Layout Architecture**:
-The NetworkMembersList component implements a sophisticated multi-layout system with 5 distinct viewing options:
+**Simplified Architecture** (v1.2+):
+The NetworkMembersList now uses **Card Grid layout only** (removed 4 other layout modes for simplicity):
 
-1. **Default List Layout**: Expandable rows with fee badge and performance metrics separation
-2. **Card Grid Layout**: Split metrics bar (fee section left, performance section right)  
-3. **Visual Cards Layout**: Fee badge in left section, performance grid in center
-4. **List with Preview Layout**: Enhanced statistics grid with preview-performance-section format
-5. **Compact Table Layout**: Horizontal table with avatar and name in same line, expandable details
+**Key Features**:
+- **2-column grid**: `grid-template-columns: repeat(2, 1fr)`
+- **Expandable cards**: Click "View Details" to expand attorney information
+- **Hidden performance metrics**: Only visible in expanded Details section
+- **Referring Rules display**: First element with target-arrow icon
 
 **Statistics Separation Pattern**:
 Critical UX architecture separating user configuration from attorney performance data:
 
 ```jsx
-// User Configuration (editable by user)
+// User Configuration (editable by user) - in Details section
 - Fee Percentage: User-set referral fee, styled in brand blue (#002e69)
-- Visual Treatment: Badges, smaller sizing, hover states indicating editability
 
-// Attorney Performance (read-only metrics)  
-- Cases Referred: Number of cases sent to attorney
+// Attorney Performance (read-only metrics) - hidden by default 
+- Cases Referred: Number of cases sent to attorney  
 - Cases Signed: Number of cases attorney accepted
-- Conversion Rate: Success rate percentage with performance indicators
+- Conversion Rate: Success rate percentage
 - Visual Treatment: Prominent display with success colors (#10b981)
 ```
 
-**Layout State Management**:
+**Card Structure**:
 ```jsx
-const [layoutMode, setLayoutMode] = useState('default');
-// Options: 'default', 'grid', 'visual', 'preview', 'table'
+// Always visible
+- Avatar + Name + Firm
+- Referring Rules (target-arrow icon)
+- Practice Areas (briefcase icon) 
+- Location (location icon)
+
+// Expandable Details section
+- Statistics: Fee % | Referred | Signed | Sign Rate
+- Action buttons: Message, Edit, Remove
 ```
-
-**Compact Table Layout Architecture**:
-- **Table Structure**: Uses HTML table with `attorney-info` div for avatar + name horizontal alignment
-- **Critical CSS**: `.attorney-info { display: flex; flex-direction: row; align-items: center; gap: 12px; }`
-- **Expandable Details**: React.Fragment pattern for clean table row expansion without breaking HTML structure
-- **Mobile Responsive**: Horizontal scrolling container with min-width constraints
-
-**Performance Indicators**: Color-coded bottom bars showing performance levels:
-- High (≥70%): Green (#10b981)  
-- Medium (50-69%): Orange (#f59e0b)
-- Low (<50%): Red (#ef4444)
 
 ### Browser Support
 Configured for modern browsers via browserslist in package.json. IE11 not supported.
@@ -357,8 +399,10 @@ Configured for modern browsers via browserslist in package.json. IE11 not suppor
 - **Performance Display Consistency**: All layouts should use consistent performance metrics format (preview-perf-card structure preferred)
 - **Fee Badge Standardization**: Use `member-fee-badge` component consistently across all layouts, positioned below location information
 
-### Recent Architecture Updates (v1.2)
-- **Visual Cards Performance**: Updated to use preview-performance-section format for consistency
-- **Compact Table Enhancement**: Fixed horizontal layout with explicit flex-direction: row for attorney cells  
-- **Fee Display Standardization**: Moved all layouts to use member-fee-badge component below location
-- **Removed Legacy Components**: Eliminated preview-fee-config and visual-fee-badge for cleaner architecture
+### Recent Architecture Updates (v1.2+)
+- **Layout Simplification**: Removed Default List, List with Preview, Visual Cards, and Compact Table layouts
+- **Performance Metrics Hidden**: Moved all performance data to expandable Details section only
+- **Referring Rules Added**: New first element with target-arrow icon showing case types and limits
+- **Global Network Stats**: Added statistics section with 4 key metrics (Referred, Matched, Avg Time, Signed)
+- **Custom Data Integration**: Updated all attorney names and law firms throughout application
+- **Fee Repositioning**: Moved fee percentage from always-visible to Details statistics section
